@@ -11,17 +11,15 @@ namespace WebSiteMusicBand
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
-            //bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-            //    "~/Content/JS/lib/jquery.min.js",
-            //    "~/FrontEnd/JS/lib/jqBootstrapValidation.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                "~/Content/JS/clean-blog.min.js",
-                "~/Content/JS/bootstrap.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/JS").Include(
+                "~/Content/JS/jquery.min.js",
+                "~/Content/JS/bootstrap.min.js",
+                "~/Content/JS/clean-blog.js"));
 
             bundles.Add(new StyleBundle("~/bundles/css").Include(
-                "~/Content/CSS/clean-blog.min.css",
-                 "~/Content/CSS/bootstrap.min.css"
+                  "~/Content/CSS/bootstrap.min.css",
+                  "~/Content/CSS/clean-blog.min.css"
+               
                 ));
         }
     }

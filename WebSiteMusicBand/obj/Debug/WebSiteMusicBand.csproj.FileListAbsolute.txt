@@ -95,3 +95,4 @@ E:\Projects\GitHub\WebSiteMusicBand_CMS\WebSiteMusicBand\obj\Debug\WebSiteMusicB
 E:\Projects\GitHub\WebSiteMusicBand_CMS\WebSiteMusicBand\obj\Debug\WebSiteMusicBand.pdb
 E:\Projects\GitHub\WebSiteMusicBand_CMS\WebSiteMusicBand\bin\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
 E:\Projects\GitHub\WebSiteMusicBand_CMS\WebSiteMusicBand\bin\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+E:\Projects\GitHub\WebSiteMusicBand_CMS\WebSiteMusicBand\obj\Debug\WebSiteMusicBand.csprojResolveAssemblyReference.cache

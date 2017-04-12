@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MusicBandSiteDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AvatarLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ForumMessages" Relationship="Self.FK_ForumMessages_AspNetUsers" FromRole="AspNetUsers" ToRole="ForumMessages" />
+    <NavigationProperty Name="News" Relationship="Self.FK_News_AspNetUsers" FromRole="AspNetUsers" ToRole="News" />
+    <NavigationProperty Name="NewsComments" Relationship="Self.FK_NewsComments_AspNetUsers" FromRole="AspNetUsers" ToRole="NewsComments" />
+  </EntityType>
+  <EntityType Name="ForumMessage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="ForumPostID" Type="Int32" Nullable="false" />
+    <Property Name="TextContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_ForumMessages_AspNetUsers" FromRole="ForumMessages" ToRole="AspNetUsers" />
+    <NavigationProperty Name="ForumPost" Relationship="Self.FK_ForumMessages_ForumPosts" FromRole="ForumMessages" ToRole="ForumPosts" />
+  </EntityType>
+  <EntityType Name="ForumPost">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="ForumSectionId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ForumMessages" Relationship="Self.FK_ForumMessages_ForumPosts" FromRole="ForumPosts" ToRole="ForumMessages" />
+    <NavigationProperty Name="ForumSection" Relationship="Self.FK_ForumPosts_ForumSections" FromRole="ForumPosts" ToRole="ForumSections" />
+  </EntityType>
+  <EntityType Name="ForumSection">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ForumPosts" Relationship="Self.FK_ForumPosts_ForumSections" FromRole="ForumSections" ToRole="ForumPosts" />
+  </EntityType>
+  <EntityType Name="News">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TextContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="NewsSectionId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_News_AspNetUsers" FromRole="News" ToRole="AspNetUsers" />
+    <NavigationProperty Name="NewsSection" Relationship="Self.FK_News_NewsSection" FromRole="News" ToRole="NewsSection" />
+    <NavigationProperty Name="NewsComments" Relationship="Self.FK_NewsComments_News" FromRole="News" ToRole="NewsComments" />
+  </EntityType>
+  <EntityType Name="NewsComment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NewsId" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_NewsComments_AspNetUsers" FromRole="NewsComments" ToRole="AspNetUsers" />
+    <NavigationProperty Name="News" Relationship="Self.FK_NewsComments_News" FromRole="NewsComments" ToRole="News" />
+  </EntityType>
+  <EntityType Name="NewsSection">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="News" Relationship="Self.FK_News_NewsSection" FromRole="NewsSection" ToRole="News" />
+  </EntityType>
+  <Association Name="FK_ForumMessages_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="ForumMessages" Type="Self.ForumMessage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ForumMessages">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_News_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="News" Type="Self.News" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="News">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NewsComments_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="NewsComments" Type="Self.NewsComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NewsComments">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ForumMessages_ForumPosts">
+    <End Role="ForumPosts" Type="Self.ForumPost" Multiplicity="1" />
+    <End Role="ForumMessages" Type="Self.ForumMessage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ForumPosts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ForumMessages">
+        <PropertyRef Name="ForumPostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ForumPosts_ForumSections">
+    <End Role="ForumSections" Type="Self.ForumSection" Multiplicity="1" />
+    <End Role="ForumPosts" Type="Self.ForumPost" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ForumSections">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ForumPosts">
+        <PropertyRef Name="ForumSectionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_News_NewsSection">
+    <End Role="NewsSection" Type="Self.NewsSection" Multiplicity="1" />
+    <End Role="News" Type="Self.News" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NewsSection">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="News">
+        <PropertyRef Name="NewsSectionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NewsComments_News">
+    <End Role="News" Type="Self.News" Multiplicity="1" />
+    <End Role="NewsComments" Type="Self.NewsComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="News">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NewsComments">
+        <PropertyRef Name="NewsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MusicBandSiteDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+    <EntitySet Name="ForumMessages" EntityType="Self.ForumMessage" />
+    <EntitySet Name="ForumPosts" EntityType="Self.ForumPost" />
+    <EntitySet Name="ForumSections" EntityType="Self.ForumSection" />
+    <EntitySet Name="News" EntityType="Self.News" />
+    <EntitySet Name="NewsComments" EntityType="Self.NewsComment" />
+    <EntitySet Name="NewsSections" EntityType="Self.NewsSection" />
+    <AssociationSet Name="FK_ForumMessages_AspNetUsers" Association="Self.FK_ForumMessages_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="ForumMessages" EntitySet="ForumMessages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_News_AspNetUsers" Association="Self.FK_News_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="News" EntitySet="News" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NewsComments_AspNetUsers" Association="Self.FK_NewsComments_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="NewsComments" EntitySet="NewsComments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ForumMessages_ForumPosts" Association="Self.FK_ForumMessages_ForumPosts">
+      <End Role="ForumPosts" EntitySet="ForumPosts" />
+      <End Role="ForumMessages" EntitySet="ForumMessages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ForumPosts_ForumSections" Association="Self.FK_ForumPosts_ForumSections">
+      <End Role="ForumSections" EntitySet="ForumSections" />
+      <End Role="ForumPosts" EntitySet="ForumPosts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_News_NewsSection" Association="Self.FK_News_NewsSection">
+      <End Role="NewsSection" EntitySet="NewsSections" />
+      <End Role="News" EntitySet="News" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NewsComments_News" Association="Self.FK_NewsComments_News">
+      <End Role="News" EntitySet="News" />
+      <End Role="NewsComments" EntitySet="NewsComments" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

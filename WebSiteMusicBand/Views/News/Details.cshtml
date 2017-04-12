@@ -1,0 +1,25 @@
+﻿@model WebSiteMusicBand.Model.News
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_DetailsLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              @Html.Raw(Model.TextContent)
+            </div>
+        </div>
+    </div>
+</article>
+<hr>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

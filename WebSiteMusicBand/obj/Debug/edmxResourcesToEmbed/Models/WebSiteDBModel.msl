@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WebSiteDBModelStoreContainer" CdmEntityContainer="WebSiteDBModelContainer">
+    <EntitySetMapping Name="CommentsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(WebSiteDBModel.Comments)">
+        <MappingFragment StoreEntitySet="CommentsSet">
+          <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(WebSiteDBModel.Posts)">
+        <MappingFragment StoreEntitySet="PostsSet">
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(WebSiteDBModel.VideoPosts)">
+        <MappingFragment StoreEntitySet="PostsSet_VideoPosts">
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(WebSiteDBModel.NewsPosts)">
+        <MappingFragment StoreEntitySet="PostsSet_NewsPosts">
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(WebSiteDBModel.AlbumPosts)">
+        <MappingFragment StoreEntitySet="PostsSet_AlbumPosts">
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UsersSet">
+      <EntityTypeMapping TypeName="IsTypeOf(WebSiteDBModel.Users)">
+        <MappingFragment StoreEntitySet="UsersSet">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="AvatarData" ColumnName="AvatarData" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="AvatarMimeType" ColumnName="AvatarMimeType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VideosForPostSet">
+      <EntityTypeMapping TypeName="IsTypeOf(WebSiteDBModel.VideosForPost)">
+        <MappingFragment StoreEntitySet="VideosForPostSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="VideoLink" ColumnName="VideoLink" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PicsPostsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(WebSiteDBModel.PicsPosts)">
+        <MappingFragment StoreEntitySet="PicsPostsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ImageData" ColumnName="ImageData" />
+          <ScalarProperty Name="ImageMimeType" ColumnName="ImageMimeType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FilePostsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(WebSiteDBModel.FilePosts)">
+        <MappingFragment StoreEntitySet="FilePostsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="VideoPostsVideosForPost" TypeName="WebSiteDBModel.VideoPostsVideosForPost" StoreEntitySet="VideosForPostSet">
+      <EndProperty Name="VideoPosts">
+        <ScalarProperty Name="PostID" ColumnName="VideoPosts_PostID" />
+      </EndProperty>
+      <EndProperty Name="VideosForPost">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="NewsPostsPicsPosts" TypeName="WebSiteDBModel.NewsPostsPicsPosts" StoreEntitySet="PicsPostsSet">
+      <EndProperty Name="NewsPosts">
+        <ScalarProperty Name="PostID" ColumnName="NewsPosts_PostID" />
+      </EndProperty>
+      <EndProperty Name="PicsPosts">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AlbumPostsFilePosts" TypeName="WebSiteDBModel.AlbumPostsFilePosts" StoreEntitySet="FilePostsSet">
+      <EndProperty Name="AlbumPosts">
+        <ScalarProperty Name="PostID" ColumnName="AlbumPosts_PostID" />
+      </EndProperty>
+      <EndProperty Name="FilePosts">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
