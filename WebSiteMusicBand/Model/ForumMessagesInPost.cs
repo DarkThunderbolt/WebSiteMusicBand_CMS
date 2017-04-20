@@ -20,7 +20,7 @@ namespace WebSiteMusicBand.Model
         public string TextContent { get; set; }
         public System.DateTime CreateDate { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual ForumPost ForumPost { get; set; }
+        public virtual CustomUsers CustomUsers { get; set; }
+        public virtual ForumPosts ForumPosts { get; set; }
     }
 }

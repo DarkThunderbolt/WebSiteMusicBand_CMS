@@ -16,7 +16,7 @@ namespace WebSiteMusicBand
 
         protected void Application_Start()
         {
-            logger.Info("Application Start");
+            logger.Trace("Application Start");
 
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);

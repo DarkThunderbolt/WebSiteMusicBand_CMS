@@ -5,8 +5,9 @@ using System.Web;
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
-namespace WebSiteMusicBand.Model
+namespace WebSiteMusicBand.Model.Metadata
 {
     public class CommentsMetadata
     {
@@ -24,9 +25,9 @@ namespace WebSiteMusicBand.Model
                ApplyFormatInEditMode = true)]
         public System.DateTime CreateDate { get; set; }
         
-        [DisplayName("Text")]
         [DataType(DataType.MultilineText)]
-        [Required(ErrorMessage = "The content is required")]
+        [AllowHtml]
+        [Required(ErrorMessage = "The text is required")]
         public string CommentsText { get; set; }
     }
 }

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<WebSiteMusicBand.Model.News>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (SecureCustomHelper.IsCurrenAdmin())
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+
+
+@foreach (var item in Model)
+{
+    <div class="post-preview text-center">
+
+
+        <a href=@Url.Action("Details", "Members", new { id = item.Id })>
+            <img class= "myImg2" src=@Url.Content(@"~/Content/Upload/Members/"+item.NewsAdditionalInfo.Info)>
+            <h2 class="post-title">
+                @Html.DisplayFor(modelItem => item.Title)
+            </h2>
+        </a>
+        @if (SecureCustomHelper.IsCurrenAdmin())
+        {
+            <div class="btn btn-default">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+            </div>
+            <div class="btn btn-default">
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </div>
+        }
+        <hr color="black" >
+    </div>
+    <hr  noshade size=2>
+}

@@ -17,8 +17,8 @@ namespace WebSiteMusicBand.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public News()
         {
-            this.NewsComments = new HashSet<NewsComment>();
-            this.NewsLikes = new HashSet<NewsLike>();
+            this.NewsComments = new HashSet<NewsComments>();
+            this.NewsLikes = new HashSet<NewsLikes>();
         }
     
         public int Id { get; set; }
@@ -28,11 +28,12 @@ namespace WebSiteMusicBand.Model
         public int UserId { get; set; }
         public int NewsSectionId { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual CustomUsers CustomUsers { get; set; }
         public virtual NewsSection NewsSection { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NewsComment> NewsComments { get; set; }
+        public virtual ICollection<NewsComments> NewsComments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NewsLike> NewsLikes { get; set; }
+        public virtual ICollection<NewsLikes> NewsLikes { get; set; }
+        public virtual NewsAdditionalInfo NewsAdditionalInfo { get; set; }
     }
 }

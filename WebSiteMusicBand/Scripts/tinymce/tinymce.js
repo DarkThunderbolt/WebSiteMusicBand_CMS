@@ -26123,8 +26123,8 @@ define("tinymce/util/EventDispatcher", [
  */
 
 /**
- * This class gets dynamically extended to provide a binding between two models. This makes it possible to
- * sync the state of two properties in two models by a layer of abstraction.
+ * This class gets dynamically extended to provide a binding between two Model. This makes it possible to
+ * sync the state of two properties in two Model by a layer of abstraction.
  *
  * @private
  * @class tinymce.data.Binding

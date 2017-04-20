@@ -1,25 +1,160 @@
-﻿@model WebSiteMusicBand.Model.News
-
+﻿@model WebSiteMusicBand.Model.NewsComments
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_DetailsLayout.cshtml";
+    News NewsModel = ViewBag.NewsModel;
 }
+<script type="text/javascript">
+    tinymce.init({
+        selector: 'textarea',
+        height: 150,
+        menubar: false,
+        plugins: [
+          'advlist autolink lists link image charmap print preview anchor',
+          'searchreplace visualblocks code fullscreen',
+          'insertdatetime media table contextmenu paste code'
+        ],
+        toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        content_css: '//www.tinymce.com/css/codepen.min.css'
+    });
+</script>
 
-<h2>Details</h2>
 
 <!-- Post Content -->
 <article>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-              @Html.Raw(Model.TextContent)
+                @Html.Raw(NewsModel.TextContent)
             </div>
         </div>
     </div>
 </article>
-<hr>
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+@if (SecureCustomHelper.IsThisCurrentUserOrAdmin(NewsModel.CustomUsers))
+{
+    <div class="btn btn-default myRight">
+        @Html.ActionLink("Edit", "Edit", new { id = NewsModel.Id })
+    </div>
+    <div class="btn btn-default myRight">
+        @Html.ActionLink("Delete", "Delete", new { id = NewsModel.Id })
+    </div>
+}
+
+<div class="btn btn-default" style="float:left">
+    @Html.ActionLink("Back", "")
+</div>
+
+@if (NewsModel.NewsLikes.Where(x => x.UserId == SecureCustomHelper.GetCurrentUserId()).Count() == 0)
+{
+
+    using (Html.BeginForm("Like", "News", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("NewsId", NewsModel.Id)
+        <input type="submit" value="Add to favorite" class="btn btn-default" />
+    }
+
+}
+else
+{
+    using (Html.BeginForm("Dislike", "News", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("NewsId", NewsModel.Id)
+        <input type="submit" value="Remove fromn favorite" class="btn btn-default" />
+    }
+}
+
+<hr />
+
+<h2>Comments:</h2>
+
+    @if (Request.LogonUserIdentity.IsAuthenticated)
+    {
+        using (Html.BeginForm("PostComment", "News", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.Hidden("NewsId", NewsModel.Id)
+            @Html.ValidationMessageFor(model => Model.CommentsText, "", new { @class = "text-danger" })
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-1">
+                        <div class="thumbnail">
+                            <img class="img-responsive user-photo" src=@Url.Content(SecureCustomHelper.GetCurrentCustomUser().AvatarLink)>
+                        </div><!-- /thumbnail -->
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <strong>
+                                    @User.Identity.GetUserName()
+                                </strong>
+                            </div>
+                            <div class="panel-body">
+                                @Html.EditorFor(model => Model.CommentsText, new { htmlAttributes = new { @name = "mytext", @class = "form-control" } })
+                            </div><!-- /panel-body -->
+                        </div><!-- /panel panel-default -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="myRight">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    }
+<hr  noshade size=2 />
+
+@if (NewsModel.NewsComments.Count != 0)
+{
+    foreach (NewsComments comment in NewsModel.NewsComments.OrderBy(x => x.CreateDate).Reverse())
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-1">
+                    <div class="thumbnail">
+                        <img class="img-responsive user-photo" src=@Url.Content(comment.CustomUsers.AvatarLink) />
+                    </div><!-- /thumbnail -->
+                </div><!-- /col-sm-1 -->
+                <div class="col-sm-5">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>
+                                @comment.CustomUsers.ForumName
+                            </strong>
+                            <span class="text-muted">@comment.CreateDate.ToString()</span>
+                        </div>
+                        <div class="panel-body">
+                            @Html.Raw(comment.CommentsText)
+                        </div><!-- /panel-body -->
+                    </div><!-- /panel panel-default -->
+                </div><!-- /col-sm-5 -->
+
+            </div>
+            @if (SecureCustomHelper.IsThisCurrentUserOrAdmin(comment.CustomUsers))
+            {
+                <div class="btn btn-default myRight">
+                    @Html.ActionLink("Edit", "EditComment", new { id = comment.Id })
+                </div>
+                <div class="btn btn-default myRight">
+                    @Html.ActionLink("Delete", "DeleteComment", new { id = comment.Id })
+                </div>
+            }
+
+        </div>
+        <hr  noshade size=2/>
+
+    }
+}
+else
+{
+    <p />
+    <h4>No Comments yet</h4>
+    <p />
+
+}
+

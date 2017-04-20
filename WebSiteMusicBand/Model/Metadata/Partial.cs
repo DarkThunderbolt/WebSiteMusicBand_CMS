@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using WebSiteMusicBand.Model.Metadata;
+
 
 namespace WebSiteMusicBand.Model
 {
@@ -12,12 +14,12 @@ namespace WebSiteMusicBand.Model
     }
 
     [MetadataType(typeof(CommentsMetadata))]
-    public partial class NewsComment
+    public partial class NewsComments
     {
     }
 
-    [MetadataType(typeof(UserInfoMetadata))]
-    public partial class AspNetUser
+    [MetadataType(typeof(CustomUserMetadata))]
+    public partial class CustomUsers
     {
     }
 }

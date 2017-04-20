@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WebSiteMusicBand.Model
+namespace WebSiteMusicBand.Model.Metadata
 {
     public class NewsMetadata
     {
@@ -14,7 +14,7 @@ namespace WebSiteMusicBand.Model
         public int Id { get; set; }
 
         [DisplayName("Title")]
-        [StringLength(100, MinimumLength = 20, ErrorMessage = "Tittle must be 3 to 100 char")]
+        [StringLength(500, MinimumLength = 3, ErrorMessage = "Tittle must be 3 to 500 char")]
         [Required(ErrorMessage = "The title is required")]
         public string Title { get; set; }
 

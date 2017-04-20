@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ninject;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,139 +7,292 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using WebSiteMusicBand.Infrastructure;
 using WebSiteMusicBand.Model;
 
 namespace WebSiteMusicBand.Controllers
 {
     public class NewsController : Controller
     {
-        INewsRepository repo;
+        [Inject]
+        INewsRepository _newsRepo;
+
         private int pageSizeForShort = 3;
-        private int pageSizeForLong= 10;
+        private int pageSizeForLong = 10;
 
-        public NewsController()
+        public NewsController(INewsRepository news)
         {
-            repo = new NewsRepository("News");
+            _newsRepo = news;
+            MvcApplication.logger.Info("Create News Controller");
         }
 
-        public ActionResult ListLong(int page = 1)
+        // GET: News/ListLong/page
+        [HttpGet]
+        public ActionResult ListLong(int id = 1)
         {
-            PagingInfo pageInfo = new PagingInfo(repo.GetTotalNumberOfNews(), pageSizeForLong, page);
+            PagingInfo pageInfo = new PagingInfo(_newsRepo.GetTotalNumberOfNews(), pageSizeForLong, id);
             ViewBag.PageInfo = pageInfo;
-            return View(repo.GetNewsPage(pageInfo));
+            return View(_newsRepo.GetNewsPage(pageInfo));
         }
 
-        // GET: News
-        public ActionResult ListShort(int page = 1)
+        // GET: News/ListShort/page
+        [HttpGet]
+        public ActionResult ListShort(int id = 1)
         {
-            PagingInfo pageInfo = new PagingInfo(repo.GetTotalNumberOfNews(), pageSizeForShort, page);
+            PagingInfo pageInfo = new PagingInfo(_newsRepo.GetTotalNumberOfNews(), pageSizeForShort, id);
             ViewBag.PageInfo = pageInfo;
-            return View(repo.GetNewsPage(pageInfo));
+            return View(_newsRepo.GetNewsPage(pageInfo));
         }
 
 
 
-        // GET: News/Details/5
+        // GET: News/Details/newsId
+        [HttpGet]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var news = repo.GetNewsById(id); 
-            if (repo.GetNewsById(id) == null)
+            var news = _newsRepo.GetNewsById((int)id);
+            if (news == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            return View(news);
-      
+            ViewBag.NewsModel = news;
+            return View();
         }
 
         // GET: News/Create
+        [HttpGet]
+        [Authorize]
         public ActionResult Create()
         {
-            //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email");
-            //ViewBag.NewsSectionId = new SelectList(db.NewsSections, "Id", "Name");
             return View();
         }
 
         // POST: News/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Title,TextContent,CreateDate,")] News news)
         {
             if (ModelState.IsValid)
             {
-                repo.CreateNews(news,7);
-                return RedirectToAction("ShortList");
+                _newsRepo.CreateNews(news);
+                MvcApplication.logger.Info($"News {news.Id} created ");
+                return RedirectToAction("Details", new { id = news.Id });
             }
             return View(news);
         }
 
-        // GET: News/Edit/5
+        // GET: News/Edit/newsId
+        [HttpGet]
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var news = repo.GetNewsById(id);
+            var news = _newsRepo.GetNewsById((int)id);
             if (news == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
             return View(news);
         }
 
-        // POST: News/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: News/Edit/newsId
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        //[ValidateInput(false)]
         public ActionResult Edit([Bind(Include = "Id,Title,TextContent,CreateDate,UserId,NewsSectionId")] News news)
         {
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+            }
             if (ModelState.IsValid)
             {
-                repo.EditNews(news);
-                return RedirectToAction("ShortList");
+                _newsRepo.EditNews(news);
+                MvcApplication.logger.Info($"News {news.Id} edited");
+                return RedirectToAction("Details", new { id = news.Id });
             }
             return View(news);
         }
 
-        // GET: News/Delete/5
+        // GET: News/Delete/newsId
+        [HttpGet]
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var news = repo.GetNewsById(id);
+            var news = _newsRepo.GetNewsById((int)id);
             if (news == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
             return View(news);
         }
 
         // POST: News/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            repo.DeleteNews(id);
-            return RedirectToAction("ShortList");
+            var news = _newsRepo.GetNewsById(id);
+            if (news == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+            }
+            _newsRepo.DeleteNews(id);
+            MvcApplication.logger.Info($"Member {id} deleted");
+            return RedirectToAction("Index");
         }
+
+        // POST: News/PostComment/comment
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult PostComment([Bind(Include = "NewsId,CommentsText")] NewsComments comment)
+        {
+            if (ModelState.IsValid)
+            {
+                _newsRepo.AddComment(comment);
+                MvcApplication.logger.Info($"Comment {comment.Id} posted to news {comment.NewsId}");
+                return RedirectToAction("Details", new { id = comment.NewsId });
+            }
+            return RedirectToAction("");
+        }
+
+        // GET: News/DeleteComment/commentId
+        [HttpGet]
+        [Authorize]
+        public ActionResult DeleteComment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var comment = _newsRepo.GetCommentById((int)id);
+            if (comment == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(comment.CustomUsers))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+            }
+            return View(comment);
+        }
+
+        // POST: News/DeleteComment/commentId
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteComment([Bind(Include = "Id,NewsId,UserId,CommentsText")] NewsComments comment)
+        {
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(comment.UserId))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+            }
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            if (ModelState.IsValid)
+            {
+                _newsRepo.DeleteComment(comment.Id);
+                MvcApplication.logger.Info($"Comment {comment.Id} deleted");
+                return RedirectToAction("Details", new { id = comment.NewsId });
+            }
+            return View(comment);
+        }
+
+        // GET: News/EditComment/comment
+        [HttpGet]
+        [Authorize]
+        public ActionResult EditComment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var comment = _newsRepo.GetCommentById((int)id);
+            if (comment == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(comment.CustomUsers))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+            }
+            return View(comment);
+        }
+
+        // POST: News/EditComment/comment
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditComment([Bind(Include = "Id,UserId,NewsId,CreateDate,CommentsText")] NewsComments comment)
+        {
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(comment.UserId))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+            }
+            if (ModelState.IsValid)
+            {
+                _newsRepo.EditComment(comment);
+                MvcApplication.logger.Info($"Comment {comment.Id} edited");
+                return RedirectToAction("Details", new { id = comment.NewsId });
+            }
+            return View(comment);
+        }
+
+        // POST: News/Like/NewsLikes
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Like([Bind(Include = "NewsId")] NewsLikes like)
+        {
+            _newsRepo.AddLike(like.NewsId);
+            return RedirectToAction("Details", new { id = like.NewsId });
+        }
+
+        // POST: News/Dislike/NewsLikes
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Dislike([Bind(Include = "NewsId")] NewsLikes like)
+        {
+            _newsRepo.DeleteLike(like.NewsId);
+            return RedirectToAction("Details", new { id = like.NewsId });
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                repo.Dispose();
+                _newsRepo.Dispose();
             }
             base.Dispose(disposing);
         }
+
     }
 }

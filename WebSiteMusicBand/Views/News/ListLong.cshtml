@@ -5,9 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@foreach (var item in Model)
+@if(Request.LogonUserIdentity.IsAuthenticated)
 {
-    <article>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+
+
+
+@foreach (var item in Model) { <article>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -25,26 +32,30 @@
 
                     <p class="post-meta">
                         Posted by
-                        @Html.DisplayFor(modelItem => item.AspNetUser.UserName)
+                        @Html.DisplayFor(modelItem => item.CustomUsers.ForumName)
                         @Html.DisplayFor(modelItem => item.CreateDate)
                     </p>
-                    <div class="btn btn-default">
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                    </div>
+
                     <div class="btn btn-default">
                         @Html.ActionLink("Details", "Details", new { id = item.Id })
                     </div>
-                    <div class="btn btn-default">
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </div>
+                    @if (SecureCustomHelper.IsThisCurrentUserOrAdmin(item.CustomUsers))
+                    {
+                        <div class="btn btn-default">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        </div>
+                        <div class="btn btn-default">
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     </article>
-    <hr>
+    <hr  noshade size=2>
 
 }
 
-<div>
+<div class="text-center">>
     @Html.PageLinks((PagingInfo)ViewBag.PageInfo, x => Url.Action("ListLong", new { page = x }))
 </div>

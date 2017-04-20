@@ -1,33 +1,36 @@
-﻿@model WebSiteMusicBand.Model.News
-
+﻿@{ 
+    News Model = ViewBag.NewsModel;
+}
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>Music Band FanSite</title>
     @Styles.Render("~/bundles/css")
 
+    <script src=@(MvcApplication.linkToApp + @"Scripts/tinymce/tinymce.min.js")></script>
+
     <!-- Custom Fonts -->
-    <link href=@(MvcApplication.linkToApp + $"Content/font-awesome/css/font-awesome.min.css") rel="stylesheet" type="text/css">
+    <link href=@Url.Content( @"~/Content/font-awesome/css/font-awesome.min.css") rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
 </head>
 
 <body>
-    @{Html.RenderPartial("_MenuPart");}    
+    @{Html.RenderPartial("_MenuPartial");}
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url(@(MvcApplication.linkToApp + $"Content/img/home.jpg") )">
+    <header class="intro-header" style="background-image: url( @Url.Content("~/Content/img/home.jpg"))">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-heading">
-                        <h1>@Html.DisplayFor(model => model.Title)</h1>
-                        @*<h2 class="subheading">Problems look mighty small from 150 miles up</h2>*@
-                        <span class="meta">Posted by <a href="#">@Html.DisplayFor(model => model.AspNetUser.UserName)</a> on @Html.DisplayFor(model => model.CreateDate)</span>
+                    <div class="site-heading myIntro">
+                        <h2 class="myTitle">@Model.Title </h2>
+                        <hr class="small">
+                        <span class="meta">Posted by <a href="#" class="myLinl"> @Model.CustomUsers.ForumName</a> on @Model.CreateDate</span>
                     </div>
                 </div>
             </div>
@@ -36,48 +39,14 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <!-- Footer -->
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                        <ul class="list-inline text-center">
-                            <li>
-                                <a href="#">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                        <p class="copyright text-muted">Copyright &copy; Your Website @DateTime.Now.Year </p>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <hr  noshade size=2 />
+        @{Html.RenderPartial("_FooterPartial");}
     </div>
 
-
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/JS")
 
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+

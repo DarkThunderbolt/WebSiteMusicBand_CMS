@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -11,16 +12,16 @@ namespace WebSiteMusicBand.Model
         private MusicBandSiteDB db = new MusicBandSiteDB();
         private NewsSection newsSection;
 
-        public IEnumerable<News> SelectedNews { get { return newsSection.News; } }
+        public IEnumerable<News> SelectedNews { get { return newsSection.News.OrderBy(n => n.CreateDate); } }
 
-        public NewsRepository(string sction)
+        public NewsRepository(string section)
         {
-            newsSection = db.NewsSections.Where(n => n.Name == sction).First();
+            newsSection = db.NewsSection.Where(n => n.Name == section).First();
         }
 
-        public void CreateNews(News news,int user)
+        public void CreateNews(News news)
         {
-            news.UserId = user;
+            news.UserId = HttpContext.Current.User.Identity.GetUserId<int>(); ;
             news.NewsSection = newsSection;
             news.CreateDate = DateTime.Now;
             db.News.Add(news);
@@ -41,9 +42,9 @@ namespace WebSiteMusicBand.Model
             db.SaveChanges();
         }
 
-        public News GetNewsById(int? newsId)
+        public News GetNewsById(int newsId)
         {
-            return db.News.Find(newsId);
+            return SelectedNews.Where(x=> x.Id == newsId).First();
         }
 
         public IEnumerable<News> GetNewsPage(PagingInfo pageInfo, bool down = true)
@@ -51,25 +52,66 @@ namespace WebSiteMusicBand.Model
             pageInfo.TotalItems = SelectedNews.Count();
 
             var news = SelectedNews
-                .OrderBy(n => n.CreateDate)
+                .Reverse()
                 .Skip((pageInfo.CurrentPage - 1) * pageInfo.ItemsPerPage)
                 .Take(pageInfo.ItemsPerPage).ToList();
 
-            if (down)
+            if (!down)
                 news.Reverse();
             return news;
         }
 
-        public IEnumerable<NewsComment> GetNewsComments(int newsId)
+        public IEnumerable<NewsComments> GetNewsComments(int newsId)
         {
             return db.NewsComments.Where(n => n.NewsId == newsId);
         }
 
-        public void Dispose() { }
+        public void Dispose() { } //?! VD
 
         public int GetTotalNumberOfNews()
         {
             return SelectedNews.Count();
+        }
+
+        public void AddComment(NewsComments comment)
+        {
+            comment.UserId = HttpContext.Current.User.Identity.GetUserId<int>();
+            comment.CreateDate = DateTime.Now;
+            db.NewsComments.Add(comment);
+            db.SaveChanges();
+        }
+
+
+        public NewsComments GetCommentById(int id)
+        {
+            return db.NewsComments.Find(id);
+        }
+
+        public void EditComment(NewsComments comment)
+        {
+            db.Entry(comment).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void DeleteComment(int id)
+        {
+            NewsComments comment = GetCommentById(id);
+            db.NewsComments.Remove(comment);
+            db.SaveChanges();
+        }
+
+        public void AddLike(int newsId)
+        {
+            db.NewsLikes.Add(new NewsLikes { UserId = SecureCustomHelper.GetCurrentUserId(), NewsId = newsId});
+            db.SaveChanges();
+        }
+
+        public void DeleteLike(int newsId)
+        {
+            int userId = SecureCustomHelper.GetCurrentUserId();
+            NewsLikes like = db.NewsLikes.Where(x => x.NewsId == newsId).Where(x => x.UserId == userId).First();
+            db.NewsLikes.Remove(like);
+            db.SaveChanges();
         }
     }
 }

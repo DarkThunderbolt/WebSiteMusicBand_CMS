@@ -7,38 +7,24 @@
     <title>Music Band FanSite</title>
     @Styles.Render("~/bundles/css")
 
-
-    <script src=@(MvcApplication.linkToApp + $"Scripts/tinymce/tinymce.min.js") ></script>
-    <script type="text/javascript">
-        tinymce.init({
-            selector: 'textarea',
-            height: 500,
-            menubar: false,
-            plugins: [
-              'advlist autolink lists link image charmap print preview anchor',
-              'searchreplace visualblocks code fullscreen',
-              'insertdatetime media table contextmenu paste code'
-            ],
-            toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-            content_css: '//www.tinymce.com/css/codepen.min.css'
-        });
-    </script>
+    <script src=@(MvcApplication.linkToApp + @"Scripts/tinymce/tinymce.min.js") ></script>
 
     <!-- Custom Fonts -->
-    <link href=@(MvcApplication.linkToApp + $"Content/font-awesome/css/font-awesome.min.css")  rel="stylesheet" type="text/css">
+    <link href=@Url.Content( @"~/Content/font-awesome/css/font-awesome.min.css") rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
 </head>
+
 <body>
-  @{Html.RenderPartial("_MenuPart");}
+    @{Html.RenderPartial("_MenuPartial");}
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url(@(MvcApplication.linkToApp + $"Content/img/home.jpg") )">
+    <header class="intro-header" style="background-image: url( @Url.Content("~/Content/img/home.jpg"))">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
+                    <div class="site-heading myIntro">
                         <h1>Music Band FanSite</h1>
                         <hr class="small">
                         <span class="subheading">by Denysenko V</span>
@@ -50,8 +36,8 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        @{Html.RenderPartial("_FooterPart");}
+        <hr noshade size=2 />
+        @{Html.RenderPartial("_FooterPartial");}
     </div>
 
     @Scripts.Render("~/bundles/JS")

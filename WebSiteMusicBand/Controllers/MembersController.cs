@@ -1,0 +1,153 @@
+﻿using Ninject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using WebSiteMusicBand.Model;
+
+namespace WebSiteMusicBand.Controllers
+{
+    public class MembersController : Controller
+    {
+        [Inject]
+        INewsRepository _newsRepo;
+
+        public MembersController( INewsRepository news)
+        {
+            MvcApplication.logger.Info("Create Members Controller");
+
+            _newsRepo = news;
+        }
+
+        // GET: Members
+        [HttpGet]
+        public ActionResult Index(int id = 1)
+        {
+            return View(_newsRepo.SelectedNews);
+        }
+
+        // GET: Members/Create
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Members/Create
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,Title,TextContent,CreateDate,")] News news)
+        {
+            if (ModelState.IsValid)
+            {
+                _newsRepo.CreateNews(news);
+                MvcApplication.logger.Info($"Member {news.Id} created ");
+                return RedirectToAction("Details", new { id = news.Id });
+            }
+            return View(news);
+        }
+
+        // GET: Members/Details/newsId
+        [HttpGet]
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var news = _newsRepo.GetNewsById((int)id);
+            if (news == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            ViewBag.NewsModel = news;
+            return View();
+        }
+
+        // GET: Members/Edit/newsId
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var news = _newsRepo.GetNewsById((int)id);
+            if (news == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+            }
+            return View(news);
+        }
+
+        // POST: Members/Edit/newsId
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Title,TextContent,CreateDate,UserId,NewsSectionId")] News news)
+        {
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.UserId))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+            }
+            if (ModelState.IsValid)
+            {
+                _newsRepo.EditNews(news);
+                MvcApplication.logger.Info($"Member {news.Id} edited");
+                return RedirectToAction("Details", new { id = news.Id });
+            }
+            return View(news);
+        }
+
+        // GET: Members/Delete/newsId
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var news = _newsRepo.GetNewsById((int)id);
+            if (news == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+            }
+            return View(news);
+        }
+
+        // POST: Members/Delete/5
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            var news = _newsRepo.GetNewsById(id);
+            if (news == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+            }
+            _newsRepo.DeleteNews(id);
+            MvcApplication.logger.Info($"Member {id} deleted");
+            return RedirectToAction("Index");
+        }
+
+    }
+}
