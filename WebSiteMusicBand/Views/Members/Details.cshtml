@@ -21,8 +21,8 @@
 </script>
 
 
-@if (SecureCustomHelper.IsThisCurrentUserOrAdmin(NewsModel.CustomUsers))
-            {
+@if (SecureCustomHelper.IsThisCurrentUserOrAdmin(NewsModel.UserId))
+{
     <div class="btn btn-default">
         @Html.ActionLink("Edit", "Edit", new { id = NewsModel.Id })
     </div>

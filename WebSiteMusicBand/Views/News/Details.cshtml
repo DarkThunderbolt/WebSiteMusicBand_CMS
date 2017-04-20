@@ -31,7 +31,7 @@
     </div>
 </article>
 
-@if (SecureCustomHelper.IsThisCurrentUserOrAdmin(NewsModel.CustomUsers))
+@if (SecureCustomHelper.IsThisCurrentUserOrAdmin(NewsModel.UserId))
 {
     <div class="btn btn-default myRight">
         @Html.ActionLink("Edit", "Edit", new { id = NewsModel.Id })
@@ -135,7 +135,7 @@ else
                 </div><!-- /col-sm-5 -->
 
             </div>
-            @if (SecureCustomHelper.IsThisCurrentUserOrAdmin(comment.CustomUsers))
+            @if (SecureCustomHelper.IsThisCurrentUserOrAdmin(comment.UserId))
             {
                 <div class="btn btn-default myRight">
                     @Html.ActionLink("Edit", "EditComment", new { id = comment.Id })

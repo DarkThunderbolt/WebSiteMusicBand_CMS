@@ -17,7 +17,7 @@ namespace WebSiteMusicBand.Model
         {
             get
             {
-                return SecureCustomHelper.GetCurrentUserId(); //!? VD 
+                return SecureCustomHelper.GetCurrentUserId();
             }
 
         }
@@ -46,7 +46,7 @@ namespace WebSiteMusicBand.Model
 
         public CustomUsers GetCustomUserById(int id)
         {
-            return db.CustomUsers.Where(n => n.Id == id).First();
+            return db.CustomUsers.Where(n => n.Id == id).FirstOrDefault();
         }
 
         public void EditCustomUser(CustomUsers user)

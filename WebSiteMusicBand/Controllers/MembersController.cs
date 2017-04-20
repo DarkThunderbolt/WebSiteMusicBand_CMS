@@ -16,16 +16,24 @@ namespace WebSiteMusicBand.Controllers
 
         public MembersController( INewsRepository news)
         {
-            MvcApplication.logger.Info("Create Members Controller");
-
             _newsRepo = news;
+            MvcApplication.logger.Info("Created Members Controller");
         }
 
         // GET: Members
         [HttpGet]
-        public ActionResult Index(int id = 1)
+        public ActionResult Index()
         {
-            return View(_newsRepo.SelectedNews);
+            var members = _newsRepo.SelectedNews;
+            if (members != null)
+            {
+                return View(members);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+           
         }
 
         // GET: Members/Create
@@ -44,9 +52,14 @@ namespace WebSiteMusicBand.Controllers
         {
             if (ModelState.IsValid)
             {
-                _newsRepo.CreateNews(news);
-                MvcApplication.logger.Info($"Member {news.Id} created ");
-                return RedirectToAction("Details", new { id = news.Id });
+                if(_newsRepo.CreateNews(news))
+                {
+                    return RedirectToAction("Details", new { id = news.Id });
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }  
             }
             return View(news);
         }
@@ -101,10 +114,15 @@ namespace WebSiteMusicBand.Controllers
             }
             if (ModelState.IsValid)
             {
-                _newsRepo.EditNews(news);
-                MvcApplication.logger.Info($"Member {news.Id} edited");
-                return RedirectToAction("Details", new { id = news.Id });
-            }
+                if(_newsRepo.EditNews(news))
+                {
+                    return RedirectToAction("Details", new { id = news.Id });
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
+            }               
             return View(news);
         }
 
@@ -144,10 +162,14 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
-            _newsRepo.DeleteNews(id);
-            MvcApplication.logger.Info($"Member {id} deleted");
-            return RedirectToAction("Index");
+            if (_newsRepo.DeleteNews(id))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
         }
-
     }
 }

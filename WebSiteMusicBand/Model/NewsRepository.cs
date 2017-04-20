@@ -16,35 +16,65 @@ namespace WebSiteMusicBand.Model
 
         public NewsRepository(string section) //!? VD How set it in interface for being in all inteface implementations
         {
-            newsSection = db.NewsSection.Where(n => n.Name == section).First();
+            newsSection = db.NewsSection.Where(n => n.Name == section).FirstOrDefault();
         }
 
-        public void CreateNews(News news)
+        public bool CreateNews(News news)
         {
-            news.UserId = HttpContext.Current.User.Identity.GetUserId<int>(); ;
-            news.NewsSection = newsSection;
-            news.CreateDate = DateTime.Now;
-            db.News.Add(news);
-            db.SaveChanges();
+            try
+            {
+                news.UserId = HttpContext.Current.User.Identity.GetUserId<int>(); ;
+                news.NewsSection = newsSection;
+                news.CreateDate = DateTime.Now;
+                db.News.Add(news);
+                db.SaveChanges();
+                MvcApplication.logger.Info($"News {news.Id} created ");
+                return true;
+            }
+            catch
+            {
+                MvcApplication.logger.Error(this.ToString() + "create news fail");
+                return false;
+            }
         }
 
-        public void DeleteNews(int newsId)
+        public bool DeleteNews(int newsId)
         {
-            News news = GetNewsById(newsId);
-            db.NewsComments.RemoveRange(GetNewsComments(newsId));
-            db.News.Remove(news);
-            db.SaveChanges();
+            try
+            {
+                News news = GetNewsById(newsId);
+                db.NewsComments.RemoveRange(GetNewsComments(newsId));
+                db.News.Remove(news);
+                db.SaveChanges();
+                MvcApplication.logger.Info($"news {newsId} deleted");
+                return true;
+            }
+            catch
+            {
+                MvcApplication.logger.Error(this.ToString() + "delete news fail");
+                return false;
+            }
         }
 
-        public void EditNews(News news)
+        public bool EditNews(News news)
         {
-            db.Entry(news).State = EntityState.Modified;
-            db.SaveChanges();
+            try
+            {
+                db.Entry(news).State = EntityState.Modified;
+                db.SaveChanges();
+                MvcApplication.logger.Info($"News {news.Id} edited");
+                return true;
+            }
+            catch
+            {
+                MvcApplication.logger.Error(this.ToString() + "edit news fail");
+                return false;
+            }
         }
 
         public News GetNewsById(int newsId)
         {
-            return SelectedNews.Where(x=> x.Id == newsId).First();
+            return SelectedNews.Where(x=> x.Id == newsId).FirstOrDefault();
         }
 
         public IEnumerable<News> GetNewsPage(PagingInfo pageInfo, bool down = true)
@@ -73,12 +103,22 @@ namespace WebSiteMusicBand.Model
             return SelectedNews.Count();
         }
 
-        public void AddComment(NewsComments comment)
+        public bool AddComment(NewsComments comment)
         {
-            comment.UserId = HttpContext.Current.User.Identity.GetUserId<int>();
-            comment.CreateDate = DateTime.Now;
-            db.NewsComments.Add(comment);
-            db.SaveChanges();
+            try
+            {
+                comment.UserId = HttpContext.Current.User.Identity.GetUserId<int>();
+                comment.CreateDate = DateTime.Now;
+                db.NewsComments.Add(comment);
+                db.SaveChanges();
+                MvcApplication.logger.Info($"Comment {comment.Id} posted to news {comment.NewsId}");
+                return true;
+            }
+            catch
+            {
+                MvcApplication.logger.Error(this.ToString() + "add comment fail");
+                return false;
+            }
         }
 
 
@@ -87,31 +127,72 @@ namespace WebSiteMusicBand.Model
             return db.NewsComments.Find(id);
         }
 
-        public void EditComment(NewsComments comment)
+        public bool EditComment(NewsComments comment)
         {
-            db.Entry(comment).State = EntityState.Modified;
-            db.SaveChanges();
+            try
+            {
+                db.Entry(comment).State = EntityState.Modified;
+                db.SaveChanges();
+                MvcApplication.logger.Info($"Comment {comment.Id} edited");
+                return true;
+            }
+            catch
+            {
+                MvcApplication.logger.Error(this.ToString() + "edit comment fail");
+                return false;
+            }
         }
 
-        public void DeleteComment(int id)
+        public bool DeleteComment(int id)
         {
-            NewsComments comment = GetCommentById(id);
-            db.NewsComments.Remove(comment);
-            db.SaveChanges();
+            try
+            {
+                NewsComments comment = GetCommentById(id);
+                db.NewsComments.Remove(comment);
+                db.SaveChanges();
+                MvcApplication.logger.Info($"Comment {comment.Id} deleted");
+                return true;
+            }
+            catch
+            {
+                MvcApplication.logger.Error(this.ToString() + "delete comment fail");
+                return false;
+            }
+          
         }
 
-        public void AddLike(int newsId)
+        public bool AddLike(int newsId)
         {
-            db.NewsLikes.Add(new NewsLikes { UserId = SecureCustomHelper.GetCurrentUserId(), NewsId = newsId});
-            db.SaveChanges();
+            try
+            {
+                db.NewsLikes.Add(new NewsLikes { UserId = SecureCustomHelper.GetCurrentUserId(), NewsId = newsId });
+                db.SaveChanges();
+                MvcApplication.logger.Info($"Favoite add to user {SecureCustomHelper.GetCurrentUserId()}, news {newsId}");
+                return true;
+            }
+            catch
+            {
+                MvcApplication.logger.Error(this.ToString() + "delete comment fail");
+                return false;
+            }
         }
 
-        public void DeleteLike(int newsId)
+        public bool DeleteLike(int newsId)
         {
-            int userId = SecureCustomHelper.GetCurrentUserId();
-            NewsLikes like = db.NewsLikes.Where(x => x.NewsId == newsId).Where(x => x.UserId == userId).First();
-            db.NewsLikes.Remove(like);
-            db.SaveChanges();
+            try
+            {
+                int userId = SecureCustomHelper.GetCurrentUserId();
+                NewsLikes like = db.NewsLikes.Where(x => x.NewsId == newsId).Where(x => x.UserId == userId).FirstOrDefault();
+                db.NewsLikes.Remove(like);
+                db.SaveChanges();
+                MvcApplication.logger.Info($"Favoite removed from user {SecureCustomHelper.GetCurrentUserId()}, news {newsId}");
+                return true;
+            }
+            catch
+            {
+                MvcApplication.logger.Error(this.ToString() + "delete comment fail");
+                return false;
+            }
         }
     }
 }

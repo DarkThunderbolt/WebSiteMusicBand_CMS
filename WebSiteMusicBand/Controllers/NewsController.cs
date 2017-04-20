@@ -31,6 +31,10 @@ namespace WebSiteMusicBand.Controllers
         public ActionResult ListLong(int id = 1)
         {
             PagingInfo pageInfo = new PagingInfo(_newsRepo.GetTotalNumberOfNews(), pageSizeForLong, id);
+            if(id> pageInfo.TotalPages)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             ViewBag.PageInfo = pageInfo;
             return View(_newsRepo.GetNewsPage(pageInfo));
         }
@@ -40,11 +44,13 @@ namespace WebSiteMusicBand.Controllers
         public ActionResult ListShort(int id = 1)
         {
             PagingInfo pageInfo = new PagingInfo(_newsRepo.GetTotalNumberOfNews(), pageSizeForShort, id);
+            if (id > pageInfo.TotalPages)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             ViewBag.PageInfo = pageInfo;
             return View(_newsRepo.GetNewsPage(pageInfo));
         }
-
-
 
         // GET: News/Details/newsId
         [HttpGet]
@@ -79,9 +85,15 @@ namespace WebSiteMusicBand.Controllers
         {
             if (ModelState.IsValid)
             {
-                _newsRepo.CreateNews(news);
-                MvcApplication.logger.Info($"News {news.Id} created ");
-                return RedirectToAction("Details", new { id = news.Id });
+                if (_newsRepo.CreateNews(news))
+                {
+                    return RedirectToAction("Details", new { id = news.Id });
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
+
             }
             return View(news);
         }
@@ -119,9 +131,14 @@ namespace WebSiteMusicBand.Controllers
             }
             if (ModelState.IsValid)
             {
-                _newsRepo.EditNews(news);
-                MvcApplication.logger.Info($"News {news.Id} edited");
-                return RedirectToAction("Details", new { id = news.Id });
+                if(_newsRepo.EditNews(news))
+                {
+                    return RedirectToAction("Details", new { id = news.Id });
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
             }
             return View(news);
         }
@@ -162,9 +179,14 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
-            _newsRepo.DeleteNews(id);
-            MvcApplication.logger.Info($"Member {id} deleted");
-            return RedirectToAction("Index");
+            if (_newsRepo.DeleteNews(id))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }            
         }
 
         // POST: News/PostComment/comment
@@ -175,11 +197,16 @@ namespace WebSiteMusicBand.Controllers
         {
             if (ModelState.IsValid)
             {
-                _newsRepo.AddComment(comment);
-                MvcApplication.logger.Info($"Comment {comment.Id} posted to news {comment.NewsId}");
-                return RedirectToAction("Details", new { id = comment.NewsId });
+                if(_newsRepo.AddComment(comment))
+                {
+                    return RedirectToAction("Details", new { id = comment.NewsId });
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
             }
-            return RedirectToAction("");
+            return View(comment);
         }
 
         // GET: News/DeleteComment/commentId
@@ -213,12 +240,16 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
-                _newsRepo.DeleteComment(comment.Id);
-                MvcApplication.logger.Info($"Comment {comment.Id} deleted");
-                return RedirectToAction("Details", new { id = comment.NewsId });
+                if(_newsRepo.DeleteComment(comment.Id))
+                {
+                    return RedirectToAction("Details", new { id = comment.NewsId });
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }              
             }
             return View(comment);
         }
@@ -256,9 +287,14 @@ namespace WebSiteMusicBand.Controllers
             }
             if (ModelState.IsValid)
             {
-                _newsRepo.EditComment(comment);
-                MvcApplication.logger.Info($"Comment {comment.Id} edited");
-                return RedirectToAction("Details", new { id = comment.NewsId });
+                if (_newsRepo.EditComment(comment))
+                {
+                    return RedirectToAction("Details", new { id = comment.NewsId });
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
             }
             return View(comment);
         }
@@ -269,8 +305,14 @@ namespace WebSiteMusicBand.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Like([Bind(Include = "NewsId")] NewsLikes like)
         {
-            _newsRepo.AddLike(like.NewsId);
-            return RedirectToAction("Details", new { id = like.NewsId });
+            if(_newsRepo.AddLike(like.NewsId))
+            {
+                return RedirectToAction("Details", new { id = like.NewsId });
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
         }
 
         // POST: News/Dislike/NewsLikes
@@ -279,8 +321,14 @@ namespace WebSiteMusicBand.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Dislike([Bind(Include = "NewsId")] NewsLikes like)
         {
-            _newsRepo.DeleteLike(like.NewsId);
-            return RedirectToAction("Details", new { id = like.NewsId });
+            if (_newsRepo.DeleteLike(like.NewsId))
+            {
+                return RedirectToAction("Details", new { id = like.NewsId });
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
         }
 
 

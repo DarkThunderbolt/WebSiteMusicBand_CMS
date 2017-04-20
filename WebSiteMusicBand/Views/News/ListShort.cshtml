@@ -33,7 +33,7 @@
         <div class="btn btn-default">
             @Html.ActionLink("Details", "Details", new { id = item.Id })
         </div>
-        @if (SecureCustomHelper.IsThisCurrentUserOrAdmin(item.CustomUsers))
+        @if (SecureCustomHelper.IsThisCurrentUserOrAdmin(item.UserId))
         {
             <div class="btn btn-default">
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id })
@@ -48,5 +48,5 @@
 }
 
 <div class="text-center">
-    @Html.PageLinks((PagingInfo)ViewBag.PageInfo, x => Url.Action("ListShort", new { page = x }))
+    @Html.PageLinks((PagingInfo)ViewBag.PageInfo, x => Url.Action("ListShort", new { id = x }))
 </div>

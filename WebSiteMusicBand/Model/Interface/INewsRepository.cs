@@ -16,17 +16,17 @@ namespace WebSiteMusicBand.Model
         /// Create new news
         /// </summary>
         /// <param name="news"></param>
-        void CreateNews(News news);
+        bool CreateNews(News news);
         /// <summary>
         /// Delete news
         /// </summary>
         /// <param name="newsId"></param>
-        void DeleteNews(int newsId);
+        bool DeleteNews(int newsId);
         /// <summary>
         /// Edit news
         /// </summary>
         /// <param name="news"></param>
-        void EditNews(News news);
+        bool EditNews(News news);
         /// <summary>
         /// Get news by newsId
         /// </summary>
@@ -47,15 +47,10 @@ namespace WebSiteMusicBand.Model
         /// <returns></returns>
         IEnumerable<NewsComments> GetNewsComments(int newsId);
         /// <summary>
-        /// Get total nubber of news in section news
+        /// Get total number of news in section news
         /// </summary>
         /// <returns></returns>
         int GetTotalNumberOfNews();
-        /// <summary>
-        /// Add new comment 
-        /// </summary>
-        /// <param name="comment"></param>
-        void AddComment(NewsComments comment);
         /// <summary>
         /// Get comment by his Id 
         /// </summary>
@@ -63,25 +58,30 @@ namespace WebSiteMusicBand.Model
         /// <returns></returns>
         NewsComments GetCommentById(int commentId);
         /// <summary>
+        /// Add new comment 
+        /// </summary>
+        /// <param name="comment"></param>
+        bool AddComment(NewsComments comment);
+        /// <summary>
         /// Edit comment
         /// </summary>
         /// <param name="comment"></param>
-        void EditComment(NewsComments comment);
+        bool EditComment(NewsComments comment);
         /// <summary>
         /// Delete comment
         /// </summary>
         /// <param name="commentId"></param>
-        void DeleteComment(int commentId);
+        bool DeleteComment(int commentId);
         /// <summary>
         /// Add news in current user favorites
         /// </summary>
         /// <param name="likeId"></param>
-        void AddLike(int likeId);
+        bool AddLike(int likeId);
         /// <summary>
         /// Remove news from current user favorites
         /// </summary>
         /// <param name="likeId"></param>
-        void DeleteLike(int likeId);
+        bool DeleteLike(int likeId);
 
         void Dispose();//?! VD Do I need it?
     }

@@ -19,7 +19,10 @@
 
 
         <a href=@Url.Action("Details", "Members", new { id = item.Id })>
-            <img class= "myImg2" src=@Url.Content(@"~/Content/Upload/Members/"+item.NewsAdditionalInfo.Info)>
+            @if (item.NewsAdditionalInfo != null)
+            {
+                <img class="myImg2" src=@Url.Content(@"~/Content/Upload/Members/"+item.NewsAdditionalInfo.Info)>
+            }
             <h2 class="post-title">
                 @Html.DisplayFor(modelItem => item.Title)
             </h2>
@@ -33,7 +36,7 @@
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </div>
         }
-        <hr color="black" >
+        <hr color="black">
     </div>
-    <hr  noshade size=2>
+    <hr noshade size=2>
 }
