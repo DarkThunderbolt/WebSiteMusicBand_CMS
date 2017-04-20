@@ -100,7 +100,7 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers))
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers.Id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
@@ -113,7 +113,7 @@ namespace WebSiteMusicBand.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,TextContent,CreateDate,UserId,NewsSectionId")] News news)
         {
-            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers))
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers.Id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
@@ -140,7 +140,7 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers))
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers.Id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
@@ -158,7 +158,7 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers))
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers.Id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
@@ -196,7 +196,7 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(comment.CustomUsers))
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(comment.CustomUsers.Id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
@@ -237,7 +237,7 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(comment.CustomUsers))
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(comment.CustomUsers.Id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }

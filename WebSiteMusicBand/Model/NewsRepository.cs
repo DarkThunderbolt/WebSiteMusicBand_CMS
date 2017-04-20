@@ -14,7 +14,7 @@ namespace WebSiteMusicBand.Model
 
         public IEnumerable<News> SelectedNews { get { return newsSection.News.OrderBy(n => n.CreateDate); } }
 
-        public NewsRepository(string section)
+        public NewsRepository(string section) //!? VD How set it in interface for being in all inteface implementations
         {
             newsSection = db.NewsSection.Where(n => n.Name == section).First();
         }

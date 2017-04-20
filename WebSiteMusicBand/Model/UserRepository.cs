@@ -17,7 +17,7 @@ namespace WebSiteMusicBand.Model
         {
             get
             {
-                return HttpContext.Current.User.Identity.GetUserId<int>();
+                return SecureCustomHelper.GetCurrentUserId(); //!? VD 
             }
 
         }
@@ -32,7 +32,7 @@ namespace WebSiteMusicBand.Model
         {
             get
             {
-                return db.CustomUsers.Find(CurrentIdentityID);
+                return SecureCustomHelper.GetCurrentCustomUser();
             }
         }
 
