@@ -610,6 +610,7 @@
     <Content Include="Views\History\Details.cshtml" />
     <Content Include="Views\History\Edit.cshtml" />
     <Content Include="Views\History\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\Asp_deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<WebSiteMusicBand.Model.News>
+
+@{
+    ViewBag.Title = "Short List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Request.LogonUserIdentity.IsAuthenticated)
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+
+
+@foreach (var item in Model)
+{
+    <div class="post-preview text-center">
+
+        <a href=@Url.Action("Details", "News", new { id = item.Id })>
+            <h2 class="post-title">
+                @Html.DisplayFor(modelItem => item.Title)
+            </h2>
+            @*<h3 class="post-subtitle">
+                    @Html.DisplayFor(modelItem => item.TextContent).ToString().Substring(0, 20)
+                </h3>*@
+        </a>
+        <p class="post-meta">
+            Posted by
+            @Html.DisplayFor(modelItem => item.CustomUsers.ForumName)
+            @Html.DisplayFor(modelItem => item.CreateDate)
+        </p>
+        <div class="btn btn-default">
+            @Html.ActionLink("Details", "Details", new { id = item.Id })
+        </div>
+        @if (SecureCustomHelper.IsThisCurrentUserOrAdmin(item.UserId))
+        {
+            <div class="btn btn-default">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+            </div>
+            <div class="btn btn-default">
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </div>
+        }
+    </div>
+    <hr  noshade size=2> 
+
+}
+
+<div class="text-center">
+    @Html.PageLinks((PagingInfo)ViewBag.PageInfo, x => Url.Action("ListShort", new { id = x }))
+</div>
