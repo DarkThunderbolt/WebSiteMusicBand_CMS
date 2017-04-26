@@ -22,10 +22,9 @@ _UpgradeReport_Files/
 ###############
 # Directories #
 ###############
-WebSiteMusicBand/bin/
-WebSiteMusicBand/obj/
-TestResults/
-packages/
+/WbSiteMusicBand/bin/
+/WebSiteMusicBand/obj/
+/packages/
 ###################
 # Web publish log #
 ###################
