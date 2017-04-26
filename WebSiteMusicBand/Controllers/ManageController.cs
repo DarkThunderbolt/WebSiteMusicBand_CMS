@@ -25,7 +25,6 @@ namespace WebSiteMusicBand.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            MvcApplication.logger.Info("Create Manage Controller");
         }
 
         public ApplicationSignInManager SignInManager

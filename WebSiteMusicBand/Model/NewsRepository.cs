@@ -31,9 +31,9 @@ namespace WebSiteMusicBand.Model
                 MvcApplication.logger.Info($"News {news.Id} created ");
                 return true;
             }
-            catch (Exception e)
+            catch
             {
-                MvcApplication.logger.Error(this.ToString() + "create news fail/ Ex: " + e.ToString());
+                MvcApplication.logger.Error(this.ToString() + "create news fail");
                 return false;
             }
         }
@@ -49,9 +49,9 @@ namespace WebSiteMusicBand.Model
                 MvcApplication.logger.Info($"news {newsId} deleted");
                 return true;
             }
-            catch (Exception e)
+            catch
             {
-                MvcApplication.logger.Error(this.ToString() + "delete news fail/ Ex: " + e.ToString());
+                MvcApplication.logger.Error(this.ToString() + "delete news fail");
                 return false;
             }
         }
@@ -65,9 +65,9 @@ namespace WebSiteMusicBand.Model
                 MvcApplication.logger.Info($"News {news.Id} edited");
                 return true;
             }
-            catch(Exception e)
+            catch
             {
-                MvcApplication.logger.Error(this.ToString() + "edit news fail/ Ex: " + e.ToString());
+                MvcApplication.logger.Error(this.ToString() + "edit news fail");
                 return false;
             }
         }
@@ -114,12 +114,13 @@ namespace WebSiteMusicBand.Model
                 MvcApplication.logger.Info($"Comment {comment.Id} posted to news {comment.NewsId}");
                 return true;
             }
-            catch(Exception e)
+            catch
             {
-                MvcApplication.logger.Error(this.ToString() + "add comment fail/ Ex: "+ e.ToString());
+                MvcApplication.logger.Error(this.ToString() + "add comment fail");
                 return false;
             }
         }
+
 
         public NewsComments GetCommentById(int id)
         {
@@ -135,9 +136,9 @@ namespace WebSiteMusicBand.Model
                 MvcApplication.logger.Info($"Comment {comment.Id} edited");
                 return true;
             }
-            catch (Exception e)
+            catch
             {
-                MvcApplication.logger.Error(this.ToString() + "edit comment fail/ Ex: " + e.ToString());
+                MvcApplication.logger.Error(this.ToString() + "edit comment fail");
                 return false;
             }
         }
@@ -152,9 +153,9 @@ namespace WebSiteMusicBand.Model
                 MvcApplication.logger.Info($"Comment {comment.Id} deleted");
                 return true;
             }
-            catch (Exception e)
+            catch
             {
-                MvcApplication.logger.Error(this.ToString() + "delete comment fail/ Ex: " + e.ToString());
+                MvcApplication.logger.Error(this.ToString() + "delete comment fail");
                 return false;
             }
           
@@ -169,9 +170,9 @@ namespace WebSiteMusicBand.Model
                 MvcApplication.logger.Info($"Favoite add to user {SecureCustomHelper.GetCurrentUserId()}, news {newsId}");
                 return true;
             }
-            catch (Exception e)
+            catch
             {
-                MvcApplication.logger.Error(this.ToString() + "delete comment failg/ Ex: " + e.ToString());
+                MvcApplication.logger.Error(this.ToString() + "delete comment fail");
                 return false;
             }
         }
@@ -187,12 +188,11 @@ namespace WebSiteMusicBand.Model
                 MvcApplication.logger.Info($"Favoite removed from user {SecureCustomHelper.GetCurrentUserId()}, news {newsId}");
                 return true;
             }
-            catch(Exception e)
+            catch
             {
-                MvcApplication.logger.Error(this.ToString() + "delete comment failg/ Ex: " + e.ToString());
-
+                MvcApplication.logger.Error(this.ToString() + "delete comment fail");
                 return false;
             }
         }
     }
-}            
+}

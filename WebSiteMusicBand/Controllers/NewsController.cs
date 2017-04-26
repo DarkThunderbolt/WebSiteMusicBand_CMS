@@ -15,15 +15,10 @@ namespace WebSiteMusicBand.Controllers
     public class NewsController : Controller
     {
         [Inject]
-        private INewsRepository _newsRepo;
+        INewsRepository _newsRepo;
 
         private int pageSizeForShort = 3;
         private int pageSizeForLong = 10;
-
-        public NewsController()
-        {
-            MvcApplication.logger.Info("Create News Controller");
-        }
 
         public NewsController(INewsRepository news)
         {
@@ -130,7 +125,7 @@ namespace WebSiteMusicBand.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,TextContent,CreateDate,UserId,NewsSectionId")] News news)
         {
-            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.UserId))
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers.Id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
@@ -173,7 +168,7 @@ namespace WebSiteMusicBand.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
             var news = _newsRepo.GetNewsById(id);
             if (news == null)
@@ -186,7 +181,7 @@ namespace WebSiteMusicBand.Controllers
             }
             if (_newsRepo.DeleteNews(id))
             {
-                return RedirectToAction("");
+                return RedirectToAction("Index");
             }
             else
             {

@@ -564,9 +564,7 @@
     <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\News\ListLong.cshtml" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.json" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
@@ -612,7 +610,6 @@
     <Content Include="Views\History\Details.cshtml" />
     <Content Include="Views\History\Edit.cshtml" />
     <Content Include="Views\History\Index.cshtml" />
-    <None Include="Properties\PublishProfiles\musicbandsite.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

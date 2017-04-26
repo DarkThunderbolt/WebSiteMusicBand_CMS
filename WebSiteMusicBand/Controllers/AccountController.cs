@@ -17,18 +17,13 @@ namespace WebSiteMusicBand.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private IUserRepository _usersRepo;
+        private IUserRepository _repo;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
         public AccountController()
         {
-            MvcApplication.logger.Info("Create Account Controller");
-        }
-
-        public AccountController(IUserRepository repo)
-        {
-            _usersRepo = repo;
+            _repo = new UserRepository();
             MvcApplication.logger.Info("Create Account Controller");
         }
 
@@ -453,13 +448,13 @@ namespace WebSiteMusicBand.Controllers
             int userId;
             if (id == null)
             {
-                userId = _usersRepo.CurrentIdentityID;
+                userId = _repo.CurrentIdentityID;
             }
             else
             {
                 userId = (int)id;
             }
-            CustomUsers user = _usersRepo.GetCustomUserById(userId);
+            CustomUsers user = _repo.GetCustomUserById(userId);
             return View(user);
         }
 
@@ -468,24 +463,22 @@ namespace WebSiteMusicBand.Controllers
         [Authorize]
         public ActionResult Edit()
         {
-            return View(SecureCustomHelper.GetCurrentCustomUser());
+            return View(_repo.GetCurrenCustomtUser);
         }
 
         [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Birthday,FirstName,LastName,ForumName,AvatarLink")] CustomUsers user)
         {
             if (ModelState.IsValid)
             {
-                _usersRepo.EditCustomUser(user);
+                _repo.EditCustomUser(user);
             }
             return View(user);
         }
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public ActionResult SetAdmin([Bind(Include = "Id")] CustomUsers user)
         {
 
@@ -495,7 +488,6 @@ namespace WebSiteMusicBand.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public ActionResult RemoveAdmin([Bind(Include = "Id")] CustomUsers user)
         {
 
@@ -506,7 +498,6 @@ namespace WebSiteMusicBand.Controllers
 
         [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryToken]
         public ActionResult FileUpload(HttpPostedFileBase file)
         {
             if (file != null)
@@ -514,22 +505,22 @@ namespace WebSiteMusicBand.Controllers
                 string pic = Path.GetFileName(file.FileName);
                 string path = Path.Combine(
                                        Server.MapPath("~/Content/Upload/Profile"), pic);
+                // file is uploaded
+                file.SaveAs(path);
 
-                
-                if (_usersRepo.UpdateAvatar("~/Content/Upload/Profile/"+ pic))
-                {
-                    file.SaveAs(path);
-                    MvcApplication.logger.Info("file upload on " + path);
-                }
-                else
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                }
-                 
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                //using (MemoryStream ms = new MemoryStream())
+                //{
+                //    file.InputStream.CopyTo(ms);
+                //    byte[] array = ms.GetBuffer();
+                //}
+                _repo.UpdateAvatar("~/Content/Upload/Profile/" + pic);
 
             }
             // after successfully uploading redirect the user
-            return RedirectToAction("Details", "Account");
+            return RedirectToAction("Edit", "Account");
         }
 
 
