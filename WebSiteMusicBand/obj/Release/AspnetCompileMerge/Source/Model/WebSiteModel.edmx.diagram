@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4bcc2e596a714e568ba803803c953d1e" Name="Diagram1">
+        <EntityTypeShape EntityType="MusicBandSiteDBModel.CustomUsers" Width="1.5" PointX="7.5" PointY="2.375" />
+        <EntityTypeShape EntityType="MusicBandSiteDBModel.ForumMessagesInPost" Width="1.5" PointX="5.125" PointY="4.5" />
+        <EntityTypeShape EntityType="MusicBandSiteDBModel.ForumPosts" Width="1.5" PointX="5.125" PointY="1.5" />
+        <EntityTypeShape EntityType="MusicBandSiteDBModel.ForumSections" Width="1.5" PointX="2.75" PointY="2.375" />
+        <EntityTypeShape EntityType="MusicBandSiteDBModel.News" Width="1.5" PointX="12.875" PointY="3" />
+        <EntityTypeShape EntityType="MusicBandSiteDBModel.NewsComments" Width="1.5" PointX="10.375" PointY="4.625" />
+        <EntityTypeShape EntityType="MusicBandSiteDBModel.NewsLikes" Width="1.5" PointX="10.375" PointY="1.625" />
+        <EntityTypeShape EntityType="MusicBandSiteDBModel.NewsSection" Width="1.5" PointX="15.125" PointY="3.5" />
+        <AssociationConnector Association="MusicBandSiteDBModel.FK_ForumMessagesInPost_CustomUsers" />
+        <AssociationConnector Association="MusicBandSiteDBModel.FK_ForumPosts_CustomUsers1" />
+        <AssociationConnector Association="MusicBandSiteDBModel.FK_News_CustomUsers" />
+        <AssociationConnector Association="MusicBandSiteDBModel.FK_NewsComments_CustomUsers" />
+        <AssociationConnector Association="MusicBandSiteDBModel.FK_NewsLikes_CustomUsers" />
+        <AssociationConnector Association="MusicBandSiteDBModel.FK_ForumMessages_ForumPosts" />
+        <AssociationConnector Association="MusicBandSiteDBModel.FK_ForumPosts_ForumSections" />
+        <AssociationConnector Association="MusicBandSiteDBModel.FK_News_NewsSection" />
+        <AssociationConnector Association="MusicBandSiteDBModel.FK_NewsComments_News" />
+        <AssociationConnector Association="MusicBandSiteDBModel.FK_NewsLikes_News" />
+        <EntityTypeShape EntityType="MusicBandSiteDBModel.NewsAdditionalInfo" Width="1.5" PointX="15.125" PointY="6.75" />
+        <AssociationConnector Association="MusicBandSiteDBModel.FK_NewsAdditionalInfo_News" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

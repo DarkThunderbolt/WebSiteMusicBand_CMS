@@ -12,13 +12,19 @@ namespace WebSiteMusicBand.Controllers
     public class HistoryController : Controller
     {
         [Inject]
-        INewsRepository _newsRepo;
+        private INewsRepository _newsRepo;
+
+        public HistoryController()
+        {
+            MvcApplication.logger.Info("Created History Controller");
+        }
 
         public HistoryController(INewsRepository news)
         {
             _newsRepo = news;
             MvcApplication.logger.Info("Created History Controller");
         }
+
 
         // GET: Members
         [HttpGet]

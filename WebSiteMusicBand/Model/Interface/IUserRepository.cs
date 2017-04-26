@@ -17,11 +17,11 @@ namespace WebSiteMusicBand.Model
         /// <summary>
         /// Return current identity user
         /// </summary>
-        ApplicationUser CurrentIdentityUser { get; }
+        //ApplicationUser CurrentIdentityUser { get; }
         /// <summary>
         ///  Return current custom user
         /// </summary>
-        CustomUsers GetCurrenCustomtUser { get; }
+        //CustomUsers GetCurrenCustomtUser { get; }
         /// <summary>
         /// Return all Users
         /// </summary>
@@ -36,11 +36,11 @@ namespace WebSiteMusicBand.Model
         /// Change custom user
         /// </summary>
         /// <param name="user"></param>
-        void EditCustomUser(CustomUsers user);
+        bool EditCustomUser(CustomUsers user);
         /// <summary>
         /// Change avatar 
         /// </summary>
         /// <param name="path"></param>
-        void UpdateAvatar(string path);
+        bool UpdateAvatar(string path);
     }
 }

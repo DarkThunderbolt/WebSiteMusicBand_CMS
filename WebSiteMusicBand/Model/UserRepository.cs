@@ -21,20 +21,6 @@ namespace WebSiteMusicBand.Model
             }
 
         }
-        public ApplicationUser CurrentIdentityUser
-        {
-            get
-            {
-                return HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(CurrentIdentityID);
-            }
-        }
-        public CustomUsers GetCurrenCustomtUser
-        {
-            get
-            {
-                return SecureCustomHelper.GetCurrentCustomUser();
-            }
-        }
 
         public IEnumerable<CustomUsers> GetAllUsers
         {
@@ -49,17 +35,44 @@ namespace WebSiteMusicBand.Model
             return db.CustomUsers.Where(n => n.Id == id).FirstOrDefault();
         }
 
-        public void EditCustomUser(CustomUsers user)
+        public bool EditCustomUser(CustomUsers user)
         {
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
+            try
+            {
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+                MvcApplication.logger.Info($"Custom user {user.Id} edited");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+       
         }
 
-        public void UpdateAvatar(string path)
+        public bool UpdateAvatar(string path)
         {
-            db.CustomUsers.Find(CurrentIdentityID).AvatarLink = path;
-            db.Entry(GetCurrenCustomtUser).State = EntityState.Modified;
-            db.SaveChanges();
+            try
+            {
+                int id = SecureCustomHelper.GetCurrentUserId();
+                CustomUsers user = db.CustomUsers.Where(x => x.Id == id).FirstOrDefault();
+                if(user==null)
+                {
+                    return false;
+                }
+                user.AvatarLink = path;
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges(); 
+                MvcApplication.logger.Info($"Custom user {SecureCustomHelper.GetCurrentUserId()} avatar edited");
+                return true;
+            }
+            
+            catch(Exception e)
+            {
+                MvcApplication.logger.Error($"Error while custom user {SecureCustomHelper.GetCurrentUserId()} avatar editing/ Ex: "+ e.ToString());
+                return false;
+            }
         }
     }
 }

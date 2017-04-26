@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="musicbandsite" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^E:\\Projects\\GitHub\\WebSiteMusicBand_CMS\\WebSiteMusicBand\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^E:\\Projects\\GitHub\\WebSiteMusicBand_CMS\\WebSiteMusicBand\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="MusicBandSiteDB-Web.config Connection String" description="MusicBandSiteDB Connection String used in web.config by the application to access the database." value="metadata=res://*/Model.WebSiteModel.csdl|res://*/Model.WebSiteModel.ssdl|res://*/Model.WebSiteModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=mymusicdbinst.cmrp1ccgb7t3.eu-central-1.rds.amazonaws.com,1433;Initial Catalog=MusicBandDB;Persist Security Info=True;User ID=Dald18;Password=11021994;Connection Timeout=100&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="E:\\Projects\\GitHub\\WebSiteMusicBand_CMS\\WebSiteMusicBand\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='MusicBandSiteDB']/@connectionString" />
+  </parameter>
+  <parameter name="MusicBandSiteIdenIdentity-Web.config Connection String" description="MusicBandSiteIdenIdentity Connection String used in web.config by the application to access the database." value="Data Source=mymusicdbinst.cmrp1ccgb7t3.eu-central-1.rds.amazonaws.com,1433;Initial Catalog=MusicBandDB;Persist Security Info=True;User ID=Dald18;Password=11021994;Connection Timeout=100" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="E:\\Projects\\GitHub\\WebSiteMusicBand_CMS\\WebSiteMusicBand\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='MusicBandSiteIdenIdentity']/@connectionString" />
+  </parameter>
+</parameters>

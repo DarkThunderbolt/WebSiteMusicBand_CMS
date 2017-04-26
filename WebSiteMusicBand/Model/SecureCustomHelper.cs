@@ -12,13 +12,13 @@ namespace WebSiteMusicBand.Model
     public static class SecureCustomHelper
     {
         /// <summary>
-        /// Do checking user is current user or in admin role
+        /// Do checking user is current user or currenr user in admin role
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         public static bool IsThisCurrentUserOrAdmin(int userId)
         {
-            if (userId == HttpContext.Current.User.Identity.GetUserId<int>() || HttpContext.Current.User.IsInRole("admin"))
+            if (userId == GetCurrentUserId() || HttpContext.Current.User.IsInRole("admin"))
             {
                 return true;
             }

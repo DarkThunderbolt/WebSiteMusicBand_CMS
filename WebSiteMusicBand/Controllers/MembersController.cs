@@ -12,7 +12,12 @@ namespace WebSiteMusicBand.Controllers
     public class MembersController : Controller
     {
         [Inject]
-        INewsRepository _newsRepo;
+        private INewsRepository _newsRepo;
+
+        public MembersController()
+        {
+            MvcApplication.logger.Info("Created Members Controller");
+        }
 
         public MembersController( INewsRepository news)
         {
