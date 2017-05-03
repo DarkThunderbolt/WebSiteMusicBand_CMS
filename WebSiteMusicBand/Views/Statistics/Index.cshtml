@@ -1,0 +1,53 @@
+﻿@model StatViewM
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>Statisics</h2>
+
+@using (Html.BeginForm("StatForAll", "Statistics"))
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.From, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.From, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.From, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.To, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.To, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.To, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Statisics for all user in period" class="btn btn-default" />
+        </div>
+    </div>
+}
+<br />
+
+@using (Html.BeginForm("StatForSelectUser", "Statistics"))
+{
+    @Html.LabelFor(m => m.SelectedUserId)<p/>
+    @Html.DropDownListFor(m => m.SelectedUserId, Model.Users)
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Stat for selected user" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<br />
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10 btn btn-default">
+        @Html.ActionLink("User stat table","StatTable")
+    </div>
+</div>
