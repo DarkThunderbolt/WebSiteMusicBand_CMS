@@ -33,10 +33,6 @@ namespace WebSiteMusicBand.Controllers
         // GET: Statistics
         public ActionResult StatForAll(DateTime? from, DateTime? to)
         {
-            if (from == null || to == null)
-            {
-                //return error
-            }
             DrawChart(from,to);
 
             return View();
@@ -68,7 +64,6 @@ namespace WebSiteMusicBand.Controllers
         [HttpPost]
         public ActionResult ExportData()
         {
-
             List<TableViewM> model = new List<TableViewM>();
             foreach (CustomUsers item in db.CustomUsers.OrderBy(x => x.News.Count))
             {
@@ -120,18 +115,20 @@ namespace WebSiteMusicBand.Controllers
 
         private void DrawChart(DateTime? from , DateTime? to,int? userId=null)
         {
-            IQueryable<News> newsPosts;
+            IQueryable<News> newsPosts ;
             IQueryable<NewsComments> newsComments;
-            if (from == null || to == null)
+            if (from == null )
             {
-                newsPosts = db.News;
-                newsComments = db.NewsComments;
+                from = db.News.FirstOrDefault().CreateDate;
             }
-            else
+            if(to == null)
             {
-                newsPosts = db.News.Where(x => x.CreateDate > from && x.CreateDate < to);
-                newsComments = db.NewsComments.Where(x => x.CreateDate > from && x.CreateDate < to);
+                to = DateTime.Now;
             }
+
+            newsPosts = db.News.Where(x => x.CreateDate > from && x.CreateDate < to);
+            newsComments = db.NewsComments.Where(x => x.CreateDate > from && x.CreateDate < to);
+
             if(userId != null)
             {
                 newsPosts = newsPosts.Where(x => x.UserId == userId);
@@ -164,29 +161,13 @@ namespace WebSiteMusicBand.Controllers
                 }
             }
 
-
-
-            if (from != null || to != null || userId != null)
+            if (commDic.Count == 0)
             {
-                if (commDic.Count == 0)
-                {
-                    commDic.Add((DateTime)from, 0);
-                }
-                if (newsDic.Count == 0)
-                {
-                    newsDic.Add((DateTime)from, 0);
-                }
+                commDic.Add(DateTime.Today, 0);
             }
-            if ( userId != null)
+            else if (newsDic.Count == 0)
             {
-                if (commDic.Count == 0)
-                {
-                    commDic.Add(DateTime.Today, 0);
-                }
-                if (newsDic.Count == 0)
-                {
-                    newsDic.Add(DateTime.Today, 0);
-                }
+                newsDic.Add(DateTime.Today, 0);
             }
             else
             {
@@ -207,6 +188,9 @@ namespace WebSiteMusicBand.Controllers
                     commDic.Add(newsDic.Keys.Min(), 0);
                 }
             }
+
+
+
 
             commDic = commDic.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
             newsDic = newsDic.OrderBy(x => x.Key).ToDictionary(x=>x.Key,x=>x.Value);

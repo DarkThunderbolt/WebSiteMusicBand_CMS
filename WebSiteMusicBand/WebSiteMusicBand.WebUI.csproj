@@ -322,6 +322,7 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\AWS.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -388,15 +389,13 @@
     <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-yell.gif" />
     <Content Include="Scripts\tinymce\plugins\emoticons\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\emoticons\plugin.min.js" />
-    <Content Include="Scripts\tinymce\plugins\example\dialog.html" />
-    <Content Include="Scripts\tinymce\plugins\example\plugin.js" />
-    <Content Include="Scripts\tinymce\plugins\example\plugin.min.js" />
-    <Content Include="Scripts\tinymce\plugins\example_dependency\plugin.js" />
-    <Content Include="Scripts\tinymce\plugins\example_dependency\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\fullpage\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\fullpage\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\fullscreen\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\fullscreen\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\help\img\logo.png" />
+    <Content Include="Scripts\tinymce\plugins\help\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\help\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\hr\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\hr\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\imagetools\plugin.js" />
@@ -446,25 +445,6 @@
     <Content Include="Scripts\tinymce\plugins\toc\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\toc\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\visualblocks\css\visualblocks.css" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\address.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\article.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\aside.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\blockquote.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\div.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\dl.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\figure.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h1.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h2.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h3.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h4.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h5.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h6.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\hgroup.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\ol.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\p.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\pre.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\section.gif" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\img\ul.gif" />
     <Content Include="Scripts\tinymce\plugins\visualblocks\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\visualblocks\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\visualchars\plugin.js" />
@@ -479,7 +459,6 @@
     <Content Include="Scripts\tinymce\skins\lightgray\img\loader.gif" />
     <Content Include="Scripts\tinymce\skins\lightgray\img\object.gif" />
     <Content Include="Scripts\tinymce\skins\lightgray\img\trans.gif" />
-    <Content Include="Scripts\tinymce\skins\lightgray\skin.ie7.min.css" />
     <Content Include="Scripts\tinymce\skins\lightgray\skin.min.css" />
     <Content Include="Scripts\tinymce\themes\inlite\theme.js" />
     <Content Include="Scripts\tinymce\themes\inlite\theme.min.js" />
@@ -645,9 +624,6 @@
     <Content Include="Views\Statistics\StatTable.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.json" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.json" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -7,7 +7,9 @@
 }
 
 <h2>Statisics</h2>
-
+<br />
+<h3>Stat. for all user in period</h3>
+<h6>Dont input time if yoi you want to view sta. for all time </h6>
 @using (Html.BeginForm("StatForAll", "Statistics"))
 {
     <div class="form-group">
@@ -25,29 +27,28 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Statisics for all user in period" class="btn btn-default" />
-        </div>
+
+            <input type="submit" value="View" class="btn btn-default" />
+
     </div>
 }
 <br />
-
+<h2>Stat. for selected user</h2>
 @using (Html.BeginForm("StatForSelectUser", "Statistics"))
 {
-    @Html.LabelFor(m => m.SelectedUserId)<p/>
-    @Html.DropDownListFor(m => m.SelectedUserId, Model.Users)
-
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Stat for selected user" class="btn btn-default" />
+        @Html.LabelFor(m => m.SelectedUserId)
+        <div class="col">
+            @Html.DropDownListFor(m => m.SelectedUserId, Model.Users)
         </div>
+    </div>
+    <div class="form-group">
+       <input type="submit" value="View" class="btn btn-default" />
     </div>
 }
 
 <br />
-
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10 btn btn-default">
-        @Html.ActionLink("User stat table","StatTable")
-    </div>
+<h2>Users stat in table</h2>
+<div class="form-group btn btn-default">
+    @Html.ActionLink("View", "StatTable")
 </div>
