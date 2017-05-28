@@ -31,40 +31,42 @@
     </div>
 </article>
 
-@if (SecureCustomHelper.IsThisCurrentUserOrAdmin(NewsModel.UserId))
-{
-    <div class="btn btn-default myRight">
-        @Html.ActionLink("Edit", "Edit", new { id = NewsModel.Id })
-    </div>
-    <div class="btn btn-default myRight">
-        @Html.ActionLink("Delete", "Delete", new { id = NewsModel.Id })
-    </div>
-}
+    @if (SecureCustomHelper.IsThisCurrentUserOrAdmin(NewsModel.UserId))
+    {
+        <div class="btn btn-default myRight">
+            @Html.ActionLink("Edit", "Edit", new { id = NewsModel.Id })
+        </div>
+        <div class="btn btn-default myRight">
+            @Html.ActionLink("Delete", "Delete", new { id = NewsModel.Id })
+        </div>
+    }
+
 
 <div class="btn btn-default" style="float:left">
     @Html.ActionLink("Back", "")
 </div>
-
-@if (NewsModel.NewsLikes.Where(x => x.UserId == SecureCustomHelper.GetCurrentUserId()).Count() == 0)
+@if (Request.IsAuthenticated)
 {
-
-    using (Html.BeginForm("Like", "News", FormMethod.Post))
+    if (NewsModel.NewsLikes.Where(x => x.UserId == SecureCustomHelper.GetCurrentUserId()).Count() == 0)
     {
-        @Html.AntiForgeryToken()
-        @Html.Hidden("NewsId", NewsModel.Id)
-        <input type="submit" value="Add to favorite" class="btn btn-default" />
+        using (Html.BeginForm("Like", "News", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("NewsId", NewsModel.Id)
+            <input type="submit" value="Add to favorite" class="btn btn-default" />
+        }
     }
-
-}
-else
-{
-    using (Html.BeginForm("Dislike", "News", FormMethod.Post))
+    else
     {
-        @Html.AntiForgeryToken()
-        @Html.Hidden("NewsId", NewsModel.Id)
-        <input type="submit" value="Remove fromn favorite" class="btn btn-default" />
+        using (Html.BeginForm("Dislike", "News", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("NewsId", NewsModel.Id)
+            <input type="submit" value="Remove fromn favorite" class="btn btn-default" />
+        }
     }
 }
+
 
 <hr />
 

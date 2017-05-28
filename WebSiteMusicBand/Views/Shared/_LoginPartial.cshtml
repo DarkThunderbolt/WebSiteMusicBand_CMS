@@ -6,11 +6,11 @@
     {
         @Html.AntiForgeryToken()
         
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" >
             <li>
-                @Html.ActionLink(User.Identity.GetUserName(), "Details", "Account")
+                @Html.ActionLink(SecureCustomHelper.GetCurrentCustomUser().ForumName, "Details", "Account")
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()" class="m123">Log off</a></li>
         </ul>
     }
 }

@@ -25,12 +25,23 @@
                 <li>
                     @Html.ActionLink("Members", "Index", "Members")
                 </li>
+
+                @if (Request.LogonUserIdentity.IsAuthenticated)
+                {
                 <li>
-                    @Html.ActionLink("Statistics", "Index", "Statistics")
+                    @Html.ActionLink("Chat", "Index", "Chat")
                 </li>
+                }
+                @if (SecureCustomHelper.IsCurrenAdmin())
+                {
+                    <li>
+                        @Html.ActionLink("Stat.", "Index", "Statistics")
+                    </li>
+                }
+
                 @*<li>
-                    @Html.ActionLink("Contact Us", "Index", "Home")
-                </li>*@
+                @Html.ActionLink("Contact Us", "Index", "Home")
+            </li>*@
             </ul>
         </div>
         <!-- /.navbar-collapse -->
