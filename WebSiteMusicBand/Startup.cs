@@ -10,8 +10,6 @@ namespace WebSiteMusicBand
         {
             ConfigureAuth(app);
             MvcApplication.logger.Trace("Configuration Owin Startup");
-            // Register the default hubs route: ~/signalr/hubs
-            app.MapSignalR();
         }
     }
 }

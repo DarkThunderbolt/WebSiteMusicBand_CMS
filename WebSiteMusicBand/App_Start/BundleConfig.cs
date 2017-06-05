@@ -38,8 +38,6 @@ namespace WebSiteMusicBand
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Content/JS/UserAuth//bootstrap.js",
                       "~/Content/JS/UserAuth//respond.js"));
-
-         
         }
     }
 }

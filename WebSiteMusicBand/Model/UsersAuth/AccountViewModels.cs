@@ -88,10 +88,10 @@ namespace WebSiteMusicBand.Model
         public string LastName { get; set; }
 
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Name must be 3 to 100 char")]
+        [Required(ErrorMessage = "Forum name is required")]
         public string ForumName { get; set; }
 
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "The birthday is required")]
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Birthday { get; set; }
     }

@@ -1639,9 +1639,7 @@ define(
       editor.on('init', function () {
         setupCommands(editor);
         setupStateHandlers(editor);
-        if (editor.getParam('lists_indent_on_tab', true)) {
-          setupTabKey(editor);
-        }
+        setupTabKey(editor);
       });
 
       return {
