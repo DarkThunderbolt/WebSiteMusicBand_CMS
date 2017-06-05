@@ -17,8 +17,6 @@ namespace WebSiteMusicBand.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CustomUsers()
         {
-            this.ForumMessagesInPost = new HashSet<ForumMessagesInPost>();
-            this.ForumPosts = new HashSet<ForumPosts>();
             this.News = new HashSet<News>();
             this.NewsComments = new HashSet<NewsComments>();
             this.NewsLikes = new HashSet<NewsLikes>();
@@ -31,10 +29,6 @@ namespace WebSiteMusicBand.Model
         public string LastName { get; set; }
         public string ForumName { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ForumMessagesInPost> ForumMessagesInPost { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ForumPosts> ForumPosts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<News> News { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

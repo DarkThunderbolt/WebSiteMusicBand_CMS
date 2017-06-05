@@ -13,10 +13,10 @@ namespace WebSiteMusicBand.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MusicBandSiteDB : DbContext
+    public partial class MusicBandDB_AlbumsPart : DbContext
     {
-        public MusicBandSiteDB()
-            : base("name=MusicBandSiteDB")
+        public MusicBandDB_AlbumsPart()
+            : base("name=MusicBandDB_AlbumsPart")
         {
         }
     
@@ -25,11 +25,7 @@ namespace WebSiteMusicBand.Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<CustomUsers> CustomUsers { get; set; }
-        public virtual DbSet<News> News { get; set; }
-        public virtual DbSet<NewsComments> NewsComments { get; set; }
-        public virtual DbSet<NewsLikes> NewsLikes { get; set; }
-        public virtual DbSet<NewsSection> NewsSection { get; set; }
-        public virtual DbSet<NewsAdditionalInfo> NewsAdditionalInfo { get; set; }
+        public virtual DbSet<Album> Albums { get; set; }
+        public virtual DbSet<Track> Tracks { get; set; }
     }
 }

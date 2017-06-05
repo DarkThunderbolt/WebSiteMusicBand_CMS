@@ -439,6 +439,16 @@
     <Content Include="Content\JS\UserAuth\respond.min.js" />
     <None Include="Content\JS\UserAuth\_references.js" />
     <Content Include="Global.asax" />
+    <Content Include="Model\AlbumsDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AlbumsDB.edmx</DependentUpon>
+      <LastGenOutput>AlbumsDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\AlbumsDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AlbumsDB.edmx</DependentUpon>
+      <LastGenOutput>AlbumsDB.cs</LastGenOutput>
+    </Content>
     <Content Include="Model\WebSiteModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WebSiteModel.edmx</DependentUpon>
@@ -451,11 +461,19 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Model\AlbumsDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AlbumsDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Model\AlbumsDB.edmx.diagram">
+      <DependentUpon>AlbumsDB.edmx</DependentUpon>
+    </Content>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\AWS.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Content\JS\isotope.pkgd.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -616,6 +634,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AlbumsController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
@@ -624,6 +643,25 @@
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Model\Album.cs">
+      <DependentUpon>AlbumsDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AlbumsDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AlbumsDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AlbumsDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AlbumsDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AlbumsDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AlbumsDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AlbumsRepository.cs" />
     <Compile Include="Model\NewsAdditionalInfo.cs">
       <DependentUpon>WebSiteModel.tt</DependentUpon>
     </Compile>
@@ -636,16 +674,7 @@
     <Compile Include="Model\CustomUsers.cs">
       <DependentUpon>WebSiteModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\ForumMessagesInPost.cs">
-      <DependentUpon>WebSiteModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ForumPosts.cs">
-      <DependentUpon>WebSiteModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ForumSections.cs">
-      <DependentUpon>WebSiteModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Interface\IForumRepository.cs" />
+    <Compile Include="Model\Interface\IAlbumRepository.cs" />
     <Compile Include="Model\Interface\INewsRepository.cs" />
     <Compile Include="Model\Metadata\CommentsMetadata.cs" />
     <Compile Include="Model\Metadata\CustomUserMetadata.cs" />
@@ -662,6 +691,9 @@
     </Compile>
     <Compile Include="Model\StatViewM.cs" />
     <Compile Include="Model\TableViewM.cs" />
+    <Compile Include="Model\Track.cs">
+      <DependentUpon>AlbumsDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\UserRepository.cs" />
     <Compile Include="Model\NewsRepository.cs" />
     <Compile Include="Model\NewsSection.cs">
@@ -768,6 +800,11 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
+    <Content Include="Views\Albums\Details.cshtml" />
+    <Content Include="Views\Albums\Index.cshtml" />
+    <Content Include="Views\Albums\Create.cshtml" />
+    <Content Include="Views\Albums\Edit.cshtml" />
+    <Content Include="Views\Albums\Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

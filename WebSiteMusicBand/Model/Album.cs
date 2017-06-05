@@ -12,19 +12,21 @@ namespace WebSiteMusicBand.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class ForumSections
+    public partial class Album
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ForumSections()
+        public Album()
         {
-            this.ForumPosts = new HashSet<ForumPosts>();
+            this.Tracks = new HashSet<Track>();
         }
     
-        public int Id { get; set; }
+        public int AlbumId { get; set; }
         public string Title { get; set; }
-        public string Description { get; set; }
+        public int Year { get; set; }
+        public int NumOfTracks { get; set; }
+        public string CoverLink { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ForumPosts> ForumPosts { get; set; }
+        public virtual ICollection<Track> Tracks { get; set; }
     }
 }

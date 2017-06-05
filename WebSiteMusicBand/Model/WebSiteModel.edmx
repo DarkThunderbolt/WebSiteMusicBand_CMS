@@ -16,34 +16,6 @@
           <Property Name="LastName" Type="nvarchar" MaxLength="100" />
           <Property Name="ForumName" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <EntityType Name="ForumMessagesInPost">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="ForumPostID" Type="int" Nullable="false" />
-          <Property Name="TextContent" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ForumPosts">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Title" Type="nchar" MaxLength="100" Nullable="false" />
-          <Property Name="ForumSectionId" Type="int" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime" Nullable="false" />
-          <Property Name="UserID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ForumSections">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="100" />
-        </EntityType>
         <EntityType Name="News">
           <Key>
             <PropertyRef Name="Id" />
@@ -87,54 +59,6 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
-        <Association Name="FK_ForumMessages_ForumPosts">
-          <End Role="ForumPosts" Type="Self.ForumPosts" Multiplicity="1" />
-          <End Role="ForumMessagesInPost" Type="Self.ForumMessagesInPost" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ForumPosts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ForumMessagesInPost">
-              <PropertyRef Name="ForumPostID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ForumMessagesInPost_CustomUsers">
-          <End Role="CustomUsers" Type="Self.CustomUsers" Multiplicity="1" />
-          <End Role="ForumMessagesInPost" Type="Self.ForumMessagesInPost" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustomUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ForumMessagesInPost">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ForumPosts_CustomUsers1">
-          <End Role="CustomUsers" Type="Self.CustomUsers" Multiplicity="1" />
-          <End Role="ForumPosts" Type="Self.ForumPosts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustomUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ForumPosts">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ForumPosts_ForumSections">
-          <End Role="ForumSections" Type="Self.ForumSections" Multiplicity="1" />
-          <End Role="ForumPosts" Type="Self.ForumPosts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ForumSections">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ForumPosts">
-              <PropertyRef Name="ForumSectionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_News_CustomUsers">
           <End Role="CustomUsers" Type="Self.CustomUsers" Multiplicity="1" />
           <End Role="News" Type="Self.News" Multiplicity="*" />
@@ -221,30 +145,11 @@
         </Association>
         <EntityContainer Name="MusicBandSiteDBModelStoreContainer">
           <EntitySet Name="CustomUsers" EntityType="Self.CustomUsers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ForumMessagesInPost" EntityType="Self.ForumMessagesInPost" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ForumPosts" EntityType="Self.ForumPosts" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ForumSections" EntityType="Self.ForumSections" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NewsAdditionalInfo" EntityType="Self.NewsAdditionalInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NewsComments" EntityType="Self.NewsComments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NewsLikes" EntityType="Self.NewsLikes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NewsSection" EntityType="Self.NewsSection" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_ForumMessages_ForumPosts" Association="Self.FK_ForumMessages_ForumPosts">
-            <End Role="ForumPosts" EntitySet="ForumPosts" />
-            <End Role="ForumMessagesInPost" EntitySet="ForumMessagesInPost" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ForumMessagesInPost_CustomUsers" Association="Self.FK_ForumMessagesInPost_CustomUsers">
-            <End Role="CustomUsers" EntitySet="CustomUsers" />
-            <End Role="ForumMessagesInPost" EntitySet="ForumMessagesInPost" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ForumPosts_CustomUsers1" Association="Self.FK_ForumPosts_CustomUsers1">
-            <End Role="CustomUsers" EntitySet="CustomUsers" />
-            <End Role="ForumPosts" EntitySet="ForumPosts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ForumPosts_ForumSections" Association="Self.FK_ForumPosts_ForumSections">
-            <End Role="ForumSections" EntitySet="ForumSections" />
-            <End Role="ForumPosts" EntitySet="ForumPosts" />
-          </AssociationSet>
           <AssociationSet Name="FK_News_CustomUsers" Association="Self.FK_News_CustomUsers">
             <End Role="CustomUsers" EntitySet="CustomUsers" />
             <End Role="News" EntitySet="News" />
@@ -280,21 +185,10 @@
       <Schema Namespace="MusicBandSiteDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="MusicBandSiteDB" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CustomUsers" EntityType="MusicBandSiteDBModel.CustomUsers" />
-          <EntitySet Name="ForumMessagesInPost" EntityType="MusicBandSiteDBModel.ForumMessagesInPost" />
-          <EntitySet Name="ForumPosts" EntityType="MusicBandSiteDBModel.ForumPosts" />
-          <EntitySet Name="ForumSections" EntityType="MusicBandSiteDBModel.ForumSections" />
           <EntitySet Name="News" EntityType="MusicBandSiteDBModel.News" />
           <EntitySet Name="NewsComments" EntityType="MusicBandSiteDBModel.NewsComments" />
           <EntitySet Name="NewsLikes" EntityType="MusicBandSiteDBModel.NewsLikes" />
           <EntitySet Name="NewsSection" EntityType="MusicBandSiteDBModel.NewsSection" />
-          <AssociationSet Name="FK_ForumMessagesInPost_CustomUsers" Association="MusicBandSiteDBModel.FK_ForumMessagesInPost_CustomUsers">
-            <End Role="CustomUsers" EntitySet="CustomUsers" />
-            <End Role="ForumMessagesInPost" EntitySet="ForumMessagesInPost" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ForumPosts_CustomUsers1" Association="MusicBandSiteDBModel.FK_ForumPosts_CustomUsers1">
-            <End Role="CustomUsers" EntitySet="CustomUsers" />
-            <End Role="ForumPosts" EntitySet="ForumPosts" />
-          </AssociationSet>
           <AssociationSet Name="FK_News_CustomUsers" Association="MusicBandSiteDBModel.FK_News_CustomUsers">
             <End Role="CustomUsers" EntitySet="CustomUsers" />
             <End Role="News" EntitySet="News" />
@@ -306,14 +200,6 @@
           <AssociationSet Name="FK_NewsLikes_CustomUsers" Association="MusicBandSiteDBModel.FK_NewsLikes_CustomUsers">
             <End Role="CustomUsers" EntitySet="CustomUsers" />
             <End Role="NewsLikes" EntitySet="NewsLikes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ForumMessages_ForumPosts" Association="MusicBandSiteDBModel.FK_ForumMessages_ForumPosts">
-            <End Role="ForumPosts" EntitySet="ForumPosts" />
-            <End Role="ForumMessagesInPost" EntitySet="ForumMessagesInPost" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ForumPosts_ForumSections" Association="MusicBandSiteDBModel.FK_ForumPosts_ForumSections">
-            <End Role="ForumSections" EntitySet="ForumSections" />
-            <End Role="ForumPosts" EntitySet="ForumPosts" />
           </AssociationSet>
           <AssociationSet Name="FK_News_NewsSection" Association="MusicBandSiteDBModel.FK_News_NewsSection">
             <End Role="NewsSection" EntitySet="NewsSection" />
@@ -343,45 +229,9 @@
           <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ForumName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ForumMessagesInPost" Relationship="MusicBandSiteDBModel.FK_ForumMessagesInPost_CustomUsers" FromRole="CustomUsers" ToRole="ForumMessagesInPost" />
-          <NavigationProperty Name="ForumPosts" Relationship="MusicBandSiteDBModel.FK_ForumPosts_CustomUsers1" FromRole="CustomUsers" ToRole="ForumPosts" />
           <NavigationProperty Name="News" Relationship="MusicBandSiteDBModel.FK_News_CustomUsers" FromRole="CustomUsers" ToRole="News" />
           <NavigationProperty Name="NewsComments" Relationship="MusicBandSiteDBModel.FK_NewsComments_CustomUsers" FromRole="CustomUsers" ToRole="NewsComments" />
           <NavigationProperty Name="NewsLikes" Relationship="MusicBandSiteDBModel.FK_NewsLikes_CustomUsers" FromRole="CustomUsers" ToRole="NewsLikes" />
-        </EntityType>
-        <EntityType Name="ForumMessagesInPost">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="ForumPostID" Type="Int32" Nullable="false" />
-          <Property Name="TextContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="CustomUsers" Relationship="MusicBandSiteDBModel.FK_ForumMessagesInPost_CustomUsers" FromRole="ForumMessagesInPost" ToRole="CustomUsers" />
-          <NavigationProperty Name="ForumPosts" Relationship="MusicBandSiteDBModel.FK_ForumMessages_ForumPosts" FromRole="ForumMessagesInPost" ToRole="ForumPosts" />
-        </EntityType>
-        <EntityType Name="ForumPosts">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="ForumSectionId" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CustomUsers" Relationship="MusicBandSiteDBModel.FK_ForumPosts_CustomUsers1" FromRole="ForumPosts" ToRole="CustomUsers" />
-          <NavigationProperty Name="ForumMessagesInPost" Relationship="MusicBandSiteDBModel.FK_ForumMessages_ForumPosts" FromRole="ForumPosts" ToRole="ForumMessagesInPost" />
-          <NavigationProperty Name="ForumSections" Relationship="MusicBandSiteDBModel.FK_ForumPosts_ForumSections" FromRole="ForumPosts" ToRole="ForumSections" />
-        </EntityType>
-        <EntityType Name="ForumSections">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ForumPosts" Relationship="MusicBandSiteDBModel.FK_ForumPosts_ForumSections" FromRole="ForumSections" ToRole="ForumPosts" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -429,30 +279,6 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="News" Relationship="MusicBandSiteDBModel.FK_News_NewsSection" FromRole="NewsSection" ToRole="News" />
         </EntityType>
-        <Association Name="FK_ForumMessagesInPost_CustomUsers">
-          <End Type="MusicBandSiteDBModel.CustomUsers" Role="CustomUsers" Multiplicity="1" />
-          <End Type="MusicBandSiteDBModel.ForumMessagesInPost" Role="ForumMessagesInPost" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustomUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ForumMessagesInPost">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ForumPosts_CustomUsers1">
-          <End Type="MusicBandSiteDBModel.CustomUsers" Role="CustomUsers" Multiplicity="1" />
-          <End Type="MusicBandSiteDBModel.ForumPosts" Role="ForumPosts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustomUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ForumPosts">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_News_CustomUsers">
           <End Type="MusicBandSiteDBModel.CustomUsers" Role="CustomUsers" Multiplicity="1" />
           <End Type="MusicBandSiteDBModel.News" Role="News" Multiplicity="*" />
@@ -486,30 +312,6 @@
             </Principal>
             <Dependent Role="NewsLikes">
               <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ForumMessages_ForumPosts">
-          <End Type="MusicBandSiteDBModel.ForumPosts" Role="ForumPosts" Multiplicity="1" />
-          <End Type="MusicBandSiteDBModel.ForumMessagesInPost" Role="ForumMessagesInPost" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ForumPosts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ForumMessagesInPost">
-              <PropertyRef Name="ForumPostID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ForumPosts_ForumSections">
-          <End Type="MusicBandSiteDBModel.ForumSections" Role="ForumSections" Multiplicity="1" />
-          <End Type="MusicBandSiteDBModel.ForumPosts" Role="ForumPosts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ForumSections">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ForumPosts">
-              <PropertyRef Name="ForumSectionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -583,37 +385,6 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="AvatarLink" ColumnName="AvatarLink" />
                 <ScalarProperty Name="Birthday" ColumnName="Birthday" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ForumMessagesInPost">
-            <EntityTypeMapping TypeName="MusicBandSiteDBModel.ForumMessagesInPost">
-              <MappingFragment StoreEntitySet="ForumMessagesInPost">
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="TextContent" ColumnName="TextContent" />
-                <ScalarProperty Name="ForumPostID" ColumnName="ForumPostID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ForumPosts">
-            <EntityTypeMapping TypeName="MusicBandSiteDBModel.ForumPosts">
-              <MappingFragment StoreEntitySet="ForumPosts">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="ForumSectionId" ColumnName="ForumSectionId" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ForumSections">
-            <EntityTypeMapping TypeName="MusicBandSiteDBModel.ForumSections">
-              <MappingFragment StoreEntitySet="ForumSections">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

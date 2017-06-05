@@ -1,0 +1,27 @@
+﻿@model IEnumerable<WebSiteMusicBand.Model.Album>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="grid" data-isotope='{ "itemSelector": ".grid-item", "layoutMode": "fitRows" }'>
+    @foreach (var item in Model)
+    {
+        <div class="grid-item">
+            <table border="0">
+                <tr>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </tr>
+                <tr>
+                    <img class="img-responsive user-photo" src=@Url.Content(item.CoverLink)>
+                </tr>
+            </table>
+        </div>
+    }
+</div>

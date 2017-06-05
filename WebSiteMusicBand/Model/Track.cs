@@ -12,15 +12,14 @@ namespace WebSiteMusicBand.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class ForumMessagesInPost
+    public partial class Track
     {
-        public int Id { get; set; }
-        public int UserID { get; set; }
-        public int ForumPostID { get; set; }
-        public string TextContent { get; set; }
-        public System.DateTime CreateDate { get; set; }
+        public int TrackId { get; set; }
+        public int AlbumId { get; set; }
+        public string NameOfTrack { get; set; }
+        public int Position { get; set; }
+        public string TrackLink { get; set; }
     
-        public virtual CustomUsers CustomUsers { get; set; }
-        public virtual ForumPosts ForumPosts { get; set; }
+        public virtual Album Albums { get; set; }
     }
 }
