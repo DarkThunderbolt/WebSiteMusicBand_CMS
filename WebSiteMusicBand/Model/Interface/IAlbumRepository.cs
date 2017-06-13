@@ -35,5 +35,6 @@ namespace WebSiteMusicBand.Model
         Album GetAlbumById(int albumId);
 
         IEnumerable<Track> GetTracksByAlbumId(int albumId);
+        void UpdateCover(string path, int id);
     }
 }

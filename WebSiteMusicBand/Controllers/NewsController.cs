@@ -125,7 +125,7 @@ namespace WebSiteMusicBand.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,TextContent,CreateDate,UserId,NewsSectionId")] News news)
         {
-            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.CustomUsers.Id))
+            if (!SecureCustomHelper.IsThisCurrentUserOrAdmin(news.UserId))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }

@@ -16,6 +16,7 @@ namespace WebSiteMusicBand.Model
         {
             try
             {
+                album.CoverLink = "~/Content/Upload/Albums/no_cover.png";
                 db.Albums.Add(album);
                 db.SaveChanges();
                 MvcApplication.logger.Info($"Album {album.AlbumId} created ");
@@ -71,6 +72,13 @@ namespace WebSiteMusicBand.Model
         {
             return db.Albums.Where(x => x.AlbumId == albumId).FirstOrDefault().Tracks;
         }
-    
+
+        public void UpdateCover(string path,int albumId)
+        {
+            Album album = db.Albums.Find(albumId);
+            album.CoverLink = path;
+            db.Entry(album).State = EntityState.Modified;
+            db.SaveChanges();
+        }
     }
 }

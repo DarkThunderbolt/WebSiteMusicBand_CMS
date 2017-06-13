@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Band FanSite</title>
     @Styles.Render("~/bundles/css")
-
-    <script src=@(MvcApplication.linkToApp + @"Scripts/tinymce/tinymce.min.js") ></script>
+    @RenderSection("Styles", false)
+    <script src="~/Scripts/tinymce/tinymce.min.js") ></script>
 
     <!-- Custom Fonts -->
     <link href=@Url.Content( @"~/Content/font-awesome/css/font-awesome.min.css") rel="stylesheet" type="text/css">

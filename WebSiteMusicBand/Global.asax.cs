@@ -12,7 +12,7 @@ namespace WebSiteMusicBand
     public class MvcApplication : System.Web.HttpApplication
     {
         public static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        public static string linkToApp = "http://localhost:31914/";
+        //public static string linkToApp = "http://localhost:31914/";
 
         protected void Application_Start()
         {

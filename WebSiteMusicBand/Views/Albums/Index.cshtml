@@ -14,14 +14,28 @@
     @foreach (var item in Model)
     {
         <div class="grid-item">
-            <table border="0">
-                <tr>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </tr>
-                <tr>
-                    <img class="img-responsive user-photo" src=@Url.Content(item.CoverLink)>
-                </tr>
-            </table>
+            <a href="@Url.Action("Details", "Albums", new {id =item.AlbumId })">
+                <table border="0">
+                    <tr align="center">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </tr>
+                    <tr>
+                        <img class="img-responsive user-photo" src=@Url.Content(item.CoverLink)>
+                    </tr>
+                </table>
+            </a>
         </div>
     }
 </div>
+
+@section Styles{
+    <style>
+        .grid-item {
+            float: left;
+            width: 250px;
+            height: 250px;
+            background: #e6e5e4;
+            border: 2px solid #b6b5b4;
+        }
+    </style>
+}

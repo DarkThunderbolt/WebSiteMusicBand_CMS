@@ -64,7 +64,7 @@ namespace WebSiteMusicBand.Controllers
             return View(news);
         }
 
-        // GET: Members/Details/newsId
+        // GET: Members/Details/id
         [HttpGet]
         public ActionResult Details(int? id)
         {
@@ -81,7 +81,7 @@ namespace WebSiteMusicBand.Controllers
             return View();
         }
 
-        // GET: Members/Edit/newsId
+        // GET: Members/Edit/id
         [HttpGet]
         [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
@@ -102,7 +102,7 @@ namespace WebSiteMusicBand.Controllers
             return View(news);
         }
 
-        // POST: Members/Edit/newsId
+        // POST: Members/Edit/id
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
@@ -126,7 +126,7 @@ namespace WebSiteMusicBand.Controllers
             return View(news);
         }
 
-        // GET: Members/Delete/newsId
+        // GET: Members/Delete/id
         [HttpGet]
         [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
@@ -147,7 +147,7 @@ namespace WebSiteMusicBand.Controllers
             return View(news);
         }
 
-        // POST: Members/Delete/5
+        // POST: Members/Delete/id
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]

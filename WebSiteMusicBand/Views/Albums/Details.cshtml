@@ -35,17 +35,24 @@
             @Html.DisplayFor(model => model.NumOfTracks)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CoverLink)
-        </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.CoverLink)
+            <img class="img-responsive user-photo myImg" src=@Url.Content(Model.CoverLink) />
         </dd>
 
     </dl>
+
+    @if (SecureCustomHelper.IsCurrenAdmin())
+    {
+        <div class="btn btn-default myRight">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.AlbumId })
+        </div>
+        <div class="btn btn-default myRight">
+            @Html.ActionLink("Delete", "Delete", new { id = Model.AlbumId })
+        </div>
+    }
+
+
+    <div class="btn btn-default" style="float:left">
+        @Html.ActionLink("Back", "")
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AlbumId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

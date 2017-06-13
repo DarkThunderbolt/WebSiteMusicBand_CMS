@@ -1,5 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -10,18 +12,18 @@ namespace WebSiteMusicBand.Controllers
 {
     public class AlbumsController : Controller
     {
-        private IAlbumRepository _albumRepo;
+        private IAlbumRepository _repo;
 
         public AlbumsController(IAlbumRepository albums)
         {
-            _albumRepo = albums;
+            _repo = albums;
             MvcApplication.logger.Info("Created Members Controller");
         }
 
         // GET: Albums
         public ActionResult Index()
         {
-            var albums = _albumRepo.Albums;
+            var albums = _repo.Albums;
             if (albums != null)
             {
                 return View(albums);
@@ -32,6 +34,7 @@ namespace WebSiteMusicBand.Controllers
             }
         }
 
+        // GET: Albums/Details
         [HttpGet]
         public ActionResult Details(int? id)
         {
@@ -39,16 +42,15 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var news = _albumRepo.GetAlbumById((int)id);
-            if (news == null)
+            var album = _repo.GetAlbumById((int)id);
+            if (album == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            ViewBag.NewsModel = news;
-            return View();
+            return View(album);
         }
 
-        // GET: News/Create
+        // GET: Albums/Create
         [HttpGet]
         [Authorize]
         public ActionResult Create()
@@ -56,15 +58,15 @@ namespace WebSiteMusicBand.Controllers
             return View();
         }
 
-        // POST: News/Create
+        // POST: Albums/Create
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,TextContent,CreateDate,")] Album album)
+        public ActionResult Create([Bind(Include = "Id,Title,Year,NumOfTracks")] Album album)
         {
             if (ModelState.IsValid)
             {
-                if (_albumRepo.CreateAlbum(album))
+                if (_repo.CreateAlbum(album))
                 {
                     return RedirectToAction("Details", new { id = album.AlbumId });
                 }
@@ -72,12 +74,11 @@ namespace WebSiteMusicBand.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 }
-
             }
             return View(album);
         }
 
-        // GET: News/Edit/newsId
+        // GET: Albums/Edit/id
         [HttpGet]
         [Authorize]
         public ActionResult Edit(int? id)
@@ -86,7 +87,7 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var news = _albumRepo.GetAlbumById((int)id);
+            var news = _repo.GetAlbumById((int)id);
             if (news == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -94,17 +95,17 @@ namespace WebSiteMusicBand.Controllers
             return View(news);
         }
 
-        // POST: News/Edit/newsId
+        // POST: Albums/Edit/id
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,TextContent,CreateDate,UserId,NewsSectionId")] Album album)
+        public ActionResult Edit([Bind(Include = "AlbumId,Title,Year,CoverLink,NumOfTracks")] Album album)
         {
             if (ModelState.IsValid)
             {
-                if (_albumRepo.EditAlbum(album))
+                if (_repo.EditAlbum(album))
                 {
-                    return RedirectToAction("Details", new { id = album.AlbumId });
+                    return RedirectToAction("Details", new { id = album.CoverLink });
                 }
                 else
                 {
@@ -114,7 +115,35 @@ namespace WebSiteMusicBand.Controllers
             return View(album);
         }
 
-        // GET: News/Delete/newsId
+        
+        [HttpPost]
+        [Authorize]
+        public ActionResult CoverUpload([Bind(Include = "Id")] int id, HttpPostedFileBase file)
+        {
+            if (file != null)
+            {
+                string pic = Path.GetFileName(file.FileName);
+                string path = Path.Combine(
+                                       Server.MapPath("~/Content/Upload/Albums"), pic);
+                // file is uploaded
+                file.SaveAs(path);
+
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                //using (MemoryStream ms = new MemoryStream())
+                //{
+                //    file.InputStream.CopyTo(ms);
+                //    byte[] array = ms.GetBuffer();
+                //}
+                _repo.UpdateCover("~/Content/Upload/Albums/" + pic, id);
+
+            }
+            // after successfully uploading redirect the user
+            return RedirectToAction("Edit", "Account");
+        }
+
+        // GET: News/Delete/id
         [HttpGet]
         [Authorize]
         public ActionResult Delete(int? id)
@@ -123,7 +152,7 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var news = _albumRepo.GetAlbumById((int)id);
+            var news = _repo.GetAlbumById((int)id);
             if (news == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -131,18 +160,18 @@ namespace WebSiteMusicBand.Controllers
             return View(news);
         }
 
-        // POST: News/Delete/5
+        // POST: News/Delete/id
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var news = _albumRepo.GetAlbumById(id);
+            var news = _repo.GetAlbumById(id);
             if (news == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            if (_albumRepo.DeleteAlbum(id))
+            if (_repo.DeleteAlbum(id))
             {
                 return RedirectToAction("Index");
             }

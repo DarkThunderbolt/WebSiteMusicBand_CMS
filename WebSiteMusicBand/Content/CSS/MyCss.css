@@ -1,4 +1,13 @@
-﻿.intro-header {
+﻿
+ #dvPreview {
+		filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);
+		min-height: 200px;
+		min-width: 200px;
+		display: none;
+	}
+
+
+.intro-header {
 	margin-bottom: 10px;
 }
 

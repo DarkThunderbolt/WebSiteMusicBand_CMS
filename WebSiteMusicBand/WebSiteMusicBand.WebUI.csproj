@@ -481,6 +481,7 @@
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\PicPreview.js" />
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
@@ -662,6 +663,7 @@
       <DependentUpon>AlbumsDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\AlbumsRepository.cs" />
+    <Compile Include="Model\Metadata\AlbumsMetadata.cs" />
     <Compile Include="Model\NewsAdditionalInfo.cs">
       <DependentUpon>WebSiteModel.tt</DependentUpon>
     </Compile>

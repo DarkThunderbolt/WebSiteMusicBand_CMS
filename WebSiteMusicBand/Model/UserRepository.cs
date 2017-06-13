@@ -57,8 +57,9 @@ namespace WebSiteMusicBand.Model
 
         public void UpdateAvatar(string path)
         {
-            db.CustomUsers.Find(CurrentIdentityID).AvatarLink = path;
-            db.Entry(GetCurrenCustomtUser).State = EntityState.Modified;
+            CustomUsers user = db.CustomUsers.Find(CurrentIdentityID);
+            user.AvatarLink = path;
+            db.Entry(user).State = EntityState.Modified;
             db.SaveChanges();
         }
     }

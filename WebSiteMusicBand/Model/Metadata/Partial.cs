@@ -22,4 +22,9 @@ namespace WebSiteMusicBand.Model
     public partial class CustomUsers
     {
     }
+
+    [MetadataType(typeof(AlbumsMetadata))]
+    public partial class Album
+    {
+    }
 }

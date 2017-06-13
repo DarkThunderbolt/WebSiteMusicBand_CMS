@@ -63,9 +63,14 @@
 @using (Html.BeginForm("FileUpload", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <label for="file">Upload Image:</label>
-    <input type="file" name="file" id="file" style="width: 100%;" />
+    <input id="fileupload" type="file" name="file" style="width: 100%;" />
+    <div id="dvPreview"></div>
     <input type="submit" value="Upload" class="submit" />
 }
 <div class="btn btn-default">
     @Html.ActionLink("Back to profile", "Details")
 </div>
+@section scripts
+{
+    <script src="~/Scripts/PicPreview.js"  ></script>
+    }
