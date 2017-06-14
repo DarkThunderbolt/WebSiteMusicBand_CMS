@@ -41,6 +41,23 @@
 
     </dl>
 
+    @{
+        if (Model.Tracks.Count != 0)
+        {
+            foreach (Track item in Model.Tracks.OrderBy(x => x.Position).Reverse())
+            {
+                <ul class="playlist">
+                    <li><a href="~/Content/Upload/Music/bass.mp3">Bass</a></li>
+                    <li><a href="~/Content/Upload/Music/coins.mp3">Coins</a></li>
+                    <li><a href="~/Content/Upload/Music/rain.mp3">Rain</a></li>
+                </ul>
+             }
+        }
+        else
+        {
+            //!V
+        }
+    }
     @if (SecureCustomHelper.IsCurrenAdmin())
     {
         <div class="btn btn-default myRight">
@@ -52,7 +69,22 @@
     }
 
 
+
+
     <div class="btn btn-default" style="float:left">
         @Html.ActionLink("Back", "")
     </div>
+
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/Scripts/soundmanager/soundmanager2.js"></script>
+    <script type="text/javascript" src="~/Scripts/soundmanager/page-player.js"></script>
+    }
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/Content/CSS/soundmanager/page-player.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/CSS/soundmanager/flashblock.css" />
+
+    }
