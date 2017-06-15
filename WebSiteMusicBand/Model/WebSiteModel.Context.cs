@@ -31,5 +31,9 @@ namespace WebSiteMusicBand.Model
         public virtual DbSet<NewsLikes> NewsLikes { get; set; }
         public virtual DbSet<NewsSection> NewsSection { get; set; }
         public virtual DbSet<NewsAdditionalInfo> NewsAdditionalInfo { get; set; }
+
+        public System.Data.Entity.DbSet<WebSiteMusicBand.Model.Track> Tracks { get; set; }
+
+        public System.Data.Entity.DbSet<WebSiteMusicBand.Model.Album> Albums { get; set; }
     }
 }

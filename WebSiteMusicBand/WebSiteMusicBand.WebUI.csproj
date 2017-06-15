@@ -667,6 +667,7 @@
       <DependentUpon>AlbumsDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\AlbumsRepository.cs" />
+    <Compile Include="Model\VM\CoverUploadViewM.cs" />
     <Compile Include="Model\Metadata\AlbumsMetadata.cs" />
     <Compile Include="Model\NewsAdditionalInfo.cs">
       <DependentUpon>WebSiteModel.tt</DependentUpon>
@@ -695,11 +696,12 @@
     <Compile Include="Model\NewsLikes.cs">
       <DependentUpon>WebSiteModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\StatViewM.cs" />
-    <Compile Include="Model\TableViewM.cs" />
+    <Compile Include="Model\VM\StatViewM.cs" />
+    <Compile Include="Model\VM\TableViewM.cs" />
     <Compile Include="Model\Track.cs">
       <DependentUpon>AlbumsDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\VM\TrackUploadViewModel.cs" />
     <Compile Include="Model\UserRepository.cs" />
     <Compile Include="Model\NewsRepository.cs" />
     <Compile Include="Model\NewsSection.cs">
@@ -811,6 +813,9 @@
     <Content Include="Views\Albums\Create.cshtml" />
     <Content Include="Views\Albums\Edit.cshtml" />
     <Content Include="Views\Albums\Delete.cshtml" />
+    <Content Include="Views\Albums\CreateTrack.cshtml" />
+    <Content Include="Views\Albums\EditTrack.cshtml" />
+    <Content Include="Views\Albums\UploadTrack.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

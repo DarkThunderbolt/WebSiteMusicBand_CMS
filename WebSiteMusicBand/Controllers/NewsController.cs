@@ -98,7 +98,7 @@ namespace WebSiteMusicBand.Controllers
             return View(news);
         }
 
-        // GET: News/Edit/newsId
+        // GET: News/Edit/id
         [HttpGet]
         [Authorize]
         public ActionResult Edit(int? id)

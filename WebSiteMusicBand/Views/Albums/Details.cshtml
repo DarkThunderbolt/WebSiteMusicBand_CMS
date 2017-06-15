@@ -46,12 +46,18 @@
         {
             foreach (Track item in Model.Tracks.OrderBy(x => x.Position).Reverse())
             {
-                <ul class="playlist">
-                    <li><a href="~/Content/Upload/Music/bass.mp3">Bass</a></li>
-                    <li><a href="~/Content/Upload/Music/coins.mp3">Coins</a></li>
-                    <li><a href="~/Content/Upload/Music/rain.mp3">Rain</a></li>
-                </ul>
-             }
+                if (item.TrackLink != "")
+                {
+                    <ul class="playlist">
+                        <li><a href="@item.TrackLink">@item.NameOfTrack</a></li>
+                    </ul>
+                }
+                else
+                {
+                    <div> File not upload </div>
+                }
+
+            }
         }
         else
         {

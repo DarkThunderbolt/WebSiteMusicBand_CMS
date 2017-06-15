@@ -49,21 +49,47 @@
     </div>
 }
 
+
 @using (Html.BeginForm("CoverUpload", "Albums", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(model => model.AlbumId)
     <label for="file">Upload Image:</label>
-    <input id="fileupload" type="file" name="file" style="width: 100%;" />
+    <input type="file" name="file" />
     <div id="dvPreview"></div>
-    <input type="submit" value="Upload" class="submit" />
+    <input type="submit" name="Submit" id="Submit" value="Upload" />
 }
 
-@{ //!V add\edit treks
+@{
+    if (Model.Tracks.Count != 0)
+    {
+        foreach (Track item in Model.Tracks.OrderBy(x => x.Position).Reverse())
+        {
+            if (item.TrackLink != "")
+            {
+                <ul class="playlist">
+                    <li><a href="@item.TrackLink">@item.NameOfTrack</a></li>
+                </ul>
 
-}}
+            }
+            else
+            {
+                <div> File not upload </div>
+            }
+            @Html.ActionLink("Edit track", "EditTrack", new {id = item.TrackId })
+        }
+    }
+}
+
+@Html.ActionLink("Create new track", "CreateTrack", new { id = Model.AlbumId })
+
 
 <div class="btn btn-default">
     <div>
         @Html.ActionLink("Back to List", "Index")
     </div>
 </div>
+
+@section scripts
+{
+    <script src="~/Scripts/PicPreview.js"></script>
+}

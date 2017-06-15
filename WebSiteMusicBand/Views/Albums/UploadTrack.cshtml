@@ -1,0 +1,24 @@
+﻿@model WebSiteMusicBand.Model.Track
+
+@{
+    ViewBag.Title = "UploadTrack";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>EditFileForTrack</h2>
+
+
+@using (Html.BeginForm("UploadTrack", "Albums", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken();
+    @Html.HiddenFor(model => model.TrackId)
+    @Html.HiddenFor(model => model.AlbumId)
+    <label for="file">Upload Image:</label>
+    <input type="file" name="file" />
+    <div id="dvPreview"></div>
+    <input type="submit" name="Submit" id="Submit" value="Upload" />
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Details")
+</div>
