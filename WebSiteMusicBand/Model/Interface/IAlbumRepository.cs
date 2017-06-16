@@ -16,7 +16,7 @@ namespace WebSiteMusicBand.Model
         /// Create new news
         /// </summary>
         /// <param name="album"></param>
-        bool CreateAlbum(Album album);
+        Album CreateAlbum(Album album);
         /// <summary>
         /// Delete news
         /// </summary>
@@ -38,7 +38,7 @@ namespace WebSiteMusicBand.Model
 
         bool UpdateCover(string path, int id);
 
-        bool CreateTrack(Track track);
+        Track CreateTrack(Track track);
 
         bool EditTrack(Track track);
 

@@ -8,24 +8,23 @@ namespace WebSiteMusicBand.Model
 {
     public class AlbumsRepository : IAlbumRepository
     {
-        private MusicBandDB_AlbumsPart db = new MusicBandDB_AlbumsPart();
+        private MusicBandDB_AlbumsPart _db = new MusicBandDB_AlbumsPart();
         
-        public IEnumerable<Album> Albums { get { return db.Albums; } }
+        public IEnumerable<Album> Albums { get { return _db.Albums; } }
 
-        public bool CreateAlbum(Album album)
+        public Album CreateAlbum(Album album)
         {
             try
             {
-                album.CoverLink = "~/Content/Upload/Albums/no_cover.png";
-                db.Albums.Add(album);
-                db.SaveChanges();
+                _db.Albums.Add(album);
+                _db.SaveChanges();
                 MvcApplication.logger.Info($"Album {album.AlbumId} created ");
-                return true;
+                return GetAlbumById(album.AlbumId);
             }
-            catch
+            catch(Exception e)
             {
-                MvcApplication.logger.Error(this.ToString() + " create album fail");
-                return false;
+                MvcApplication.logger.Error(e.ToString() + " create album fail");
+                return null;
             }
         }
 
@@ -34,15 +33,15 @@ namespace WebSiteMusicBand.Model
             try
             {
                 Album album = GetAlbumById(albumId);
-                db.Tracks.RemoveRange(GetTracksByAlbumId(albumId));
-                db.Albums.Remove(album);
-                db.SaveChanges();
+                _db.Tracks.RemoveRange(GetTracksByAlbumId(albumId));
+                _db.Albums.Remove(album);
+                _db.SaveChanges();
                 MvcApplication.logger.Info($"Album {albumId} deleted");
                 return true;
             }
-            catch
+            catch (Exception e)
             {
-                MvcApplication.logger.Error(this.ToString() + " delete album fail");
+                MvcApplication.logger.Error(e.ToString() + " delete album fail");
                 return false;
             }
         }
@@ -51,79 +50,79 @@ namespace WebSiteMusicBand.Model
         {
             try
             {
-                db.Entry(album).State = EntityState.Modified;
-                db.SaveChanges();
+                var entity = _db.Albums.Where(c => c.AlbumId == album.AlbumId).FirstOrDefault();
+                _db.Entry(entity).CurrentValues.SetValues(album);
+                _db.SaveChanges();
                 MvcApplication.logger.Info($"Album {album.AlbumId} edited");
                 return true;
             }
-            catch
+            catch (Exception e)
             {
-                MvcApplication.logger.Error(this.ToString() + " edit album fail");
+                MvcApplication.logger.Error(e.ToString() + " edit album fail");
                 return false;
             }
         }
 
         public Album GetAlbumById(int albumId)
         {
-            return db.Albums.Where(x => x.AlbumId == albumId).FirstOrDefault();
+            return _db.Albums.Where(x => x.AlbumId == albumId).FirstOrDefault();
         }
 
         public Track GetTrackById(int trackId)
         {
-            return db.Tracks.Where(x => x.TrackId == trackId).FirstOrDefault();
+            return _db.Tracks.Find(trackId);
         }
 
         public IEnumerable<Track> GetTracksByAlbumId(int albumId)
         {
-            return db.Albums.Where(x => x.AlbumId == albumId).FirstOrDefault().Tracks;
+            return _db.Albums.Find(albumId).Tracks;
         }
 
         public bool UpdateCover(string path,int albumId)
         {
             try
             {
-                Album album = db.Albums.Find(albumId);
+                Album album = _db.Albums.Find(albumId);
                 album.CoverLink = path;
-                db.Entry(album).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(album).State = EntityState.Modified;
+                _db.SaveChanges();
                 MvcApplication.logger.Info($"Cover file {album.AlbumId} uploaded");
                 return true;
             }
-            catch
+            catch (Exception e)
             {
-                MvcApplication.logger.Error(this.ToString() + " cover file upload was fail");
+                MvcApplication.logger.Error(e.ToString() + " cover file upload was fail");
                 return false;
             }           
         }
 
-        public bool CreateTrack(Track track)
+        public Track CreateTrack(Track track)
         {
             try
             {
-                track.TrackLink = "";
-                db.Tracks.Add(track);
-                db.SaveChanges();
+                _db.Tracks.Add(track);
+                _db.SaveChanges();
                 MvcApplication.logger.Info($"Track {track.TrackId} created ");
-                return true;
+                return GetTrackById(track.TrackId);
             }
-            catch
+            catch(Exception e)
             {
-                MvcApplication.logger.Error(this.ToString() + " create track fail");
-                return false;
+                MvcApplication.logger.Error(e.ToString() + " create track fail");
+                return null;
             }
         }
         public bool EditTrack(Track track)
         {
             try
             {
-                db.Entry(track).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(track).State = EntityState.Modified;
+                _db.SaveChanges();
                 MvcApplication.logger.Info($"Trak {track.TrackId} edited");
                 return true;
             }
-            catch
+            catch(Exception e)
             {
-                MvcApplication.logger.Error(this.ToString() + " edit track fail");
+                MvcApplication.logger.Error(e.ToString() + " edit track fail");
                 return false;
             }
         }
@@ -132,16 +131,16 @@ namespace WebSiteMusicBand.Model
         {
             try
             {
-                Track track = db.Tracks.Find(trackId);
+                Track track = _db.Tracks.Find(trackId);
                 track.TrackLink = path;
-                db.Entry(track).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(track).State = EntityState.Modified;
+                _db.SaveChanges();
                 MvcApplication.logger.Info($"Track file {track.TrackId} uplaoded");
                 return true;
             }
-            catch
+            catch (Exception e)
             {
-                MvcApplication.logger.Error(this.ToString() + "  track file upload was fail");
+                MvcApplication.logger.Error(e.ToString() + "  track file upload was fail");
                 return false;
             }
         }

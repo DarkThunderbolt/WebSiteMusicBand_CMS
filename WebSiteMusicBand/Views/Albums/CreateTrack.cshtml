@@ -7,10 +7,11 @@
 
 <h2>CreateTrack</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("CreateTrack", "Albums", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.AlbumId)
+    @Html.HiddenFor(model => model.TrackLink)
     <div class="form-horizontal">
         <h4>Track</h4>
         <hr />
@@ -31,6 +32,9 @@
                 @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <label for="file">Upload Image:</label>
+        <input type="file" name="file" />
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

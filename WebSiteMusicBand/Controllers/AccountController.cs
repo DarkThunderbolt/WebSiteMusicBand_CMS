@@ -503,23 +503,10 @@ namespace WebSiteMusicBand.Controllers
             if (file != null)
             {
                 string pic = Path.GetFileName(file.FileName);
-                string path = Path.Combine(
-                                       Server.MapPath("~/Content/Upload/Profile"), pic);
-                // file is uploaded
+                string path = Path.Combine(Server.MapPath("~/Content/Upload/Profile"), pic);
                 file.SaveAs(path);
-
-                // save the image path path to the database or you can send image 
-                // directly to database
-                // in-case if you want to store byte[] ie. for DB
-                //using (MemoryStream ms = new MemoryStream())
-                //{
-                //    file.InputStream.CopyTo(ms);
-                //    byte[] array = ms.GetBuffer();
-                //}
                 _repo.UpdateAvatar("~/Content/Upload/Profile/" + pic);
-
             }
-            // after successfully uploading redirect the user
             return RedirectToAction("Edit", "Account");
         }
 

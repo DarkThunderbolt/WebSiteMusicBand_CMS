@@ -667,7 +667,7 @@
       <DependentUpon>AlbumsDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\AlbumsRepository.cs" />
-    <Compile Include="Model\VM\CoverUploadViewM.cs" />
+    <Compile Include="Model\VM\AlbumEditViewM.cs" />
     <Compile Include="Model\Metadata\AlbumsMetadata.cs" />
     <Compile Include="Model\NewsAdditionalInfo.cs">
       <DependentUpon>WebSiteModel.tt</DependentUpon>
@@ -701,7 +701,7 @@
     <Compile Include="Model\Track.cs">
       <DependentUpon>AlbumsDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\VM\TrackUploadViewModel.cs" />
+    <Compile Include="Model\VM\TrackUploadViewM.cs" />
     <Compile Include="Model\UserRepository.cs" />
     <Compile Include="Model\NewsRepository.cs" />
     <Compile Include="Model\NewsSection.cs">

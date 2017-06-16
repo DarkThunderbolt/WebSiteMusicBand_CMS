@@ -46,10 +46,10 @@
         {
             foreach (Track item in Model.Tracks.OrderBy(x => x.Position).Reverse())
             {
-                if (item.TrackLink != "")
+                if (item.TrackLink != null)
                 {
                     <ul class="playlist">
-                        <li><a href="@item.TrackLink">@item.NameOfTrack</a></li>
+                        <li><a href="@item.TrackLink.Replace("~","")"> @item.NameOfTrack</a></li>
                     </ul>
                 }
                 else
