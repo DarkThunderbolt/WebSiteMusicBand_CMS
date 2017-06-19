@@ -18,12 +18,12 @@ namespace WebSiteMusicBand.Model
             {
                 _db.Albums.Add(album);
                 _db.SaveChanges();
-                MvcApplication.logger.Info($"Album {album.AlbumId} created ");
+                MvcApplication.logger.Info($"Album({album.AlbumId}) was created ");
                 return GetAlbumById(album.AlbumId);
             }
             catch(Exception e)
             {
-                MvcApplication.logger.Error(e.ToString() + " create album fail");
+                MvcApplication.logger.Error(e.ToString() + ". Creating new album end with fail");
                 return null;
             }
         }
@@ -33,15 +33,23 @@ namespace WebSiteMusicBand.Model
             try
             {
                 Album album = GetAlbumById(albumId);
-                _db.Tracks.RemoveRange(GetTracksByAlbumId(albumId));
+                foreach(var item in GetTracksByAlbumId(albumId))
+                {
+                    if (!DeleteTrack(item.TrackId))
+                    {
+                        MvcApplication.logger.Info($"Can`t delete all tracks in album {albumId}");
+                        return false;
+                    }                       
+                }
+                //_db.Tracks.RemoveRange(GetTracksByAlbumId(albumId));
                 _db.Albums.Remove(album);
                 _db.SaveChanges();
-                MvcApplication.logger.Info($"Album {albumId} deleted");
+                MvcApplication.logger.Info($"Album({albumId}) was deleted");
                 return true;
             }
             catch (Exception e)
             {
-                MvcApplication.logger.Error(e.ToString() + " delete album fail");
+                MvcApplication.logger.Error(e.ToString() + $". Deleting album({albumId}) end with fail");
                 return false;
             }
         }
@@ -53,12 +61,12 @@ namespace WebSiteMusicBand.Model
                 var entity = _db.Albums.Where(c => c.AlbumId == album.AlbumId).FirstOrDefault();
                 _db.Entry(entity).CurrentValues.SetValues(album);
                 _db.SaveChanges();
-                MvcApplication.logger.Info($"Album {album.AlbumId} edited");
+                MvcApplication.logger.Info($"Album({album.AlbumId}) was edited");
                 return true;
             }
             catch (Exception e)
             {
-                MvcApplication.logger.Error(e.ToString() + " edit album fail");
+                MvcApplication.logger.Error(e.ToString() + $". Editing album({album.AlbumId}) end with fail");
                 return false;
             }
         }
@@ -86,12 +94,12 @@ namespace WebSiteMusicBand.Model
                 album.CoverLink = path;
                 _db.Entry(album).State = EntityState.Modified;
                 _db.SaveChanges();
-                MvcApplication.logger.Info($"Cover file {album.AlbumId} uploaded");
+                MvcApplication.logger.Info($"Cover file for album({album.AlbumId}) was uploaded");
                 return true;
             }
             catch (Exception e)
             {
-                MvcApplication.logger.Error(e.ToString() + " cover file upload was fail");
+                MvcApplication.logger.Error(e.ToString() + $". Updating cover to album({albumId}) end with fail");
                 return false;
             }           
         }
@@ -107,7 +115,7 @@ namespace WebSiteMusicBand.Model
             }
             catch(Exception e)
             {
-                MvcApplication.logger.Error(e.ToString() + " create track fail");
+                MvcApplication.logger.Error(e.ToString() + ". Creating new track end with fail");
                 return null;
             }
         }
@@ -117,12 +125,12 @@ namespace WebSiteMusicBand.Model
             {
                 _db.Entry(track).State = EntityState.Modified;
                 _db.SaveChanges();
-                MvcApplication.logger.Info($"Trak {track.TrackId} edited");
+                MvcApplication.logger.Info($"Track {track.TrackId} was edited");
                 return true;
             }
             catch(Exception e)
             {
-                MvcApplication.logger.Error(e.ToString() + " edit track fail");
+                MvcApplication.logger.Error(e.ToString() + $". Editing track({track.TrackId}) end with fail");
                 return false;
             }
         }
@@ -135,14 +143,40 @@ namespace WebSiteMusicBand.Model
                 track.TrackLink = path;
                 _db.Entry(track).State = EntityState.Modified;
                 _db.SaveChanges();
-                MvcApplication.logger.Info($"Track file {track.TrackId} uplaoded");
+                MvcApplication.logger.Info($"Track file for track({track.TrackId}) was uplaoded");
                 return true;
             }
             catch (Exception e)
             {
-                MvcApplication.logger.Error(e.ToString() + "  track file upload was fail");
+                MvcApplication.logger.Error(e.ToString() + $". Uploading track file ({trackId}) end  with fail");
                 return false;
             }
+        }
+
+        public bool DeleteTrack(int trackId)
+        {
+            try
+            {
+                Track track = GetTrackById(trackId);
+                _db.Tracks.Remove(track);
+                _db.SaveChanges();
+                MvcApplication.logger.Info($"Album {trackId} deleted");
+                return true;
+            }
+            catch (Exception e)
+            {
+                MvcApplication.logger.Error(e.ToString() + $". Deletin of track ({trackId}) end with fail");
+                return false;
+            }
+
+        }
+
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _db.Dispose();
+            }            
         }
     }
 }

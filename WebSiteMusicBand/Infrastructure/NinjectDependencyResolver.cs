@@ -36,6 +36,7 @@ namespace WebSiteMusicBand.Infrastructure
             kernel.Bind<INewsRepository>().To<NewsRepository>().WhenInjectedExactlyInto<HistoryController>().WithConstructorArgument("section", "History");
             kernel.Bind<IAlbumRepository>().To<AlbumsRepository>();
 
+
             MvcApplication.logger.Trace("Bind njects");
         }
     }

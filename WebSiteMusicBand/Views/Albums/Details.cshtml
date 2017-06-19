@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int albID = Model.AlbumId;
 }
 
 <h2>Details</h2>
@@ -41,21 +42,27 @@
 
     </dl>
 
+    <br/>
+
+
+
+    </div>
+
     @{
         if (Model.Tracks.Count != 0)
         {
             foreach (Track item in Model.Tracks.OrderBy(x => x.Position).Reverse())
             {
-                if (item.TrackLink != null)
-                {
-                    <ul class="playlist">
-                        <li><a href="@item.TrackLink.Replace("~","")"> @item.NameOfTrack</a></li>
-                    </ul>
+                <ul class="playlist">
+                @if (item.TrackLink != null)
+                {                 
+                    <li><a href="@item.TrackLink.Replace("~","")"> @item.NameOfTrack</a></li>
                 }
                 else
                 {
-                    <div> File not upload </div>
+                    <div> File not upload</div>
                 }
+                </ul>
 
             }
         }
@@ -80,17 +87,90 @@
     <div class="btn btn-default" style="float:left">
         @Html.ActionLink("Back", "")
     </div>
+<br/>
+<table id="jsGrid"></table>
 
-</div>
-
-@section Scripts
-{
-    <script type="text/javascript" src="~/Scripts/soundmanager/soundmanager2.js"></script>
-    <script type="text/javascript" src="~/Scripts/soundmanager/page-player.js"></script>
-    }
 @section Styles
 {
     <link rel="stylesheet" type="text/css" href="~/Content/CSS/soundmanager/page-player.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/CSS/soundmanager/flashblock.css" />
-
+    <link type="text/css" rel="stylesheet" href="~/Scripts/jsgrid/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="~/Scripts/jsgrid/jsgrid-theme.min.css" />
     }
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/soundmanager/soundmanager2.js"></script>
+    <script type="text/javascript" src="~/Scripts/soundmanager/page-player.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jsgrid/jsgrid.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var alb = @albID;
+        $("#jsGrid").jsGrid({
+
+            height: "auto",
+            width: "100%",
+
+            inserting: true,
+            editing: true,
+            autoload: true,
+
+            pageSize: 10,
+            pageButtonCount: 5,
+
+            deleteConfirm: "Do you really want to delete client?",
+
+            controller: {
+                loadData: function (filter) {
+                    return $.ajax({
+                        type: "GET",
+                        url: "/api/tracks",
+                        data: 'albumId=' + alb,
+                        dataType: "json"
+                    });
+                },
+
+                insertItem: function (item) {
+                    return $.ajax({
+                        type: "POST",
+                        url: "/api/Tracks",
+                        data: item,
+                        dataType: "json"
+                    });
+                },
+
+                updateItem: function (item) {
+                    return $.ajax({
+                        type: "Edit",
+                        url: "/api/Tracks/",
+                        data: item,
+                        dataType: "json"
+                    });
+                },
+
+                deleteItem: function (item) {
+                    return $.ajax({
+                        type: "DELETE",
+                        url: "/api/Tracks/" + item.TrackId,
+                        dataType: "json"
+                    });
+                }
+            },
+
+            fields: [
+                { name: "AlbumId", type: "number"},
+                { name: "TrackId", type: "number"},
+                { name: "Position", type: "number", width: 25, title: "№" },
+                { name: "NameOfTrack", type: "text", width: 150 },
+                { name: "TrackLink", type: "text", width: 150 },
+                { type: "control", width: 50 }
+            ]
+        });
+        $("#jsGrid").jsGrid("fieldOption", "AlbumId", "visible", false);
+        $("#jsGrid").jsGrid("fieldOption", "TrackId", "visible", false);
+        $("#jsGrid").jsGrid("fieldOption", "NameOfTrack", "align", "center");
+
+
+
+    </script>
+}

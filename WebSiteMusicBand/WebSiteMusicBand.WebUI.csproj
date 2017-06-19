@@ -197,6 +197,9 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.3\lib\net45\System.Web.Http.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
       <Private>True</Private>
@@ -440,6 +443,9 @@
     <Content Include="Content\JS\UserAuth\respond.js" />
     <Content Include="Content\JS\UserAuth\respond.min.js" />
     <None Include="Content\JS\UserAuth\_references.js" />
+    <Content Include="Content\Upload\Music\bass.mp3" />
+    <Content Include="Content\Upload\Music\coins.mp3" />
+    <Content Include="Content\Upload\Music\rain.mp3" />
     <Content Include="Global.asax" />
     <Content Include="Model\AlbumsDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -482,6 +488,12 @@
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\PicPreview.js" />
     <Content Include="Scripts\soundmanager\page-player.js" />
@@ -639,6 +651,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AlbumsController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
@@ -646,6 +659,7 @@
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controllers\TracksController.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Model\Album.cs">
@@ -825,8 +839,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Upload\Music\" />
     <Folder Include="Content\Upload\Profile\" />
+    <Folder Include="Views\TracksData\" />
+    <Folder Include="Views\Tracks\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

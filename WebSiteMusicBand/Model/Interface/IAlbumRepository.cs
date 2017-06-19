@@ -42,8 +42,12 @@ namespace WebSiteMusicBand.Model
 
         bool EditTrack(Track track);
 
+        bool DeleteTrack(int trackId);
+
         bool UploadTrack(string path, int trackId);
 
         Track GetTrackById(int trackId);
+
+        void Dispose(bool disposing);
     }
 }

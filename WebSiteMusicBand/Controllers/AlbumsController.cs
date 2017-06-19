@@ -111,11 +111,11 @@ namespace WebSiteMusicBand.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(albumVM.file != null)
+                if (albumVM.file != null)
                 {
                     upload += _repo.UpdateCover;
                     albumVM.CoverPath = UlpoadFile(albumVM.file, "~/Content/Upload/Albums", albumVM.AlbumId);
-                }  
+                }
                 else
                 {
                     albumVM.CoverPath = _repo.GetAlbumById(albumVM.AlbumId).CoverLink;
@@ -179,12 +179,16 @@ namespace WebSiteMusicBand.Controllers
             {
                 trackVM.TrackLink = "";
                 Track track = _repo.CreateTrack(trackVM.ConvertToTrack());
-                if (track!=null)
+                if (track != null)
                 {
                     if (trackVM.file != null)
                     {
                         upload += _repo.UploadTrack;
                         trackVM.TrackLink = UlpoadFile(trackVM.file, "~/Content/Upload/Music", track.TrackId);
+                        if (trackVM.TrackLink == null)
+                        {
+                            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                        }
                     }
                     return RedirectToAction("Details", new { id = trackVM.AlbumId });
                 }
@@ -234,6 +238,20 @@ namespace WebSiteMusicBand.Controllers
             return View(track);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteTrack(int trackId)
+        {
+            if (_repo.DeleteTrack(trackId))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+        }
+
         [HttpGet]
         public ActionResult UploadTrack(int? id)
         {
@@ -277,7 +295,7 @@ namespace WebSiteMusicBand.Controllers
                     file.SaveAs(path);
                     if (upload.Invoke(folder + "/" + pic, id))
                     {
-                        return folder + "/"+ pic;
+                        return folder + "/" + pic;
                     }
                     return null;
                 }
@@ -291,6 +309,42 @@ namespace WebSiteMusicBand.Controllers
             {
                 upload = null;
             }
+        }
+        //[HttpGet]
+        //public PartialViewResult GetTracks(int albumId)
+        //{
+        //    IEnumerable<Track> trackss = _repo.GetTracksByAlbumId(albumId);
+        //    return PartialView(trackss);
+        //}
+
+        public JsonResult GetTracksAJAX(int albumId)
+        {
+            return Json(_repo.GetTracksByAlbumId(albumId),JsonRequestBehavior.AllowGet);
+        }
+
+        public void AddTrackAJAX([Bind(Include = "AlbumId,NameOfTrack,file,Position")]Track track)
+        {
+            _repo.CreateTrack(track);
+        }
+
+        public void EditTrackAJAX([Bind(Include = "AlbumId,NameOfTrack,Position,TrackLink,TrackId")] Track track)
+        {
+            _repo.EditTrack(track);
+        }
+        public void DeleteTrackAJAX(int trackId)
+        {
+            _repo.DeleteTrack(trackId);
+        }
+
+
+        public ActionResult TracksTablePartial()
+        {
+            return View();
+        }
+        protected override void Dispose(bool disposing)
+        {
+            _repo.Dispose(disposing);
+            base.Dispose(disposing);
         }
     }
 }
