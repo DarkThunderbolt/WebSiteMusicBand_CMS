@@ -336,8 +336,8 @@ namespace WebSiteMusicBand.Controllers
             _repo.DeleteTrack(trackId);
         }
 
-
-        public ActionResult TracksTablePartial()
+        [AllowAnonymous]
+        public ActionResult MusicPlayerBar()
         {
             return View();
         }
@@ -346,5 +346,6 @@ namespace WebSiteMusicBand.Controllers
             _repo.Dispose(disposing);
             base.Dispose(disposing);
         }
+
     }
 }

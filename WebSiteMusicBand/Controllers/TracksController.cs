@@ -20,12 +20,13 @@ namespace WebSiteMusicBand.Controllers
         [System.Web.Http.HttpGet]
         public IEnumerable<Track> Get(int albumId)
         {
-            return _repo.GetTracksByAlbumId(albumId).ToArray();
+            return _repo.GetTracksByAlbumId(albumId).OrderBy(x=>x.Position).ToArray();
         }
 
         [System.Web.Http.HttpPost]
-        public void Post([FromBody]Track track)
+        public void Post(int id,[FromBody]Track track)
         {
+           track.AlbumId = id;
            _repo.CreateTrack(track);
         }
 

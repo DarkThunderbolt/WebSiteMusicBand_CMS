@@ -381,8 +381,7 @@
     <Content Include="Content\CSS\JQueryUI\themes\ui-lightness\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\CSS\JQueryUI\themes\ui-lightness\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Content\CSS\MyCss.css" />
-    <Content Include="Content\CSS\soundmanager\flashblock.css" />
-    <Content Include="Content\CSS\soundmanager\page-player.css" />
+    <Content Include="Content\CSS\soundmanager\bar-ui.css" />
     <Content Include="Content\font-awesome\css\font-awesome.css" />
     <Content Include="Content\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.svg" />
@@ -496,7 +495,7 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\PicPreview.js" />
-    <Content Include="Scripts\soundmanager\page-player.js" />
+    <Content Include="Scripts\soundmanager\bar-ui.js" />
     <Content Include="Scripts\soundmanager\soundmanager2.js" />
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
     <Content Include="Scripts\tinymce\license.txt" />
@@ -681,6 +680,7 @@
       <DependentUpon>AlbumsDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\AlbumsRepository.cs" />
+    <Compile Include="Model\HtmlHelperExtensions.cs" />
     <Compile Include="Model\VM\AlbumEditViewM.cs" />
     <Compile Include="Model\Metadata\AlbumsMetadata.cs" />
     <Compile Include="Model\NewsAdditionalInfo.cs">
@@ -830,6 +830,7 @@
     <Content Include="Views\Albums\CreateTrack.cshtml" />
     <Content Include="Views\Albums\EditTrack.cshtml" />
     <Content Include="Views\Albums\UploadTrack.cshtml" />
+    <Content Include="Views\Albums\MusicPlayerBar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -840,8 +841,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Upload\Profile\" />
-    <Folder Include="Views\TracksData\" />
-    <Folder Include="Views\Tracks\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
