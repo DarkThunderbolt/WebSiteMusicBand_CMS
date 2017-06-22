@@ -72,15 +72,11 @@
 </div>
 
 @section Styles{
-    <link type="text/css" rel="stylesheet" href="~/Scripts/jsgrid/jsgrid.min.css" />
-    <link type="text/css" rel="stylesheet" href="~/Scripts/jsgrid/jsgrid-theme.min.css" />
-
-    }
+    @Scripts.Render("~/bundles/jsgrid/css")
+}
 
 @section Scripts{
-
-    <script src="~/Scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
-    <script src="~/Scripts/jsgrid/jsgrid.min.js" type="text/javascript"></script>
+    @Scripts.Render("~/bundles/jsgrid/js")
 
     <script type="text/javascript">
         var alb = @albID;
@@ -136,28 +132,29 @@
             },
 
             fields: [
-                { name: "AlbumId", type: "number"},
-                { name: "TrackId", type: "number" },
-                { name: "GridPosition", type: "number",width: 35, },
                 { name: "Position", type: "number", width: 35, title: "№" },
-                { name: "NameOfTrack", type: "text", width: 150 },
-                { name: "Duration", type: "text", width: 100 },                
-                { name: "TrackLink", type: "text", width: 150 },               
+                { name: "NameOfTrack", type: "text", width: 150, title: "Title" },
+                { name: "Duration", type: "text", width: 100 },                     
                 {
-                        itemTemplate: function (_, item) {
+                    itemTemplate: function (_, item) {
+                        if(item.DoesTrackFileExists == ""){
                             return $("<button>").text("Play")
                                 .on("click", function () {
-                                soundManager.stopAll();
-                                window.sm2BarPlayers[0].actions.play(item.GridPosition);
-                            });
+                                    soundManager.stopAll();
+                                    window.sm2BarPlayers[0].actions.play(item.GridPosition);
+                                });
+                        }
+                        else{
+                            return $("track not found");
+                        }
+                            //need check does file exist
                         }
                     },
                 { type: "control", width: 50 }
             ]
         });
-        $("#jsGrid").jsGrid("fieldOption", "AlbumId", "visible", false);
-        $("#jsGrid").jsGrid("fieldOption", "TrackId", "visible", false);
         $("#jsGrid").jsGrid("fieldOption", "NameOfTrack", "align", "center");
+
     </script>
 }
 

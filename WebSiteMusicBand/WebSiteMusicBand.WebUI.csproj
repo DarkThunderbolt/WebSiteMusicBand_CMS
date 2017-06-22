@@ -386,6 +386,7 @@
     <Content Include="Content\CSS\JQueryUI\themes\ui-lightness\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\CSS\JQueryUI\themes\ui-lightness\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\CSS\JQueryUI\themes\ui-lightness\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Content\CSS\ModalWindow.css" />
     <Content Include="Content\CSS\MyCss.css" />
     <Content Include="Content\CSS\soundmanager\bar-ui.css" />
     <Content Include="Content\font-awesome\css\font-awesome.css" />
@@ -401,6 +402,7 @@
     <Content Include="Content\JS\jqBootstrapValidation.js" />
     <Content Include="Content\JS\jquery.js" />
     <Content Include="Content\JS\jquery.min.js" />
+    <Content Include="Content\JS\ModalWindow.js" />
     <Content Include="Content\JS\UserAuth\bootstrap.js" />
     <Content Include="Content\JS\UserAuth\bootstrap.min.js" />
     <Content Include="Content\font-awesome\scss\font-awesome.scss" />

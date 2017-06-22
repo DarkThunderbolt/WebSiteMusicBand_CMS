@@ -48,5 +48,106 @@
             </div>
         </div>
     </div>
-
 }
+<table id="jsGrid"></table>
+
+
+
+<div>
+
+    @Html.Partial("~/Views/Albums/MusicPlayerBar.cshtml", Model)
+</div>
+
+@section Styles{
+@Scripts.Render("~/bundles/jsgrid/css")
+}
+
+@section Scripts{
+@Scripts.Render("~/bundles/jsgrid/js")
+   
+
+    <script type="text/javascript">
+        var alb = @albID;
+        $("#jsGrid").jsGrid({
+
+            height: "auto",
+            width: "100%",
+
+            inserting: true,
+            editing: true,
+            autoload: true,
+
+            pageSize: 10,
+            pageButtonCount: 5,
+
+            deleteConfirm: "Do you really want to delete client?",
+
+            controller: {
+                loadData: function (filter) {
+                    return $.ajax({
+                        type: "GET",
+                        url: "/api/tracks",
+                        data: 'albumId=' + alb,
+                        dataType: "json"
+                    });
+                },
+
+                insertItem: function (item) {
+                    return $.ajax({
+                        type: "POST",
+                        url: "/api/Tracks/" + alb,
+                        data: item,
+                        dataType: "json"
+                    });
+                },
+
+                updateItem: function (item) {
+                    return $.ajax({
+                        type: "PUT",
+                        url: "/api/Tracks/",
+                        data: item,
+                        dataType: "json"
+                    });
+                },
+
+                deleteItem: function (item) {
+                    return $.ajax({
+                        type: "DELETE",
+                        url: "/api/Tracks/" + item.TrackId,
+                        dataType: "json"
+                    });
+                }
+            },
+
+            fields: [
+                { name: "AlbumId", type: "number"},
+                { name: "TrackId", type: "number" },
+                { name: "Position", type: "number", width: 35, title: "№" },
+                { name: "NameOfTrack", type: "text", width: 150 },
+                { name: "TrackLink", type: "text", width: 150 },
+                 {
+                     itemTemplate: function (_, item) {
+                         return $("<button>").text("Upload Track")
+                             .on("click", function () {
+                                
+                             });
+                     }
+                 },
+                {
+                        itemTemplate: function (_, item) {
+                            return $("<button>").text("Play")
+                                .on("click", function () {
+                                soundManager.stopAll();
+                                window.sm2BarPlayers[0].actions.play(item.GridPosition);
+                            });
+                        }
+                    },
+                { type: "control", width: 50 }
+            ]
+        });
+        $("#jsGrid").jsGrid("fieldOption", "AlbumId", "visible", false);
+        $("#jsGrid").jsGrid("fieldOption", "TrackId", "visible", false);
+        $("#jsGrid").jsGrid("fieldOption", "NameOfTrack", "align", "center");
+    </script>
+}
+

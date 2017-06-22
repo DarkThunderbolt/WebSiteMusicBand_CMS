@@ -31,8 +31,8 @@ namespace WebSiteMusicBand
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Content/JS/UserAuth//jquery.validate*"));
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
+
+
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Content/JS/UserAuth//modernizr-*"));
 
@@ -40,7 +40,26 @@ namespace WebSiteMusicBand
                       "~/Content/JS/UserAuth//bootstrap.js",
                       "~/Content/JS/UserAuth//respond.js"));
 
-         
+
+
+
+            bundles.Add(new ScriptBundle("~/bundles/jsgrid/js").Include(
+                "~/Scripts/jquery-3.1.1.min.js",
+                "~/Scripts/jsgrid/jsgrid.min.js"
+                 )); 
+            bundles.Add(new StyleBundle("~/bundles/jsgrid/css").Include(
+                "~/Scripts/jsgrid/jsgrid.min.css",      
+                "~/Scripts/jsgrid/jsgrid-theme.min.css"
+                ));
+
+
+            bundles.Add(new StyleBundle("~/bundles/modalwindow/css").Include(
+                "~/Content/Css/ModalWindow.css"
+                ));
+            bundles.Add(new StyleBundle("~/bundles/modalwindow/js").Include(
+                "~/Content/JS/ModalWindow.js"
+    ));
+
         }
     }
 }
