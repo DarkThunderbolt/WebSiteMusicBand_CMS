@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -28,5 +29,13 @@ namespace WebSiteMusicBand.Model
         }
 
         public int GridPosition { get; set; }
+
+        public bool DoesTrackFileExists
+        {
+            get
+            {
+                return File.Exists(System.Web.Hosting.HostingEnvironment.MapPath("~/" + this.TrackLink));
+            }
+        }
     }
 }

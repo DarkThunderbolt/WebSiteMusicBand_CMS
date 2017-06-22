@@ -12,37 +12,45 @@
 <div>
     <h4>Album</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+    <table width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="leftcol" height="auto">
+                <img  class="img-responsive user-photo myImg" src=@Url.Content(Model.CoverLink)
+                     width="100%"  alt=@Model.Title>
+            </td>
+            <td valign="top">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Year)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Year)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NumOfTracks)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Year)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.NumOfTracks)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NumOfTracks)
+                    </dt>
 
-        <dd>
-            <img class="img-responsive user-photo myImg" src=@Url.Content(Model.CoverLink) />
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.NumOfTracks)
+                    </dd>
 
-    </dl>
 
+
+                </dl>
+            </td>
+        </tr>
+    </table>
     <br/>
     </div>
 
@@ -72,7 +80,15 @@
 </div>
 
 @section Styles{
-    @Scripts.Render("~/bundles/jsgrid/css")
+    @Styles.Render("~/bundles/jsgrid/css")
+
+   TD.leftcol {
+    width: 20%; /* Ширина левой колонки с рисунком */
+    vertical-align: top; /* Выравнивание по верхнему краю */
+   }
+    #cover{
+    height: auto;
+    }
 }
 
 @section Scripts{
@@ -85,14 +101,8 @@
             height: "auto",
             width: "100%",
 
-            inserting: true,
-            editing: true,
             autoload: true,
 
-            pageSize: 10,
-            pageButtonCount: 5,
-
-            deleteConfirm: "Do you really want to delete client?",
 
             controller: {
                 loadData: function (filter) {
@@ -136,21 +146,23 @@
                 { name: "NameOfTrack", type: "text", width: 150, title: "Title" },
                 { name: "Duration", type: "text", width: 100 },                     
                 {
-                    itemTemplate: function (_, item) {
-                        if(item.DoesTrackFileExists == ""){
+                    itemTemplate: function (_, item) 
+                    {
+                        if(item.DoesTrackFileExists)
+                        {
                             return $("<button>").text("Play")
-                                .on("click", function () {
+                                .on("click", function () 
+                                {
                                     soundManager.stopAll();
                                     window.sm2BarPlayers[0].actions.play(item.GridPosition);
                                 });
                         }
-                        else{
-                            return $("track not found");
+                        else
+                        {
+                            return $("<div>").text("track not found");
                         }
-                            //need check does file exist
-                        }
-                    },
-                { type: "control", width: 50 }
+                    }
+                },
             ]
         });
         $("#jsGrid").jsGrid("fieldOption", "NameOfTrack", "align", "center");
