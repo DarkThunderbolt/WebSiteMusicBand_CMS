@@ -1,4 +1,7 @@
 ﻿
+@{
+    Dictionary<int, int> positionKey_idValue = ViewBag.Dic;
+ }
 <div class="sm2-bar-ui full-width fixed">
 
     <div class="bd sm2-main-controls">
@@ -16,7 +19,7 @@
 
             <div class="sm2-playlist">
                 <div class="sm2-playlist-target">
-                   <noscript><p>JavaScript is required.</p></noscript>
+                    <noscript><p>JavaScript is required.</p></noscript>
                 </div>
             </div>
 
@@ -62,16 +65,28 @@
         <div class="sm2-playlist-wrapper">
 
             <ul class="sm2-playlist-bd">
+                @if (Model.Tracks.Count != 0)
+                {
+                    int count = 0;
+                    foreach (Track item in Model.Tracks)
+                    {
+                        if (item.TrackLink != null)
+                        {
+                            //positionKey_idValue.Add(count++, item.TrackId);
+                            <li>
+                                <div class="sm2-row">
+                                    <div class="sm2-col sm2-wide">
+                                        <a id="songLink" href="@item.TrackLink.Replace("~","")"><div id="songName"> @item.NameOfTrack</div></a>
+                                    </div>
+
+                                </div>
+                            </li>
+                        }
+                    }
+                }
 
                 <!-- item with "download" link -->
-                <li>
-                    <div class="sm2-row">
-                        <div class="sm2-col sm2-wide">
-                            <a id="songLink" href="~/Content/Upload/Music/rain.mp3"><div id="songName"> <b>SonReal!</b> - LAA</div></a>
-                        </div>
 
-                    </div>
-                </li>
 
             </ul>
 
@@ -80,25 +95,12 @@
     </div>
 
 </div>
-@{
-    Html.AddStyle("../../Content/CSS/soundmanager/bar-ui.css");
-    Html.AddJavaScript("../../Scripts/soundmanager/soundmanager2.js");
-    Html.AddJavaScript("../../Scripts/soundmanager/bar-ui.js");
-}
-@section Styles{
-    .sm2-bar-ui {
-     font-size: 16px;
-    }
-    .sm2-bar-ui .sm2-main-controls,
-    .sm2-bar-ui .sm2-playlist-drawer {
-     background-color: #c0c0c0;
-    }
-    .sm2-bar-ui .sm2-inline-texture {
-     background: #666;
-    }
-    }
-@section Scripts{
 
-    @*<script src="~/Scripts/soundmanager/soundmanager2.js" type="text/javascript" ></script>
-    <script src="~/Scripts/soundmanager/bar-ui.js"></script>*@
+@{
+    Html.AddStyle("/Content/CSS/soundmanager/bar-ui.css");
+    Html.AddStyle("/Content/CSS/MyCss");
+    Html.AddJavaScript("/Scripts/soundmanager/soundmanager2.js");
+    Html.AddJavaScript("/Scripts/soundmanager/bar-ui.js");
+
+
 }

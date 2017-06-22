@@ -83,7 +83,8 @@ namespace WebSiteMusicBand.Model
 
         public IEnumerable<Track> GetTracksByAlbumId(int albumId)
         {
-            return _db.Albums.Find(albumId).Tracks;
+            SetAllGridPositions(albumId);
+            return _db.Albums.Find(albumId).Tracks.OrderBy(x => x.Position).ToArray();
         }
 
         public bool UpdateCover(string path,int albumId)
@@ -171,6 +172,15 @@ namespace WebSiteMusicBand.Model
 
         }
 
+        private void SetAllGridPositions(int albumId)
+        {
+            int count = 0;
+            foreach(var item in _db.Albums.Find(albumId).Tracks.OrderBy(x => x.Position).ToArray())
+            {
+                item.GridPosition = count++;
+            }
+        }
+        
         public void Dispose(bool disposing)
         {
             if (disposing)

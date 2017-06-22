@@ -20,7 +20,7 @@ namespace WebSiteMusicBand.Controllers
         [System.Web.Http.HttpGet]
         public IEnumerable<Track> Get(int albumId)
         {
-            return _repo.GetTracksByAlbumId(albumId).OrderBy(x=>x.Position).ToArray();
+            return _repo.GetTracksByAlbumId(albumId);
         }
 
         [System.Web.Http.HttpPost]

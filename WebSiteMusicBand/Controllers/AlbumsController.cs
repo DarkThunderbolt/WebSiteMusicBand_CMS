@@ -51,6 +51,7 @@ namespace WebSiteMusicBand.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
+            
             return View(album);
         }
 
@@ -310,6 +311,7 @@ namespace WebSiteMusicBand.Controllers
                 upload = null;
             }
         }
+
         //[HttpGet]
         //public PartialViewResult GetTracks(int albumId)
         //{
@@ -317,30 +319,6 @@ namespace WebSiteMusicBand.Controllers
         //    return PartialView(trackss);
         //}
 
-        public JsonResult GetTracksAJAX(int albumId)
-        {
-            return Json(_repo.GetTracksByAlbumId(albumId),JsonRequestBehavior.AllowGet);
-        }
-
-        public void AddTrackAJAX([Bind(Include = "AlbumId,NameOfTrack,file,Position")]Track track)
-        {
-            _repo.CreateTrack(track);
-        }
-
-        public void EditTrackAJAX([Bind(Include = "AlbumId,NameOfTrack,Position,TrackLink,TrackId")] Track track)
-        {
-            _repo.EditTrack(track);
-        }
-        public void DeleteTrackAJAX(int trackId)
-        {
-            _repo.DeleteTrack(trackId);
-        }
-
-        [AllowAnonymous]
-        public ActionResult MusicPlayerBar()
-        {
-            return View();
-        }
         protected override void Dispose(bool disposing)
         {
             _repo.Dispose(disposing);

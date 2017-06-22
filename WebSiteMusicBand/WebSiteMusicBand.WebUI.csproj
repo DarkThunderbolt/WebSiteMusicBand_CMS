@@ -164,6 +164,9 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="policy.2.0.taglib-sharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -219,6 +222,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
       <Private>True</Private>
@@ -681,8 +687,10 @@
     </Compile>
     <Compile Include="Model\AlbumsRepository.cs" />
     <Compile Include="Model\HtmlHelperExtensions.cs" />
+    <Compile Include="Model\MetadataAndExtantions\AlbumExtantion.cs" />
+    <Compile Include="Model\MetadataAndExtantions\TrackExtantion.cs" />
     <Compile Include="Model\VM\AlbumEditViewM.cs" />
-    <Compile Include="Model\Metadata\AlbumsMetadata.cs" />
+    <Compile Include="Model\MetadataAndExtantions\AlbumsMetadata.cs" />
     <Compile Include="Model\NewsAdditionalInfo.cs">
       <DependentUpon>WebSiteModel.tt</DependentUpon>
     </Compile>
@@ -697,10 +705,10 @@
     </Compile>
     <Compile Include="Model\Interface\IAlbumRepository.cs" />
     <Compile Include="Model\Interface\INewsRepository.cs" />
-    <Compile Include="Model\Metadata\CommentsMetadata.cs" />
-    <Compile Include="Model\Metadata\CustomUserMetadata.cs" />
-    <Compile Include="Model\Metadata\NewsMetadata.cs" />
-    <Compile Include="Model\Metadata\Partial.cs" />
+    <Compile Include="Model\MetadataAndExtantions\CommentsMetadata.cs" />
+    <Compile Include="Model\MetadataAndExtantions\CustomUserMetadata.cs" />
+    <Compile Include="Model\MetadataAndExtantions\NewsMetadata.cs" />
+    <Compile Include="Model\MetadataAndExtantions\Partial.cs" />
     <Compile Include="Model\News.cs">
       <DependentUpon>WebSiteModel.tt</DependentUpon>
     </Compile>
