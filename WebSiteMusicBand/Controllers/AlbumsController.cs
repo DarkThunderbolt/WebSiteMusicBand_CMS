@@ -33,7 +33,8 @@ namespace WebSiteMusicBand.Controllers
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                MvcApplication.logger.Error("Cant load albums");
+                return RedirectToAction("ServerError", "Error");
             }
         }
 
@@ -44,14 +45,13 @@ namespace WebSiteMusicBand.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("PageNotFound", "Error");
             }
             var album = _repo.GetAlbumById((int)id);
             if (album == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-            }
-            
+                return RedirectToAction("PageNotFound", "Error");
+            }            
             return View(album);
         }
 
@@ -79,11 +79,12 @@ namespace WebSiteMusicBand.Controllers
                         upload += _repo.UpdateCover;
                         albumVM.CoverPath = UlpoadFile(albumVM.file, "~/Content/Upload/Albums", alb.AlbumId);
                     }
-                    return RedirectToAction("Details", new { id = albumVM.AlbumId });
+                    return RedirectToAction("Details", new { id = alb.AlbumId });
                 }
                 else
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                    MvcApplication.logger.Error("Cant upload cover file");
+                    return RedirectToAction("ServerError", "Error");
                 }
             }
             return View(albumVM);
@@ -95,14 +96,14 @@ namespace WebSiteMusicBand.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("PageNotFound", "Error");
             }
             Album album = _repo.GetAlbumById((int)id);
             if (album == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                return RedirectToAction("PageNotFound", "Error");
             }
-            return View(album);
+            return View(album.ConvertToViewModel());
         }
 
         // POST: Albums/Edit/id
@@ -139,12 +140,12 @@ namespace WebSiteMusicBand.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("PageNotFound", "Error");
             }
             var news = _repo.GetAlbumById((int)id);
             if (news == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                return RedirectToAction("PageNotFound", "Error");
             }
             return View(news);
         }
@@ -160,7 +161,7 @@ namespace WebSiteMusicBand.Controllers
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                return RedirectToAction("ServerError", "Error");
             }
         }
 
@@ -174,6 +175,8 @@ namespace WebSiteMusicBand.Controllers
 
         // POST: Albums/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public ActionResult CreateTrack([Bind(Include = "AlbumId,NameOfTrack,file,Position")] TrackUploadViewM trackVM)
         {
             if (ModelState.IsValid)
@@ -188,14 +191,14 @@ namespace WebSiteMusicBand.Controllers
                         trackVM.TrackLink = UlpoadFile(trackVM.file, "~/Content/Upload/Music", track.TrackId);
                         if (trackVM.TrackLink == null)
                         {
-                            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                            return RedirectToAction("ServerError", "Error");
                         }
                     }
                     return RedirectToAction("Details", new { id = trackVM.AlbumId });
                 }
                 else
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                    return RedirectToAction("ServerError", "Error");
                 }
             }
             return View(trackVM);
@@ -206,16 +209,12 @@ namespace WebSiteMusicBand.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("PageNotFound", "Error");
             }
             var track = _repo.GetTrackById((int)id);
             if (track == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-            }
-            if (!SecureCustomHelper.IsCurrenAdmin())
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.MethodNotAllowed);
+                return RedirectToAction("PageNotFound", "Error");
             }
             return View(track);
         }
@@ -233,7 +232,7 @@ namespace WebSiteMusicBand.Controllers
                 }
                 else
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                    return RedirectToAction("ServerError", "Error"); ;
                 }
             }
             return View(track);
@@ -249,7 +248,7 @@ namespace WebSiteMusicBand.Controllers
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                return RedirectToAction("ServerError", "Error");
             }
         }
 
@@ -258,12 +257,12 @@ namespace WebSiteMusicBand.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("PageNotFound", "Error");
             }
             Track track = _repo.GetTrackById((int)id);
             if (track == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                return RedirectToAction("PageNotFound", "Error");
             }
             return View(track);
         }

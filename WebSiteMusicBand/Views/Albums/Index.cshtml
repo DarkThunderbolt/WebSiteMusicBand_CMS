@@ -5,17 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
-@if (SecureCustomHelper.IsCurrenAdmin())
-{
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-}
-
-
-
 <div class="grid" data-isotope='{ "itemSelector": ".grid-item", "layoutMode": "fitRows" }'>
     @foreach (var item in Model)
     {
@@ -23,10 +12,10 @@
             <a href="@Url.Action("Details", "Albums", new {id =item.AlbumId })">
                 <table border="0">
                     <tr align="center">
-                        @Html.DisplayFor(modelItem => item.Title)
+                       <div id="grid-text">@Html.DisplayFor(modelItem => item.Title)</div> 
                     </tr>
                     <tr>
-                        <img class="img-responsive user-photo" src=@Url.Content(item.CoverLink)>
+                        <img id="grid-pic" class="img-responsive user-photo" src=@Url.Content(item.CoverLink) alt=@item.Title />
                     </tr>
                 </table>
             </a>
@@ -34,14 +23,35 @@
     }
 </div>
 
+@if (SecureCustomHelper.IsCurrenAdmin())
+{
+    <p id="create">
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+
 @section Styles{
-    <style>
+    <style >
         .grid-item {
             float: left;
-            width: 250px;
-            height: 250px;
+            width: 350px;
+            height: auto;
             background: #e6e5e4;
             border: 2px solid #b6b5b4;
         }
+        #grid-pic {
+            width: 100%;
+            height: auto;
+        }
+        #grid-text{
+            text-align:center;
+        }
+        #create {
+            text-align: center;
+            font-size: 150%;
+        }
     </style>
 }
+@section Scripts{
+    @Scripts.Render("~/bundles/isotope/js"));
+    }

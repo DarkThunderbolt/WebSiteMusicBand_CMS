@@ -1,11 +1,12 @@
-﻿@model WebSiteMusicBand.Model.Album
+﻿@model WebSiteMusicBand.Model.AlbumEditViewM
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string link = Model.CoverPath.Substring(1);
 }
 
-<h2>Edit</h2>
+<h2  id="center-text">Edit Album:</h2>
 
 @using (Html.BeginForm("Edit", "Albums", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -13,7 +14,7 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.AlbumId)
 
-    <div class="form-horizontal">
+    <div id="inputFields" class="form-horizontal">
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -31,16 +32,19 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NumOfTracks, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NumOfTracks, htmlAttributes: new { @id = "longText", @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NumOfTracks, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.NumOfTracks, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <label for="file">Upload Image:</label>
-        <input type="file" name="file" />
-        <div id="dvPreview"></div>
+        <div class="textCenter">
+            <label for="file">Upload Image:</label>
+            <input id="fileUpload" type="file" name="file" />
+            <div id="imgPreview"></div>
+            <button id="resetCover" type="button" >Reset Cover</button>
+            <br />
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -49,25 +53,59 @@
         </div>
     </div>
 }
+<hr />
 <table id="jsGrid"></table>
-
-
-
+<hr />
 <div>
-
     @Html.Partial("~/Views/Albums/MusicPlayerBar.cshtml", Model)
 </div>
 
 @section Styles{
-@Scripts.Render("~/bundles/jsgrid/css")
+    @Styles.Render("~/bundles/jsgrid/css")
+    <style>
+        #center-text {
+            text-align: center;
+        }
+
+        #inputFields {
+            text-align: left;
+            width: 60%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #longText {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        #fileUpload {
+            margin-left: 20%;
+        }
+
+        #thumb-image {
+            width: auto;
+            height: 300px;
+        }
+    </style>
 }
 
 @section Scripts{
-@Scripts.Render("~/bundles/jsgrid/js")
-   
-
+    @Scripts.Render("~/bundles/picpreview");
+    @Scripts.Render("~/bundles/jsgrid/js");    
+    
     <script type="text/javascript">
-        var alb = @albID;
+        var link = "@Html.Raw(HttpUtility.JavaScriptStringEncode(link))";
+        var image_holder = $("#imgPreview");
+        image_holder.empty();
+        $("<img />", {
+            "src": link,
+            "id": "thumb-image"
+        }).appendTo(image_holder);
+
+
+        var alb = @Model.AlbumId;
         $("#jsGrid").jsGrid({
 
             height: "auto",
@@ -129,7 +167,7 @@
                      itemTemplate: function (_, item) {
                          return $("<button>").text("Upload Track")
                              .on("click", function () {
-                                
+
                              });
                      }
                  },

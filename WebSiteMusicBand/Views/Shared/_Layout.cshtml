@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Band FanSite</title>
+    @Scripts.Render("~/bundles/jquery")
     @Html.RenderStyles()
     @Html.RenderJavaScripts()
     @Styles.Render("~/bundles/css")
@@ -44,6 +45,6 @@
 
     @Scripts.Render("~/bundles/JS")
 
-    @RenderSection("scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

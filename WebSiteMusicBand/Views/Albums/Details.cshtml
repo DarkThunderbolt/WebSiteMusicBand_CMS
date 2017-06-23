@@ -3,23 +3,19 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int albID = Model.AlbumId;
     Dictionary<int, int> positionKey_idValue = new Dictionary<int, int>();
 }
 
-<h2>Details</h2>
+<h2 class="textCenter">Album details:</h2>
 
 <div>
-    <h4>Album</h4>
     <hr />
-
-    <table width="100%" cellspacing="0" cellpadding="0">
+    <table id="albumInfo" cellspacing="0" cellpadding="0">
         <tr>
             <td class="leftcol" height="auto">
-                <img  class="img-responsive user-photo myImg" src=@Url.Content(Model.CoverLink)
-                     width="100%"  alt=@Model.Title>
+                <img class="img-responsive user-photo" src=@Url.Content(Model.CoverLink)  alt=@Model.Title />
             </td>
-            <td valign="top">
+            <td valign="top" id="infoPart">
                 <dl class="dl-horizontal">
                     <dt>
                         @Html.DisplayNameFor(model => model.Title)
@@ -44,15 +40,12 @@
                     <dd>
                         @Html.DisplayFor(model => model.NumOfTracks)
                     </dd>
-
-
-
                 </dl>
             </td>
         </tr>
     </table>
-    <br/>
     </div>
+<hr />
 
     @if (SecureCustomHelper.IsCurrenAdmin())
     {
@@ -64,45 +57,56 @@
         </div>
     }
 
-
     <div class="btn btn-default" style="float:left">
-        @Html.ActionLink("Back", "Details", new { id = albID })
+        @Html.ActionLink("Back", "Details", new { id = Model.AlbumId })
     </div>
 <br/>
-
+<br />
+<hr />
 <table id="jsGrid"></table>
 
-
+<hr />
 
 <div>
-
-@Html.Partial("~/Views/Albums/MusicPlayerBar.cshtml", Model)
+    @Html.Partial("~/Views/Albums/MusicPlayerBar.cshtml", Model)
 </div>
 
 @section Styles{
     @Styles.Render("~/bundles/jsgrid/css")
+    <style>
+        #albumInfo {
+            width: 100%;
+        }
 
-   TD.leftcol {
-    width: 20%; /* Ширина левой колонки с рисунком */
-    vertical-align: top; /* Выравнивание по верхнему краю */
-   }
-    #cover{
-    height: auto;
-    }
+        TD.leftcol {
+            width: 30%; 
+            vertical-align: top;
+        }
+
+        .dl-horizontal {
+            font-size: 150%;
+        }
+
+        #infoPart {
+            padding-top: 7%
+        }
+
+        #infoPart dt {
+            width: 200px;
+            margin-right: 15px;
+        }
+    </style>
 }
 
 @section Scripts{
     @Scripts.Render("~/bundles/jsgrid/js")
-
     <script type="text/javascript">
-        var alb = @albID;
+        var alb = @Model.AlbumId;
         $("#jsGrid").jsGrid({
 
             height: "auto",
             width: "100%",
-
             autoload: true,
-
 
             controller: {
                 loadData: function (filter) {
@@ -113,45 +117,19 @@
                         dataType: "json"
                     });
                 },
-
-                insertItem: function (item) {
-                    return $.ajax({
-                        type: "POST",
-                        url: "/api/Tracks/" + alb,
-                        data: item,
-                        dataType: "json"
-                    });
-                },
-
-                updateItem: function (item) {
-                    return $.ajax({
-                        type: "PUT",
-                        url: "/api/Tracks/",
-                        data: item,
-                        dataType: "json"
-                    });
-                },
-
-                deleteItem: function (item) {
-                    return $.ajax({
-                        type: "DELETE",
-                        url: "/api/Tracks/" + item.TrackId,
-                        dataType: "json"
-                    });
-                }
             },
 
             fields: [
                 { name: "Position", type: "number", width: 35, title: "№" },
                 { name: "NameOfTrack", type: "text", width: 150, title: "Title" },
-                { name: "Duration", type: "text", width: 100 },                     
+                { name: "Duration", type: "text", width: 100 },
                 {
-                    itemTemplate: function (_, item) 
+                    itemTemplate: function (_, item)
                     {
                         if(item.DoesTrackFileExists)
                         {
                             return $("<button>").text("Play")
-                                .on("click", function () 
+                                .on("click", function ()
                                 {
                                     soundManager.stopAll();
                                     window.sm2BarPlayers[0].actions.play(item.GridPosition);

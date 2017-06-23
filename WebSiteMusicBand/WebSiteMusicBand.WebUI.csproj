@@ -648,6 +648,9 @@
     <Content Include="Scripts\ui\jquery.ui.mouse.js" />
     <Content Include="Scripts\ui\jquery.ui.resizable.js" />
     <Content Include="Scripts\ui\jquery.ui.widget.js" />
+    <None Include="Views\Error\404.cshtml" />
+    <None Include="Views\Error\503.cshtml" />
+    <None Include="Views\Error\maintenance.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -661,6 +664,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AlbumsController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\NewsController.cs" />

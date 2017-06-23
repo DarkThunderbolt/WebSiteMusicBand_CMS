@@ -12,10 +12,9 @@ namespace WebSiteMusicBand
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/JS").Include(
-                "~/Content/JS/jquery.min.js",
                 "~/Content/JS/bootstrap.min.js",
-                "~/Content/JS/clean-blog.js",
-                 "~/Content/JS/isotope.pkgd.min.js"));
+                "~/Content/JS/clean-blog.js"
+                ));
 
             bundles.Add(new StyleBundle("~/bundles/css").Include(
                   "~/Content/CSS/bootstrap.min.css",
@@ -23,15 +22,8 @@ namespace WebSiteMusicBand
                   "~/Content/CSS/MyCss.css"
                 ));
 
-
-
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-            "~/Content/JS/UserAuth/jquery-{version}.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Content/JS/UserAuth//jquery.validate*"));
-
-
 
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Content/JS/UserAuth//modernizr-*"));
@@ -42,9 +34,15 @@ namespace WebSiteMusicBand
 
 
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                "~/Scripts/jquery-{version}.js"));
 
+            // isotope grid
+            bundles.Add(new ScriptBundle("~/bundles/isotope/js").Include(
+                "~/Content/JS/isotope.pkgd.min.js"));
+
+            // jsgrid
             bundles.Add(new ScriptBundle("~/bundles/jsgrid/js").Include(
-                "~/Scripts/jquery-3.1.1.min.js",
                 "~/Scripts/jsgrid/jsgrid.min.js"
                  )); 
             bundles.Add(new StyleBundle("~/bundles/jsgrid/css").Include(
@@ -52,14 +50,17 @@ namespace WebSiteMusicBand
                 "~/Scripts/jsgrid/jsgrid-theme.min.css"
                 ));
 
-
+            // modalwindow
             bundles.Add(new StyleBundle("~/bundles/modalwindow/css").Include(
                 "~/Content/Css/ModalWindow.css"
                 ));
             bundles.Add(new StyleBundle("~/bundles/modalwindow/js").Include(
                 "~/Content/JS/ModalWindow.js"
-    ));
+            ));
 
+            bundles.Add(new ScriptBundle("~/bundles/picpreview").Include(
+                "~/Scripts/PicPreview.js"
+                ));
         }
     }
 }

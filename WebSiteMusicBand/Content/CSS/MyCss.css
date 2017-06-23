@@ -108,3 +108,7 @@
     .sm2-bar-ui .sm2-inline-texture {
         background: #666;
     }
+
+.textCenter {
+    text-align: center;
+}
