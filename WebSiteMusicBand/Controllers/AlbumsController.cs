@@ -65,29 +65,27 @@ namespace WebSiteMusicBand.Controllers
         // POST: Albums/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Title,Year,file,NumOfTracks")] AlbumEditViewM albumVM)
+        public ActionResult Create([Bind(Include = "Title,Year,file,NumOfTracks")] Album alb)
         {
             // var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
-                albumVM.CoverPath = "~/Content/Upload/Albums/no_cover.png";
-                Album alb = _repo.CreateAlbum(albumVM.ConvertToAlbum());
-                if (alb != null)
+                alb.CoverLink = "~/Content/Upload/Albums/no_cover.png";
+                _repo.CreateAlbum(alb);               
+                if (alb.file != null)
                 {
-                    if (albumVM.file != null)
-                    {
-                        upload += _repo.UpdateCover;
-                        albumVM.CoverPath = UlpoadFile(albumVM.file, "~/Content/Upload/Albums", alb.AlbumId);
-                    }
-                    return RedirectToAction("Details", new { id = alb.AlbumId });
+                    FileUploader fu = new FileUploader();
+                    fu.changeDB += _repo.UpdateCover;
+                    alb.CoverLink = fu.UlpoadFile(alb.file, "\\Content\\Upload\\Albums", System.Web.Hosting.HostingEnvironment.MapPath("~/"), alb.AlbumId);                 
                 }
                 else
                 {
                     MvcApplication.logger.Error("Cant upload cover file");
                     return RedirectToAction("ServerError", "Error");
                 }
+                return RedirectToAction("Details", new { id = alb.AlbumId });
             }
-            return View(albumVM);
+            return View(alb);
         }
 
         // GET: Albums/Edit/id
@@ -103,35 +101,30 @@ namespace WebSiteMusicBand.Controllers
             {
                 return RedirectToAction("PageNotFound", "Error");
             }
-            return View(album.ConvertToViewModel());
+            return View(album);
         }
 
         // POST: Albums/Edit/id
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AlbumId,Title,Year,file,NumOfTracks")] AlbumEditViewM albumVM)
+        public ActionResult Edit([Bind(Include = "AlbumId,Title,Year,file,NumOfTracks")] Album alb)
         {
             if (ModelState.IsValid)
             {
-                if (albumVM.file != null)
+                if (alb.file != null)
                 {
-                    upload += _repo.UpdateCover;
-                    albumVM.CoverPath = UlpoadFile(albumVM.file, "~/Content/Upload/Albums", albumVM.AlbumId);
+                    FileUploader fu = new FileUploader();                   
+                    fu.changeDB += _repo.UpdateCover;
+                    alb.CoverLink = fu.UlpoadFile(alb.file, "\\Content\\Upload\\Albums", System.Web.Hosting.HostingEnvironment.MapPath("~/"), alb.AlbumId);
                 }
                 else
                 {
-                    albumVM.CoverPath = _repo.GetAlbumById(albumVM.AlbumId).CoverLink;
+                    alb.CoverLink = _repo.GetAlbumById(alb.AlbumId).CoverLink;
                 }
-                if (_repo.EditAlbum(albumVM.ConvertToAlbum()))
-                {
-                    return RedirectToAction("Details", new { id = albumVM.AlbumId });
-                }
-                else
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                }
+                return RedirectToAction("Details", new { id = alb.AlbumId });
+
             }
-            return View(albumVM);
+            return View(alb);
         }
 
         // GET: News/Delete/id
@@ -165,6 +158,9 @@ namespace WebSiteMusicBand.Controllers
             }
         }
 
+
+        /* 
+        // GET: Albums/CreateTrack  
         [HttpGet]
         public ActionResult CreateTrack(int id)
         {
@@ -173,7 +169,8 @@ namespace WebSiteMusicBand.Controllers
             return View(track);
         }
 
-        // POST: Albums/Create
+        
+        // POST: Albums/CreateTrack  
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -204,6 +201,7 @@ namespace WebSiteMusicBand.Controllers
             return View(trackVM);
         }
 
+        // Get: Albums/Edit
         [HttpGet]
         public ActionResult EditTrack(int? id)
         {
@@ -237,7 +235,7 @@ namespace WebSiteMusicBand.Controllers
             }
             return View(track);
         }
-
+        // POST: Albums/DeleteTrack/id
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteTrack(int trackId)
@@ -252,6 +250,7 @@ namespace WebSiteMusicBand.Controllers
             }
         }
 
+        // GET: Albums/UploadTrack/id
         [HttpGet]
         public ActionResult UploadTrack(int? id)
         {
@@ -267,7 +266,7 @@ namespace WebSiteMusicBand.Controllers
             return View(track);
         }
 
-        // POST: Albums/Create
+        // POST: Albums/UploadTrack
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UploadTrack([Bind(Include = "AlbumId,TrackId,file")] TrackUploadViewM track)
@@ -280,43 +279,25 @@ namespace WebSiteMusicBand.Controllers
                 _repo.UploadTrack(path, track.TrackId);
             }
             return RedirectToAction("Edit", "Albums", new { id = track.AlbumId });
-        }
+        } 
+        */
 
-        private delegate bool UploadDel(string path, int id);
-        UploadDel upload;
-        private string UlpoadFile(HttpPostedFileBase file, string folder, int id)
+        [HttpPost]
+        public ActionResult UploadTrack(int id, HttpPostedFileBase file)
         {
-            try
+            FileUploader fu = new FileUploader();
+            fu.changeDB += _repo.UploadTrack;
+            if(  fu.UlpoadFile(file, "\\Content\\Upload\\Music", System.Web.Hosting.HostingEnvironment.MapPath("~/"), id) ==null)
             {
-                if (file != null && file.ContentLength > 0)
-                {
-                    string pic = Path.GetFileName(file.FileName);
-                    string path = Path.Combine(Server.MapPath(folder), pic);
-                    file.SaveAs(path);
-                    if (upload.Invoke(folder + "/" + pic, id))
-                    {
-                        return folder + "/" + pic;
-                    }
-                    return null;
-                }
-                return null;
+                //  Send "false"
+                return Json(new { success = false, responseText = "The attached file is not uploaded." }, JsonRequestBehavior.AllowGet);
             }
-            catch
+            else
             {
-                return null;
-            }
-            finally
-            {
-                upload = null;
+                //  Send "Success"
+                return Json(new { success = true}, JsonRequestBehavior.AllowGet);
             }
         }
-
-        //[HttpGet]
-        //public PartialViewResult GetTracks(int albumId)
-        //{
-        //    IEnumerable<Track> trackss = _repo.GetTracksByAlbumId(albumId);
-        //    return PartialView(trackss);
-        //}
 
         protected override void Dispose(bool disposing)
         {

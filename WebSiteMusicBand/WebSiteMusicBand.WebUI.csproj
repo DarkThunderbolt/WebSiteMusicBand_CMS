@@ -402,7 +402,6 @@
     <Content Include="Content\JS\jqBootstrapValidation.js" />
     <Content Include="Content\JS\jquery.js" />
     <Content Include="Content\JS\jquery.min.js" />
-    <Content Include="Content\JS\ModalWindow.js" />
     <Content Include="Content\JS\UserAuth\bootstrap.js" />
     <Content Include="Content\JS\UserAuth\bootstrap.min.js" />
     <Content Include="Content\font-awesome\scss\font-awesome.scss" />
@@ -489,6 +488,7 @@
     <None Include="Properties\PublishProfiles\AWS.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Content\JS\isotope.pkgd.min.js" />
+    <Content Include="Scripts\UploadTrack.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -692,10 +692,10 @@
       <DependentUpon>AlbumsDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\AlbumsRepository.cs" />
+    <Compile Include="Model\FileUploader.cs" />
     <Compile Include="Model\HtmlHelperExtensions.cs" />
     <Compile Include="Model\MetadataAndExtantions\AlbumExtantion.cs" />
     <Compile Include="Model\MetadataAndExtantions\TrackExtantion.cs" />
-    <Compile Include="Model\VM\AlbumEditViewM.cs" />
     <Compile Include="Model\MetadataAndExtantions\AlbumsMetadata.cs" />
     <Compile Include="Model\NewsAdditionalInfo.cs">
       <DependentUpon>WebSiteModel.tt</DependentUpon>
@@ -729,7 +729,6 @@
     <Compile Include="Model\Track.cs">
       <DependentUpon>AlbumsDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\VM\TrackUploadViewM.cs" />
     <Compile Include="Model\UserRepository.cs" />
     <Compile Include="Model\NewsRepository.cs" />
     <Compile Include="Model\NewsSection.cs">

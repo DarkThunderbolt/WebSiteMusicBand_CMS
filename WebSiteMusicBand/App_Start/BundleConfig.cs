@@ -54,9 +54,6 @@ namespace WebSiteMusicBand
             bundles.Add(new StyleBundle("~/bundles/modalwindow/css").Include(
                 "~/Content/Css/ModalWindow.css"
                 ));
-            bundles.Add(new StyleBundle("~/bundles/modalwindow/js").Include(
-                "~/Content/JS/ModalWindow.js"
-            ));
 
             bundles.Add(new ScriptBundle("~/bundles/picpreview").Include(
                 "~/Scripts/PicPreview.js"

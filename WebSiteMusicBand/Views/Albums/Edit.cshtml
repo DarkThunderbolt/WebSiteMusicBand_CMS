@@ -1,10 +1,30 @@
-﻿@model WebSiteMusicBand.Model.AlbumEditViewM
+﻿@model WebSiteMusicBand.Model.Album
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string link = Model.CoverPath.Substring(1);
+    string link = Model.CoverLink.Substring(1);
 }
+
+<!-- The Modal -->
+<div id="myModal" class="modal textCenter">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2>
+            Upload track for <span id="nameOfTrack"></span>
+            </h2>
+        </div>
+        <div class="modal-body">
+            <form enctype="multipart/form-data" id="trackUploadForm">
+                <input id="trackUploadFile" type="file" name="file" accept=".mp3,audio/*" />
+                <button id="btnUploadTrack"> Upload</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <h2  id="center-text">Edit Album:</h2>
 
@@ -40,7 +60,7 @@
         </div>
         <div class="textCenter">
             <label for="file">Upload Image:</label>
-            <input id="fileUpload" type="file" name="file" />
+            <input id="fileUpload" type="file" name="file" accept="image/x-png,image/gif,image/jpeg" />
             <div id="imgPreview"></div>
             <button id="resetCover" type="button" >Reset Cover</button>
             <br />
@@ -62,6 +82,7 @@
 
 @section Styles{
     @Styles.Render("~/bundles/jsgrid/css")
+    @Styles.Render("~/bundles/modalwindow/css")
     <style>
         #center-text {
             text-align: center;
@@ -93,17 +114,20 @@
 
 @section Scripts{
     @Scripts.Render("~/bundles/picpreview");
-    @Scripts.Render("~/bundles/jsgrid/js");    
-    
+    @Scripts.Render("~/bundles/jsgrid/js");  
+    <script src="~/Scripts/UploadTrack.js"></script>
     <script type="text/javascript">
+
         var link = "@Html.Raw(HttpUtility.JavaScriptStringEncode(link))";
         var image_holder = $("#imgPreview");
         image_holder.empty();
         $("<img />", {
-            "src": link,
+            "src": "/" +link,
             "id": "thumb-image"
         }).appendTo(image_holder);
 
+        //////////////////////////////////////////////////
+        var trackId;
 
         var alb = @Model.AlbumId;
         $("#jsGrid").jsGrid({
@@ -158,34 +182,39 @@
             },
 
             fields: [
-                { name: "AlbumId", type: "number"},
-                { name: "TrackId", type: "number" },
-                { name: "Position", type: "number", width: 35, title: "№" },
+                { name: "Position", type: "number", width: 40, title: "№" },
                 { name: "NameOfTrack", type: "text", width: 150 },
-                { name: "TrackLink", type: "text", width: 150 },
-                 {
+                { name: "TrackLink", type: "text" },
+                {                    
                      itemTemplate: function (_, item) {
-                         return $("<button>").text("Upload Track")
+                         return $("<button id=trackUploadFile>").text("Upload Track")
                              .on("click", function () {
-
+                                 uploadTrack(item);
                              });
                      }
                  },
-                {
+                 {
+                     width: 35,
                         itemTemplate: function (_, item) {
-                            return $("<button>").text("Play")
-                                .on("click", function () {
-                                soundManager.stopAll();
-                                window.sm2BarPlayers[0].actions.play(item.GridPosition);
-                            });
+                            if (item.DoesTrackFileExists) {
+                                return $("<button>").text("Play")
+                                    .on("click", function () {
+                                        soundManager.stopAll();
+                                        window.sm2BarPlayers[0].actions.play(item.GridPosition);
+                                    });
+                            }
+                            else {
+                                return $("<div>").text("track not found");
+                            }
                         }
                     },
                 { type: "control", width: 50 }
             ]
         });
-        $("#jsGrid").jsGrid("fieldOption", "AlbumId", "visible", false);
-        $("#jsGrid").jsGrid("fieldOption", "TrackId", "visible", false);
         $("#jsGrid").jsGrid("fieldOption", "NameOfTrack", "align", "center");
+
+
+
+
     </script>
 }
-

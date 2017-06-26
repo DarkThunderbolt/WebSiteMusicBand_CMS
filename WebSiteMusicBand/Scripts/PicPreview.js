@@ -34,7 +34,7 @@ $("#fileUpload").on('change', function () {
         if (link != null) {
             image_holder.empty();
             $("<img />", {
-                "src": link,
+                "src": "/" +link,
                 "id": "thumb-image"
             }).appendTo(image_holder);
 
@@ -54,7 +54,7 @@ $("#resetCover").click(function () {
 
     image_holder.empty();
     $("<img />", {
-        "src": link,
+        "src": "/" + link,
         "id": "thumb-image"
     }).appendTo(image_holder);
 });

@@ -1,5 +1,4 @@
-﻿@model WebSiteMusicBand.Model.AlbumEditViewM
-
+﻿@model WebSiteMusicBand.Model.Album
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -39,7 +38,7 @@
         <br />
         <div class="textCenter">
             <label ck for="file">Upload Image:</label>
-            <input id="fileUpload" type="file" name="file" />
+            <input id="fileUpload" type="file" name="file" accept="image/x-png,image/gif,image/jpeg" />
             <div id="imgPreview"></div>
             <br />
         </div>

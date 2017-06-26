@@ -8,6 +8,8 @@ namespace WebSiteMusicBand.Model
 {
     public partial class Track
     {
+        public HttpPostedFile file { get; set; }
+
         public string Duration
         {
             get
