@@ -8,7 +8,11 @@
 
 
 .intro-header {
-	margin-bottom: 10px;
+    margin-bottom: 20px;
+    height:350px;
+}
+#headerPic {
+    height: 350px !important;
 }
 
 .section-heading {
@@ -96,19 +100,9 @@
 		float: left;
 }
 
-.sm2-bar-ui {
-    font-size: 16px;
-}
 
-    .sm2-bar-ui .sm2-main-controls,
-    .sm2-bar-ui .sm2-playlist-drawer {
-        background-color: #c0c0c0;
-    }
-
-    .sm2-bar-ui .sm2-inline-texture {
-        background: #666;
-    }
 
 .textCenter {
     text-align: center;
 }
+

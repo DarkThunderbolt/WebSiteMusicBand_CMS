@@ -73,6 +73,7 @@
 
 @section Styles{
     @Styles.Render("~/bundles/jsgrid/css")
+    @Styles.Render("~/bundles/soundmanager/css")
     <style>
         #albumInfo {
             width: 100%;
@@ -100,6 +101,7 @@
 
 @section Scripts{
     @Scripts.Render("~/bundles/jsgrid/js")
+    @Scripts.Render("~/bundles/soundmanager/js")
     <script type="text/javascript">
         var alb = @Model.AlbumId;
         $("#jsGrid").jsGrid({

@@ -13,7 +13,7 @@
         <div class="modal-header">
             <span class="close">&times;</span>
             <h2>
-            Upload track for <span id="nameOfTrack"></span>
+            <span id="nameOfTrack"></span>
             </h2>
         </div>
         <div class="modal-body">
@@ -82,6 +82,7 @@
 
 @section Styles{
     @Styles.Render("~/bundles/jsgrid/css")
+    @Styles.Render("~/bundles/soundmanager/css")
     @Styles.Render("~/bundles/modalwindow/css")
     <style>
         #center-text {
@@ -114,8 +115,10 @@
 
 @section Scripts{
     @Scripts.Render("~/bundles/picpreview");
-    @Scripts.Render("~/bundles/jsgrid/js");  
-    <script src="~/Scripts/UploadTrack.js"></script>
+    @Scripts.Render("~/bundles/jsgrid/js"); 
+    @Scripts.Render("~/bundles/soundmanager/js")
+    @Scripts.Render("~/bundles/uploadtrack");
+    
     <script type="text/javascript">
 
         var link = "@Html.Raw(HttpUtility.JavaScriptStringEncode(link))";
@@ -166,7 +169,7 @@
                 updateItem: function (item) {
                     return $.ajax({
                         type: "PUT",
-                        url: "/api/Tracks/",
+                        url: "/api/Tracks/" + item.TrackId,
                         data: item,
                         dataType: "json"
                     });
