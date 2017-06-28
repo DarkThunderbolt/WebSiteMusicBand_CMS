@@ -12,11 +12,15 @@ window.onclick = function (event) {
 //////////////////////////////////////////////////
 $("#btnUploadTrack").on('click', function () {
 
-    var formdata = new FormData($("#trackUploadForm").get(0));
-    // Make Ajax request with the contentType = false, and procesDate = false
+    var formdata = new FormData();
+    formdata.append('id', trackId);
+    var files = $("#trackUploadFile").get(0).files;
+    if (files.length > 0) {
+        formdata.append('file', files[0]);
+    }
     var ajaxRequest = $.ajax({
         type: "POST",
-        url: "/Albums/UploadTrack/" + trackId,
+        url: "/Albums/UploadTrack/",
         cache: false,
         processData: false,
         contentType: false,
@@ -55,7 +59,7 @@ $("#trackUploadFile").on('change', function () {
 });
 
 function uploadTrack(item) {
-    $("#nameOfTrack").text("Position:" + item.Position+ ", " + " Title: " + item.NameOfTrack);
+    $("#nameOfTrack").text(item.Position+ ") " + item.NameOfTrack);
     trackId = item.TrackId;
     var modal = document.getElementById('myModal');
     modal.style.display = "block"

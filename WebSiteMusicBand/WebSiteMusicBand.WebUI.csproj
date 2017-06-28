@@ -454,7 +454,7 @@
     <Content Include="Content\CSS\JQueryUI\themes\ui-lightness\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Content\CSS\ModalWindow.css" />
     <Content Include="Content\CSS\MyCss.css" />
-    <Content Include="Content\CSS\soundManagerStyles.css" />
+    <Content Include="Content\CSS\soundmanager\soundManagerStyles.css" />
     <Content Include="Content\CSS\soundmanager\bar-ui.css" />
     <Content Include="Content\font-awesome\css\font-awesome.css" />
     <Content Include="Content\font-awesome\css\font-awesome.min.css" />

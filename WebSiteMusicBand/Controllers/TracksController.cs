@@ -18,12 +18,14 @@ namespace WebSiteMusicBand.Controllers
             _repo = new AlbumsRepository();
         }
 
+        // Get tracks in album
         [System.Web.Http.HttpGet]
         public IEnumerable<Track> Get(int albumId)
         {
             return _repo.GetTracksByAlbumId(albumId);
         }
 
+        // Create new track
         [System.Web.Http.HttpPost]
         public void Post(int id,[FromBody]Track track)
         {
@@ -31,12 +33,14 @@ namespace WebSiteMusicBand.Controllers
            _repo.CreateTrack(track);
         }
 
+        // Edit track
         [System.Web.Http.HttpPut]
-        public void Edit([FromBody]Track track)
+        public void Put([FromBody]Track track)
         {
             _repo.EditTrack(track);           
         }
 
+        // Delete track
         [System.Web.Http.HttpDelete]
         public void Delete(int id)
         {

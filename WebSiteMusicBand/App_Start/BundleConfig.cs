@@ -32,10 +32,24 @@ namespace WebSiteMusicBand
                       "~/Content/JS/UserAuth//bootstrap.js",
                       "~/Content/JS/UserAuth//respond.js"));
 
-
-
+            // jquery
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js"));
+
+            // UploadTrack
+            bundles.Add(new ScriptBundle("~/bundles/uploadtrack").Include(
+                "~/Scripts/UploadTrack.js"));
+
+            // soundmanager
+            bundles.Add(new ScriptBundle("~/bundles/soundmanager/js").Include(
+                "~/Scripts/soundmanager/soundmanager2.js",
+                "~/Scripts/soundmanager/bar-ui.js"
+               
+               ));
+            bundles.Add(new StyleBundle("~/bundles/soundmanager/css").Include(
+                "~/Content/CSS/soundmanager/bar-ui.css",
+                "~/Content/CSS/soundmanager/soundManagerStyles.css"
+            ));
 
             // isotope grid
             bundles.Add(new ScriptBundle("~/bundles/isotope/js").Include(

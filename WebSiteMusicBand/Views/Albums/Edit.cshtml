@@ -17,7 +17,7 @@
             </h2>
         </div>
         <div class="modal-body">
-            <form enctype="multipart/form-data" id="trackUploadForm">
+            <form id="trackUploadForm" enctype = "multipart/form-data">
                 <input id="trackUploadFile" type="file" name="file" accept=".mp3,audio/*" />
                 <button id="btnUploadTrack"> Upload</button>
             </form>
@@ -151,7 +151,7 @@
                 loadData: function (filter) {
                     return $.ajax({
                         type: "GET",
-                        url: "/api/tracks",
+                        url: "/api/Tracks",
                         data: 'albumId=' + alb,
                         dataType: "json"
                     });
@@ -169,8 +169,8 @@
                 updateItem: function (item) {
                     return $.ajax({
                         type: "PUT",
-                        url: "/api/Tracks/" + item.TrackId,
-                        data: item,
+                        url: "/api/Tracks/",
+                        data:'track=' + item,
                         dataType: "json"
                     });
                 },
