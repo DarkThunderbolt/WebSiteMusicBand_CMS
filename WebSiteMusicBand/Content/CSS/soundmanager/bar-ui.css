@@ -1,9 +1,9 @@
 ﻿/**
  * SoundManager 2: "Bar UI" player - CSS
  * Copyright (c) 2014, Scott Schiller. All rights reserved.
- * http://www.schillmania.com/projects/soundmanager2/
+ * http:/www.schillmania.com/projects/soundmanager2/
  * Code provided under BSD license.
- * http://schillmania.com/projects/soundmanager2/license.txt
+ * http:/schillmania.com/projects/soundmanager2/license.txt
  */
 
 .sm2-bar-ui {
@@ -151,14 +151,14 @@
  background-color: transparent;
 }
 
-.sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li:hover a,
-.sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li.selected a {
- /* dark + textured case: dark highlights */
- background-color: rgba(0,0,0,0.1);
- background-image: url(../image/black-10.png);
- /* modern browsers don't neeed the image */
- background-image: none, none;
-}
+    .sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li:hover a,
+    .sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li.selected a {
+        /* dark + textured case: dark highlights */
+        background-color: rgba(0,0,0,0.1);
+        background-image: url(../../Content/CSS/image/black-10.png);
+        /* modern browsers don't neeed the image */
+        background-image: none, none;
+    }
 
 .sm2-bar-ui .bd {
  display: table;
@@ -208,7 +208,7 @@
  /* Warning/disclaimer: SVG might be fuzzy when inverted on Chrome, losing resolution on hi-DPI displays. */
  -webkit-filter: invert(1);
  /* SVG-based invert filter for Firefox */
- filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'invert\'><feColorMatrix in='SourceGraphic' type='matrix' values='-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0'/></filter></svg>#invert");
+ filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http:/www.w3.org/2000/svg\'><filter id=\'invert\'><feColorMatrix in='SourceGraphic' type='matrix' values='-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0'/></filter></svg>#invert");
  /* IE 8 inverse filter, may only match pure black/white */
  /* filter: xray; */
  /* pending W3 standard */
@@ -221,17 +221,17 @@
  text-decoration: none;
 }
 
-.sm2-bar-ui .bd .sm2-button-element:hover {
- background-color: rgba(0,0,0,0.1);
- background-image: url(../image/black-10.png);
- background-image: none, none;
-}
+    .sm2-bar-ui .bd .sm2-button-element:hover {
+        background-color: rgba(0,0,0,0.1);
+        background-image: url(../../Content/CSS/image/black-10.png);
+        background-image: none, none;
+    }
 
-.sm2-bar-ui .bd .sm2-button-element:active {
- background-color: rgba(0,0,0,0.25);
- background-image: url(../image/black-25.png);
- background-image: none, none;
-}
+    .sm2-bar-ui .bd .sm2-button-element:active {
+        background-color: rgba(0,0,0,0.25);
+        background-image: url(../../Content/CSS/image/black-25.png);
+        background-image: none, none;
+    }
 
 .sm2-bar-ui .bd .sm2-extra-controls .sm2-button-element:active .sm2-inline-button,
 .sm2-bar-ui .bd .active .sm2-inline-button/*,
@@ -246,13 +246,13 @@
  -moz-transform: none;
 }
 
-.sm2-bar-ui .bd .sm2-extra-controls .sm2-button-element:hover,
-.sm2-bar-ui .bd .sm2-extra-controls .sm2-button-element:active,
-.sm2-bar-ui .bd .active {
- background-color: rgba(0,0,0,0.1);
- background-image: url(../image/black-10.png);
- background-image: none, none;
-}
+    .sm2-bar-ui .bd .sm2-extra-controls .sm2-button-element:hover,
+    .sm2-bar-ui .bd .sm2-extra-controls .sm2-button-element:active,
+    .sm2-bar-ui .bd .active {
+        background-color: rgba(0,0,0,0.1);
+        background-image: url(../../Content/CSS/image/black-10.png);
+        background-image: none, none;
+    }
 
 .sm2-bar-ui .bd .sm2-extra-controls .sm2-button-element:active {
  /* box shadow is excessive on smaller elements. */
@@ -279,7 +279,7 @@
  /**
   * .sm2-button-bd exists because of a Firefox bug from 2000
   * re: nested relative / absolute elements inside table cells.
-  * https://bugzilla.mozilla.org/show_bug.cgi?id=63895
+  * https:/bugzilla.mozilla.org/show_bug.cgi?id=63895
   */
 }
 
@@ -431,14 +431,14 @@
 }
 
 .sm2-progress .sm2-progress-bar {
- /* element which follows the progres "ball" as it moves */
- position: absolute;
- left: 0px;
- top: 0px;
- width: 0px;
- background-color: rgba(0,0,0,0.33);
- background-image: url(../image/black-33.png);
- background-image: none, none;
+    /* element which follows the progres "ball" as it moves */
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 0px;
+    background-color: rgba(0,0,0,0.33);
+    background-image: url(../../Content/CSS/image/black-33.png);
+    background-image: none, none;
 }
 
 .volume-shade,
@@ -481,9 +481,9 @@
 */
 
 .sm2-progress .sm2-progress-track {
- background-color: rgba(0,0,0,0.4);
- background-image: url(../image/black-33.png); /* legacy */
- background-image: none, none; /* modern browsers */
+    background-color: rgba(0,0,0,0.4);
+    background-image: url(../../Content/CSS/image/black-33.png); /* legacy */
+    background-image: none, none; /* modern browsers */
 }
 
 /* scrollbar rules have to be separate, browsers not supporting this syntax will skip them when combined. */
@@ -510,7 +510,7 @@
  line-height: 10em;
  /**
   * image-rendering seems to apply mostly to Firefox in this case. Use with caution.
-  * https://developer.mozilla.org/en-US/docs/Web/CSS/image-rendering#Browser_compatibility
+  * https:/developer.mozilla.org/en-US/docs/Web/CSS/image-rendering#Browser_compatibility
   */
  image-rendering: -moz-crisp-edges;
  image-rendering: -webkit-optimize-contrast;
@@ -522,22 +522,22 @@
 .sm2-icon-play-pause,
 .sm2-icon-play-pause:hover,
 .paused .sm2-icon-play-pause:hover {
- background-image: url(../image/icomoon/entypo-25px-ffffff/PNG/play.png);
- background-image: none, url(../image/icomoon/entypo-25px-ffffff/SVG/play.svg);
- background-size: 67.5%;
- background-position: 40% 53%;
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/PNG/play.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/SVG/play.svg);
+    background-size: 67.5%;
+    background-position: 40% 53%;
 }
 
 .playing .sm2-icon-play-pause {
- background-image: url(../image/icomoon/entypo-25px-ffffff/PNG/pause.png);
- background-image: none, url(../image/icomoon/entypo-25px-ffffff/SVG/pause.svg);
- background-size: 57.6%;
- background-position: 50% 53%;
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/PNG/pause.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/SVG/pause.svg);
+    background-size: 57.6%;
+    background-position: 50% 53%;
 }
 
 .sm2-volume-control {
- background-image: url(../image/icomoon/entypo-25px-ffffff/PNG/volume.png);
- background-image: none, url(../image/icomoon/entypo-25px-ffffff/SVG/volume.svg);
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/PNG/volume.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/SVG/volume.svg);
 }
 
 .sm2-volume-control,
@@ -547,28 +547,28 @@
 }
 
 .volume-shade {
- filter: alpha(opacity=33); /* <= IE 8 */
- opacity: 0.33;
-/* -webkit-filter: invert(1);*/
- background-image: url(../image/icomoon/entypo-25px-000000/PNG/volume.png);
- background-image: none, url(../image/icomoon/entypo-25px-000000/SVG/volume.svg);
+    filter: alpha(opacity=33); /* <= IE 8 */
+    opacity: 0.33;
+    /* -webkit-filter: invert(1);*/
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-000000/PNG/volume.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-000000/SVG/volume.svg);
 }
 
 .sm2-icon-menu {
- background-image: url(../image/icomoon/entypo-25px-ffffff/PNG/list2.png);
- background-image: none, url(../image/icomoon/entypo-25px-ffffff/SVG/list2.svg);
- background-size: 58%;
- background-position: 54% 51%;
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/PNG/list2.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/SVG/list2.svg);
+    background-size: 58%;
+    background-position: 54% 51%;
 }
 
 .sm2-icon-previous {
- background-image: url(../image/icomoon/entypo-25px-ffffff/PNG/first.png);
- background-image: none, url(../image/icomoon/entypo-25px-ffffff/SVG/first.svg);
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/PNG/first.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/SVG/first.svg);
 }
 
 .sm2-icon-next {
- background-image: url(../image/icomoon/entypo-25px-ffffff/PNG/last.png);
- background-image: none, url(../image/icomoon/entypo-25px-ffffff/SVG/last.svg);
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/PNG/last.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/SVG/last.svg);
 }
 
 .sm2-icon-previous,
@@ -584,17 +584,17 @@
 }
 
 .sm2-icon-shuffle {
- background-image: url(../image/icomoon/entypo-25px-ffffff/PNG/shuffle.png);
- background-image: none, url(../image/icomoon/entypo-25px-ffffff/SVG/shuffle.svg);
- background-size: 45%;
- background-position: 50% 50%;
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/PNG/shuffle.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/SVG/shuffle.svg);
+    background-size: 45%;
+    background-position: 50% 50%;
 }
 
 .sm2-icon-repeat {
- background-image: url(../image/icomoon/entypo-25px-ffffff/PNG/loop.png);
- background-image: none, url(../image/icomoon/entypo-25px-ffffff/SVG/loop.svg);
- background-position: 50% 43%;
- background-size: 54%;
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/PNG/loop.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/SVG/loop.svg);
+    background-position: 50% 43%;
+    background-size: 54%;
 }
 
 .sm2-extra-controls .sm2-icon-repeat {
@@ -653,31 +653,31 @@
 .sm2-playlist-wrapper ul li .sm2-cart,
 .sm2-playlist-wrapper ul li:hover .sm2-cart,
 .sm2-playlist-wrapper ul li.selected .sm2-cart {
- background-image: url(../image/icomoon/entypo-25px-ffffff/PNG/cart.png);
- background-image: none, url(../image/icomoon/entypo-25px-ffffff/SVG/cart.svg);
- /* slight alignment tweak */
- background-position: 48% 50%;
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/PNG/cart.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/SVG/cart.svg);
+    /* slight alignment tweak */
+    background-position: 48% 50%;
 }
 
 .sm2-playlist-wrapper ul li .sm2-music,
 .sm2-playlist-wrapper ul li:hover .sm2-music,
 .sm2-playlist-wrapper ul li.selected .sm2-music {
- background-image: url(../image/icomoon/entypo-25px-ffffff/PNG/music.png);
- background-image: none, url(../image/icomoon/entypo-25px-ffffff/SVG/music.svg);
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/PNG/music.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-ffffff/SVG/music.svg);
 }
 
 .sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li .sm2-cart,
 .sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li:hover .sm2-cart,
 .sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li.selected .sm2-cart {
- background-image: url(../image/icomoon/entypo-25px-000000/PNG/cart.png);
- background-image: none, url(../image/icomoon/entypo-25px-000000/SVG/cart.svg);
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-000000/PNG/cart.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-000000/SVG/cart.svg);
 }
 
 .sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li .sm2-music,
 .sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li:hover .sm2-music,
 .sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li.selected .sm2-music {
- background-image: url(../image/icomoon/entypo-25px-000000/PNG/music.png);
- background-image: none, url(../image/icomoon/entypo-25px-000000/SVG/music.svg);
+    background-image: url(../../Content/CSS/image/icomoon/entypo-25px-000000/PNG/music.png);
+    background-image: none, url(../../Content/CSS/image/icomoon/entypo-25px-000000/SVG/music.svg);
 }
 
 
@@ -699,16 +699,16 @@
 }
 
 .sm2-progress-ball .icon-overlay {
- position: absolute;
- width: 100%;
- height: 100%;
- top: 0px;
- left: 0px;
- background: none, url(../image/icomoon/free-25px-000000/SVG/spinner.svg);
- background-size: 72%;
- background-position: 50%;
- background-repeat: no-repeat;
- display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background: none, url(../../Content/CSS/image/icomoon/free-25px-000000/SVG/spinner.svg);
+    background-size: 72%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    display: none;
 }
 
 .playing.buffering .sm2-progress-ball .icon-overlay {
@@ -875,28 +875,28 @@
  padding: 2px 4px;
 }
 
-.sm2-playlist-wrapper ul li:hover a {
- background-color: rgba(0,0,0,0.20);
- background-image: url(../image/black-20.png);
- background-image: none, none;
-}
+    .sm2-playlist-wrapper ul li:hover a {
+        background-color: rgba(0,0,0,0.20);
+        background-image: url(../../Content/CSS/image/black-20.png);
+        background-image: none, none;
+    }
 
 .sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li:hover a {
- background-color: rgba(255,255,255,0.1);
- background-image: url(../image/black-10.png);
- background-image: none, none;
+    background-color: rgba(255,255,255,0.1);
+    background-image: url(../../Content/CSS/image/black-10.png);
+    background-image: none, none;
 }
 
 .sm2-playlist-wrapper ul li.selected a {
- background-color: rgba(0,0,0,0.25);
- background-image: url(../image/black-20.png);
- background-image: none, none;
+    background-color: rgba(0,0,0,0.25);
+    background-image: url(../../Content/CSS/image/black-20.png);
+    background-image: none, none;
 }
 
 .sm2-bar-ui.dark-text ul li.selected a {
- background-color: rgba(255,255,255,0.1);
- background-image: url(../image/black-10.png);
- background-image: none, none;
+    background-color: rgba(255,255,255,0.1);
+    background-image: url(../../Content/CSS/image/black-10.png);
+    background-image: none, none;
 }
 
 .sm2-bar-ui .disabled {
@@ -920,7 +920,7 @@
  /**
   * This exists because of a Firefox bug from 2000
   * re: nested relative / absolute elements inside table cells.
-  * https://bugzilla.mozilla.org/show_bug.cgi?id=63895
+  * https:/bugzilla.mozilla.org/show_bug.cgi?id=63895
   */
  position: relative;
  display: inline-block;
@@ -962,9 +962,9 @@
 }
 
 .sm2-bar-ui.dark-text .label {
- background-color: rgba(0,0,0,0.1);
- background-image: url(../image/black-10.png);
- background-image: none, none;
+    background-color: rgba(0,0,0,0.1);
+    background-image: url(../../Content/CSS/image/black-10.png);
+    background-image: none, none;
 }
 
 .sm2-bar-ui .sm2-playlist-drawer .label {

@@ -530,6 +530,17 @@
     <Content Include="Content\Upload\Members\paul_landers.jpg" />
     <Content Include="Content\Upload\Members\richard_kruspe.jpg" />
     <Content Include="Content\Upload\Members\till_lindemann.jpg" />
+    <Content Include="Content\Upload\Music\01. Sehnsucht.mp3" />
+    <Content Include="Content\Upload\Music\01. Wollt ihr das Bett in Flammen sehen.mp3" />
+    <Content Include="Content\Upload\Music\02. Der Meister.mp3" />
+    <Content Include="Content\Upload\Music\02. Engel.mp3" />
+    <Content Include="Content\Upload\Music\03. Weisses Fleisch.mp3" />
+    <Content Include="Content\Upload\Music\04. Asche zu Asche.mp3" />
+    <Content Include="Content\Upload\Music\05. Seemann.mp3" />
+    <Content Include="Content\Upload\Music\06. Du riechst so gut.mp3" />
+    <Content Include="Content\Upload\Music\07. Das alte Leid.mp3" />
+    <Content Include="Content\Upload\Music\08. Heirate mich.mp3" />
+    <Content Include="Content\Upload\Music\11. Rammstein.mp3" />
     <Content Include="Content\Upload\Profile\avatar_2x.png" />
     <Content Include="Content\Upload\Profile\ONqY0b1bYjI.jpg" />
     <Content Include="Content\Upload\Profile\photo_2017-05-24_01-27-392.png" />
@@ -953,7 +964,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Upload\Music\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

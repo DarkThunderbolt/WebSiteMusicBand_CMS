@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    Dictionary<int, int> positionKey_idValue = new Dictionary<int, int>();
 }
 
 <h2 class="textCenter">Album details:</h2>
@@ -143,6 +142,17 @@
                         }
                     }
                 },
+                {
+
+                    itemTemplate: function (_, item) {
+                        if (item.DoesTrackFileExists) {
+                            return $("<a>").text("Download").attr("href", "/Albums/Download?file=" + item.TrackLink);
+                        }
+                        else {
+                            return "";
+                        }                        
+                    }
+                }
             ]
         });
         $("#jsGrid").jsGrid("fieldOption", "NameOfTrack", "align", "center");

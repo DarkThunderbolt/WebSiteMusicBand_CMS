@@ -71,19 +71,25 @@ namespace WebSiteMusicBand.Controllers
             if (ModelState.IsValid)
             {
                 alb.CoverLink = "~/Content/Upload/Albums/no_cover.png";
-                _repo.CreateAlbum(alb);               
+                alb = _repo.CreateAlbum(alb);               
                 if (alb.file != null)
                 {
                     FileUploader fu = new FileUploader();
                     fu.changeDB += _repo.UpdateCover;
-                    alb.CoverLink = fu.UlpoadFile(alb.file, "\\Content\\Upload\\Albums", System.Web.Hosting.HostingEnvironment.MapPath("~/"), alb.AlbumId);                 
+                    alb.CoverLink = fu.UlpoadFile(alb.file, "\\Content\\Upload\\Albums", System.Web.Hosting.HostingEnvironment.MapPath("~/"), alb.AlbumId);
+                    if (alb.CoverLink == null)
+                    {
+                        MvcApplication.logger.Error("Cant upload cover file");
+                    }
+                }
+                if(alb != null)
+                {
+                    return RedirectToAction("Details", new { id = alb.AlbumId });
                 }
                 else
-                {
-                    MvcApplication.logger.Error("Cant upload cover file");
+                {                    
                     return RedirectToAction("ServerError", "Error");
                 }
-                return RedirectToAction("Details", new { id = alb.AlbumId });
             }
             return View(alb);
         }
@@ -297,6 +303,13 @@ namespace WebSiteMusicBand.Controllers
             {
                 return Redirect(Request.UrlReferrer.ToString());
             }
+        }
+
+        [HttpGet]
+        public virtual ActionResult Download(string file)
+        {
+            string fullPath = Path.Combine(Server.MapPath(@"~/Content/Upload/Music"), file);
+            return File(fullPath, "application/vnd.ms-excel", file.Substring(file.LastIndexOf(@"/")+1));
         }
 
         protected override void Dispose(bool disposing)

@@ -23,14 +23,14 @@ namespace WebSiteMusicBand
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Content/JS/UserAuth//jquery.validate*"));
+                "~/Content/JS/UserAuth//jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Content/JS/UserAuth//modernizr-*"));
+                "~/Content/JS/UserAuth//modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Content/JS/UserAuth//bootstrap.js",
-                      "~/Content/JS/UserAuth//respond.js"));
+                "~/Content/JS/UserAuth//bootstrap.js",
+                "~/Content/JS/UserAuth//respond.js"));
 
             // jquery
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
@@ -43,8 +43,7 @@ namespace WebSiteMusicBand
             // soundmanager
             bundles.Add(new ScriptBundle("~/bundles/soundmanager/js").Include(
                 "~/Scripts/soundmanager/soundmanager2.js",
-                "~/Scripts/soundmanager/bar-ui.js"
-               
+                "~/Scripts/soundmanager/bar-ui.js"               
                ));
             bundles.Add(new StyleBundle("~/bundles/soundmanager/css").Include(
                 "~/Content/CSS/soundmanager/bar-ui.css",

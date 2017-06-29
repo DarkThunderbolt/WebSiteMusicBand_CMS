@@ -22,13 +22,13 @@
         </div>
     }
 </div>
-
-@if (SecureCustomHelper.IsCurrenAdmin())
-{
-    <p id="create">
+<div class="text-center"></div>
+    @if (SecureCustomHelper.IsCurrenAdmin())
+    { 
+        <p id="create">
         @Html.ActionLink("Create New", "Create")
-    </p>
-}
+        </p>
+    }
 
 @section Styles{
     <style >

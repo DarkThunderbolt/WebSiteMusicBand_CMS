@@ -5,8 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="4795dc54c62c48c49cb3133e0827fc46" Name="Diagram1">
-        <EntityTypeShape EntityType="MusicBandDBModel.Album" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MusicBandDBModel.Track" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MusicBandDBModel.Album" Width="1.5" PointX="6.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MusicBandDBModel.Track" Width="1.5" PointX="8.5" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="MusicBandDBModel.FK_Tracks_Albums" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
