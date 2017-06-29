@@ -283,19 +283,19 @@ namespace WebSiteMusicBand.Controllers
         */
 
         [HttpPost]
-        public ActionResult UploadTrack(int id, HttpPostedFileBase file)
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadTrack(int trackID, HttpPostedFileBase file)
         {
+            var files = Request.Files[0];
             FileUploader fu = new FileUploader();
             fu.changeDB += _repo.UploadTrack;
-            if(  fu.UlpoadFile(file, "\\Content\\Upload\\Music", System.Web.Hosting.HostingEnvironment.MapPath("~/"), id) ==null)
+            if(  fu.UlpoadFile(file, "\\Content\\Upload\\Music", System.Web.Hosting.HostingEnvironment.MapPath("~/"), trackID) ==null)
             {
-                //  Send "false"
-                return Json(new { success = false, responseText = "The attached file is not uploaded." }, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("ServerError", "Error");
             }
             else
             {
-                //  Send "Success"
-                return Json(new { success = true}, JsonRequestBehavior.AllowGet);
+                return Redirect(Request.UrlReferrer.ToString());
             }
         }
 

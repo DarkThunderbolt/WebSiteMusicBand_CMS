@@ -10,37 +10,28 @@ window.onclick = function (event) {
     }
 }
 //////////////////////////////////////////////////
-$("#btnUploadTrack").on('click', function () {
+$("#btnUploadTrackZZZ").on('click', function () {
+    var formData = new FormData();
+    formData.append("file", $("#trackUploadFil")[0].files[0])
+    var fileUpload = $("#trackUploadFile").get(0);
+    var files = fileUpload.files;
 
-    var formdata = new FormData();
-    formdata.append('id', trackId);
-    var files = $("#trackUploadFile").get(0).files;
-    if (files.length > 0) {
-        formdata.append('file', files[0]);
-    }
-    var ajaxRequest = $.ajax({
+    $.ajax({
+        async: true,
         type: "POST",
-        url: "/Albums/UploadTrack/",
-        cache: false,
-        processData: false,
-        contentType: false,
-        data: formdata,
-        success: function (response) {
-            if (response != null && response.success) {
-                alert(response.responseText);
-            } else {
-                // DoSomethingElse()
-                alert(response.responseText);
-            }
+        url: "/Albums/UploadTrack/" + trackId,
+        contentType: false, // Not to set any content header  
+        processData: false, // Not to process data  
+        data: fileData,
+        success: function (result) {
+            alert(result);
         },
-        error: function (response) {
-            alert("error!");  // 
+        error: function (err) {
+            alert(err.statusText);
         }
-
     });
-
-
 });
+
 //////////////////////////////////////////////////
 $("#trackUploadFile").on('change', function () {
     //Get count of selected files
@@ -59,9 +50,12 @@ $("#trackUploadFile").on('change', function () {
 });
 
 function uploadTrack(item) {
-    $("#nameOfTrack").text(item.Position+ ") " + item.NameOfTrack);
-    trackId = item.TrackId;
+    $("#nameOfTrack").text(item.Position + ") " + item.NameOfTrack);
+    $('#trackId').val(item.TrackId)
+    //trackId = item.TrackId;
     var modal = document.getElementById('myModal');
     modal.style.display = "block"
     $("#btnUploadTrack").prop('disabled', true);;
 }
+
+

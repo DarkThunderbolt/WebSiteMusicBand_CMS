@@ -17,10 +17,13 @@
             </h2>
         </div>
         <div class="modal-body">
-            <form id="trackUploadForm" enctype = "multipart/form-data">
+            @using (Html.BeginForm("UploadTrack", "Albums", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="trackId"  name="trackId" value="156" />
                 <input id="trackUploadFile" type="file" name="file" accept=".mp3,audio/*" />
-                <button id="btnUploadTrack"> Upload</button>
-            </form>
+                <input type="submit" value="Save" class="btn btn-default" />
+            }
         </div>
     </div>
 </div>
@@ -162,7 +165,10 @@
                         type: "POST",
                         url: "/api/Tracks/" + alb,
                         data: item,
-                        dataType: "json"
+                        dataType: "json",
+                        success: function (result) {
+                            $("#jsGrid").jsGrid("loadData");
+                        },
                     });
                 },
 
