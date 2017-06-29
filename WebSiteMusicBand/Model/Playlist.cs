@@ -12,22 +12,22 @@ namespace WebSiteMusicBand.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Track
+    public partial class Playlist
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Track()
+        public Playlist()
         {
-            this.Playlist = new HashSet<Playlist>();
+            this.Tracks = new HashSet<Track>();
         }
     
-        public int TrackId { get; set; }
-        public int AlbumId { get; set; }
-        public string NameOfTrack { get; set; }
+        public int PlaylistId { get; set; }
+        public int UserId { get; set; }
         public int Position { get; set; }
-        public string TrackLink { get; set; }
-    
-        public virtual Album Albums { get; set; }
+        public string Title { get; set; }
+
+        public virtual CustomUsers User { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Playlist> Playlist { get; set; }
+        public virtual ICollection<Track> Tracks { get; set; }
     }
 }

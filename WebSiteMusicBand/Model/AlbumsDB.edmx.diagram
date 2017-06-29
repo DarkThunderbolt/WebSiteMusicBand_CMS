@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="MusicBandDBModel.Album" Width="1.5" PointX="6.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="MusicBandDBModel.Track" Width="1.5" PointX="8.5" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="MusicBandDBModel.FK_Tracks_Albums" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MusicBandDBModel.Playlist" Width="1.5" PointX="11.5" PointY="1.75" />
+        <AssociationConnector Association="MusicBandDBModel.TracksInPlaylists" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
