@@ -264,6 +264,7 @@
     <Content Include="Content\CSS\ChatStyle.css" />
     <Content Include="Content\CSS\clean-blog.css" />
     <Content Include="Content\CSS\clean-blog.min.css" />
+    <Content Include="Content\CSS\DropdownMenu.css" />
     <Content Include="Content\CSS\image\black-10.png" />
     <Content Include="Content\CSS\image\black-25.png" />
     <Content Include="Content\CSS\image\black-33.png" />
@@ -581,6 +582,7 @@
     <None Include="Properties\PublishProfiles\AWS.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Content\JS\isotope.pkgd.min.js" />
+    <Content Include="Scripts\DropdownMenu.js" />
     <Content Include="Scripts\jsgrid\i18n\jsgrid-de.js" />
     <Content Include="Scripts\jsgrid\i18n\jsgrid-es.js" />
     <Content Include="Scripts\jsgrid\i18n\jsgrid-fr.js" />
@@ -814,6 +816,7 @@
     <Compile Include="Model\NewsAdditionalInfo.cs">
       <DependentUpon>WebSiteModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\PlaylistRepository.cs" />
     <Compile Include="Model\Playlist.cs">
       <DependentUpon>AlbumsDB.tt</DependentUpon>
     </Compile>
@@ -961,6 +964,7 @@
     <Content Include="Views\Albums\EditTrack.cshtml" />
     <Content Include="Views\Albums\UploadTrack.cshtml" />
     <Content Include="Views\Albums\MusicPlayerBar.cshtml" />
+    <Content Include="Views\Playlist\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -970,7 +974,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Playlist\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

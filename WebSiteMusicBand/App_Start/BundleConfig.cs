@@ -71,6 +71,15 @@ namespace WebSiteMusicBand
             bundles.Add(new ScriptBundle("~/bundles/picpreview").Include(
                 "~/Scripts/PicPreview.js"
                 ));
+
+            // dropdown menu
+            bundles.Add(new StyleBundle("~/bundles/dropdownmenu/css").Include(
+                "~/Content/Css/DropdownMenu.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/bundles/dropdownmenu/js").Include(
+                "~/Scripts/DropdownMenu.js"
+                ));
         }
     }
 }

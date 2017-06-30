@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 id="center-text"> Your playlists:</h2>
+
+<table id="jsGrid_Playlists"></table>
+
+
+
+@section Styles{
+    @Styles.Render("~/bundles/jsgrid/css")
+    @Styles.Render("~/bundles/soundmanager/css")
+    @Styles.Render("~/bundles/modalwindow/css")
+
+    <style>
+
+    </style>
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jsgrid/js");
+    @Scripts.Render("~/bundles/soundmanager/js")
+
+    <script type="text/javascript">
+        var userId = @SecureCustomHelper.GetCurrentUserId();
+        var editeble = false;
+        $("#jsGrid_Playlists").jsGrid({
+            height: "auto",
+            width: "100%",
+            inserting: true,
+            editing: true,
+            autoload: true,
+            deleteConfirm: "Do you really want to delete this palylist?",
+
+            controller: {
+                loadData: function (filter) {
+                    return $.ajax({
+                        type: "GET",
+                        url: "/api/PlaylistAjax/" + userId,
+                        dataType: "json"
+                    });
+                },
+
+                // create
+                insertItem: function (item) {
+                    return $.ajax({
+                        type: "POST",
+                        url: "/api/PlaylistAjax/",
+                        data: item,
+                        dataType: "json",
+                        success: function (result) {
+                            $("#jsGrid").jsGrid("loadData");
+                        },
+                    });
+                },
+
+                // edit
+                updateItem: function (item) {
+                    if(item)
+                    return $.ajax({
+                        type: "PUT",
+                        url: "/api/PlaylistAjax/",
+                        data:'palylist=' + item,
+                        dataType: "json",
+                        success: function () {
+                            console.log("Success!");
+                        },
+                        error: function (error) {
+                            console.error("Failure!");
+                        }
+                    });
+                },
+
+                // delete
+                deleteItem: function (item) {
+                    return $.ajax({
+                        type: "DELETE",
+                        url: "/api/PlaylistAjax/" + item.PlaylistId,
+                        dataType: "json"
+                    });
+                }
+            },
+
+            rowClick: function (args) {
+                if (args.item.Title == "Favorites")
+                    args.item.editing = false;
+                else
+                    this.editItem(args.item);
+            },
+
+            fields: [
+                { name: "Position", type: "number", width: 40, title: "№" },
+                {
+                    name: "Title", type: "text", width: 150,
+                    validate: {
+                        message: "You cant rename default playlist",
+                        validator: function (item,value) {
+                            if (value.Title !== "Favorites") {
+                                return value;
+                            }
+                        },
+                    }
+                },
+                {
+                    width: 35,
+                    itemTemplate: function (_, item) {
+                        return $("<button>").text("Open")
+                            .on("click", function () {
+                                //!!!!!!!!!!
+                            });
+                    },
+                },
+                { type: "control", width: 50 }
+            ]
+        });
+
+    </script>
+}

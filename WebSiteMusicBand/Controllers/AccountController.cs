@@ -174,6 +174,11 @@ namespace WebSiteMusicBand.Controllers
                     db.CustomUsers.Add(castUser);
                     db.SaveChanges();
 
+                    MusicBandDB_AlbumsPart db2 = new MusicBandDB_AlbumsPart();
+                    Playlist fav = new Playlist() { Position = 1, Title = "Favorites", UserId = user.Id };
+                    db2.Playlist.Add(fav);
+                    db.SaveChanges();
+                    
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
