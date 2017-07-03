@@ -104,141 +104,81 @@
     @Scripts.Render("~/bundles/soundmanager/js")
     @Scripts.Render("~/bundles/dropdownmenu/js")
     <script type="text/javascript">
-        var alb = @Model.AlbumId;
-        var trackId;
-        var elements  = [];
-        var userId = @SecureCustomHelper.GetCurrentUserId();
-        $.ajax({
-            async: false,
-            type: "GET",
-            url: "/api/PlaylistAjax/" + userId,
-            dataType: "json",
-            success: function (data) {
-                $.each(data, function (i, item) {
-                    var a = $("<a>").attr('href', item.PlaylistId).text(item.Title).addClass('addToPlaylist');
-                    elements.push(a);
-                });
-            }
-        });
+        function detailsPageFunc(alb) {
 
-        $("#jsGrid").jsGrid({
+            $("#jsGrid").jsGrid({
 
-            height: "auto",
-            width: "100%",
-            autoload: true,
+                height: "auto",
+                width: "100%",
+                autoload: true,
 
-            controller: {
-                loadData: function (filter) {
-                    return $.ajax({
-                        type: "GET",
-                        url: "/api/tracks",
-                        data: 'albumId=' + alb,
-                        dataType: "json",
-                    });
-                },
-            },
-
-            onDataLoaded: function (grid, data) {
-                //alert("enter");
-                //var x = $(".dropdown-content");
-                //x.each(function (index) {
-                //    $(this).append(elements);
-                //});
-
-                //$(".dropbtn").each(function (index) {
-                //    $(this).on("click", function () {
-                //        $(this).find($(".myDropdown")).toggleClass("show");
-                //    })
-                //});
-            },
-
-            fields: [
-                { name: "Position", type: "number", width: 50, title: "№" },
-                { name: "NameOfTrack", type: "text", width:300, title: "Title" },
-                { name: "Duration", type: "text", width: 60 },
-                {
-                    name: "Play",width: 35,
-                    itemTemplate: function (_, item)
-                    {
-                        if(item.DoesTrackFileExists)
-                        {
-                            return $("<button>").text("Play")
-                                .on("click", function ()
-                                {
-                                    soundManager.stopAll();
-                                    window.sm2BarPlayers[0].actions.play(item.GridPosition);
-                                });
-                        }
-                        else
-                        {
-                            return $("<div>").text("track not found");
-                        }
-                    }
-                },
-                {
-                    width: 50,
-                    itemTemplate: function (_, item) {
-                        var button = $("<button>").addClass("dropbtn").text("Add to:").append($("<div>").addClass(".dropdown-content").append(elements));//, 'myDropdown'
-                        $(".dropbtn").each(function (index) {
-                            $(this).on("click", function () {
-                                $(this).find($(".myDropdown")).toggleClass("show");
-                            })
+                controller: {
+                    loadData: function (filter) {
+                        return $.ajax({
+                            type: "GET",
+                            url: "/api/tracks",
+                            data: 'albumId=' + @Model.AlbumId,
+                            dataType: "json",
                         });
-                        trackId = item.TrackId;
-                        return button;
                     },
                 },
-                {
-                    itemTemplate: function (_, item) {
-                        if (item.DoesTrackFileExists) {
-                            return $("<a>").text("Download").attr("href", "/Albums/Download?file=" + item.TrackLink);
+
+                fields: [
+                    { name: "Position", type: "number", width: 50, title: "№" },
+                    { name: "NameOfTrack", type: "text", width: 300, title: "Title" },
+                    { name: "Duration", type: "text", width: 60 },
+                    {
+                        name: "Play", width: 50,
+                        itemTemplate: function (_, item) {
+                            if (item.DoesTrackFileExists) {
+                                return $("<button>").text("Play")
+                                    .on("click", function () {
+                                        soundManager.stopAll();
+                                        window.sm2BarPlayers[0].actions.play(item.GridPosition);
+                                    });
+                            }
+                            else {
+                                return $("<div>").text("track not found");
+                            }
                         }
-                        else {
-                            return "";
+                    },
+                    {
+                        name: "Add",
+                        width: 50,
+                        visible: function () {
+                            if (elements.length == 0) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+
+                        },
+                        itemTemplate: function (_, item) {
+                            return button.clone().attr("name", item.TrackId);
+                        },
+                    },
+                    {
+                        itemTemplate: function (_, item) {
+                            if (item.DoesTrackFileExists) {
+                                return $("<a>").text("Download").attr("href", "/Albums/Download?file=" + item.TrackLink);
+                            }
+                            else {
+                                return "";
+                            }
                         }
                     }
-                }
-            ]
-        });
-        $("#jsGrid").jsGrid("fieldOption", "NameOfTrack", "align", "center");
-
-        $(".addToPlaylist").on("click", function () {
-            $.ajax({
-                type: "PUT",
-                url: "/api/PlaylistTracksAjax/" + this.attr('href'),
-                dataType: "json",
-                data: 'trackId=' + TrackId,
-                success: function (data) {
-                    alert("add");
-                }
+                ]
             });
-        });
-
-
-
-        // Close the dropdown menu if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
+            //if (elements.length == 0) {
+            //    $("#jsGrid").jsGrid("fieldOption", "Add", "visible", false);
+            //}
+            //$("#jsGrid").jsGrid("fieldOption", "TrackId", "visible", false);
+            $("#jsGrid").jsGrid("fieldOption", "NameOfTrack", "align", "center");
         };
 
 
- 
 
-
-
-
-
-
+        dropdownMenu(detailsPageFunc,@SecureCustomHelper.GetCurrentUserId(),@Model.AlbumId);
     </script>
 }
 

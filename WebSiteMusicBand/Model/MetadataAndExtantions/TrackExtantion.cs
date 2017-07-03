@@ -10,6 +10,14 @@ namespace WebSiteMusicBand.Model
     {
         public HttpPostedFile file { get; set; }
 
+        public string AlbumTitle
+        {
+            get
+            {
+                return this.Albums.Title;
+            }
+        }
+
         public string Duration
         {
             get

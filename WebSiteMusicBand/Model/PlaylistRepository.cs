@@ -71,6 +71,23 @@ namespace WebSiteMusicBand
             }
         }
 
+        public bool AddTrackToPlaylist(int trackId, int playlistId)
+        {
+            try
+            {
+                Track track = _db.Tracks.Find(trackId);
+                _db.Playlist.Find(playlistId).Tracks.Add(track);
+                _db.SaveChanges();
+                MvcApplication.logger.Info($"Track ({trackId}) was add to palylist ({playlistId})");
+                return true;
+            }
+            catch (Exception e)
+            {
+                MvcApplication.logger.Error(e.ToString() + $". Adding track ({trackId}) to palylist ({playlistId}) end with fail");
+                return false;
+            }
+        }
+
         public void Dispose(bool disposing)
         {
             if (disposing)
