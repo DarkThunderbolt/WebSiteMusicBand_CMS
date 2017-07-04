@@ -602,6 +602,7 @@
     <Content Include="Scripts\jsgrid\jsgrid.js" />
     <Content Include="Scripts\jsgrid\jsgrid.min.css" />
     <Content Include="Scripts\jsgrid\jsgrid.min.js" />
+    <Content Include="Scripts\soundmanager\SoundManagerControl.js" />
     <Content Include="Scripts\UploadTrack.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />

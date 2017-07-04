@@ -67,7 +67,7 @@
 <hr />
 
 <div>
-    @Html.Partial("~/Views/Albums/MusicPlayerBar.cshtml", Model)
+    @Html.Partial("~/Views/Albums/MusicPlayerBar.cshtml")
 </div>
 
 @section Styles{
@@ -103,6 +103,7 @@
     @Scripts.Render("~/bundles/jsgrid/js")
     @Scripts.Render("~/bundles/soundmanager/js")
     @Scripts.Render("~/bundles/dropdownmenu/js")
+
     <script type="text/javascript">
         function detailsPageFunc(alb) {
 
@@ -122,7 +123,9 @@
                         });
                     },
                 },
-
+                onDataLoaded: function (args) {
+                    CreateMusicArray(args.data);
+                },
                 fields: [
                     { name: "Position", type: "number", width: 50, title: "№" },
                     { name: "NameOfTrack", type: "text", width: 300, title: "Title" },
@@ -151,7 +154,6 @@
                             } else {
                                 return true;
                             }
-
                         },
                         itemTemplate: function (_, item) {
                             return button.clone().attr("name", item.TrackId);

@@ -43,7 +43,8 @@ namespace WebSiteMusicBand
             // soundmanager
             bundles.Add(new ScriptBundle("~/bundles/soundmanager/js").Include(
                 "~/Scripts/soundmanager/soundmanager2.js",
-                "~/Scripts/soundmanager/bar-ui.js"               
+                "~/Scripts/soundmanager/bar-ui.js",
+                "~/Scripts/soundmanager/SoundManagerControl.js"
                ));
             bundles.Add(new StyleBundle("~/bundles/soundmanager/css").Include(
                 "~/Content/CSS/soundmanager/bar-ui.css",
@@ -80,6 +81,7 @@ namespace WebSiteMusicBand
             bundles.Add(new ScriptBundle("~/bundles/dropdownmenu/js").Include(
                 "~/Scripts/DropdownMenu.js"
                 ));
+            
         }
     }
 }

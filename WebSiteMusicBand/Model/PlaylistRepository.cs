@@ -19,6 +19,7 @@ namespace WebSiteMusicBand
         }
         public IEnumerable<Track> GetTracksInPlaylist(int playlistId)
         {
+
             return _db.Playlist.Find(playlistId).Tracks;
         }
 
@@ -93,6 +94,15 @@ namespace WebSiteMusicBand
             if (disposing)
             {
                 _db.Dispose();
+            }
+        }
+
+        private void SetAllGridPositions(int albumId)
+        {
+            int count = 0;
+            foreach (var item in _db.Albums.Find(albumId).Tracks.OrderBy(x => x.Position).ToArray())
+            {
+                item.GridPosition = count++;
             }
         }
 

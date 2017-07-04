@@ -28,6 +28,7 @@
     @Scripts.Render("~/bundles/jsgrid/js");
     @Scripts.Render("~/bundles/soundmanager/js")
     @Scripts.Render("~/bundles/dropdownmenu/js")
+
     <script type="text/javascript">
 
         var selectedPlaylistId;
@@ -90,6 +91,10 @@
                             dataType: "json"
                         });
                     }
+                },
+
+                onDataLoaded: function (args) {
+                    CreateMusicArray(args.data);
                 },
 
                 rowClick: function (args) {
