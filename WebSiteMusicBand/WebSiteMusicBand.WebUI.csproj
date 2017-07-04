@@ -812,6 +812,7 @@
     <Compile Include="Model\AlbumsRepository.cs" />
     <Compile Include="Model\FileUploader.cs" />
     <Compile Include="Model\MetadataAndExtantions\AlbumExtantion.cs" />
+    <Compile Include="Model\MetadataAndExtantions\TracksInPlaylists.cs" />
     <Compile Include="Model\MetadataAndExtantions\TrackExtantion.cs" />
     <Compile Include="Model\MetadataAndExtantions\AlbumsMetadata.cs" />
     <Compile Include="Model\NewsAdditionalInfo.cs">
@@ -844,6 +845,9 @@
     </Compile>
     <Compile Include="Model\NewsLikes.cs">
       <DependentUpon>WebSiteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TracksInPlaylists.cs">
+      <DependentUpon>AlbumsDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\VM\StatViewM.cs" />
     <Compile Include="Model\VM\TableViewM.cs" />

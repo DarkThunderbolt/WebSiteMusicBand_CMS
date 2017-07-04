@@ -41,6 +41,7 @@
           </Key>
           <Property Name="TrackId" Type="int" Nullable="false" />
           <Property Name="PlaylistId" Type="int" Nullable="false" />
+          <Property Name="Position" Type="int" />
         </EntityType>
         <Association Name="FK_Tracks_Albums">
           <End Role="Albums" Type="Self.Albums" Multiplicity="1" />
@@ -121,7 +122,7 @@
           <Property Name="Position" Type="Int32" Nullable="false" />
           <Property Name="TrackLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Albums" Relationship="Self.FK_Tracks_Albums" FromRole="Tracks" ToRole="Albums" />
-          <NavigationProperty Name="Playlist" Relationship="MusicBandDBModel.TracksInPlaylists" FromRole="Track" ToRole="Playlist" />
+          <NavigationProperty Name="TracksInPlaylists" Relationship="MusicBandDBModel.FK_TracksInPlaylists_Tracks" FromRole="Track" ToRole="TracksInPlaylists" />
         </EntityType>
         <Association Name="FK_Tracks_Albums">
           <End Role="Albums" Type="MusicBandDBModel.Album" Multiplicity="1" />
@@ -143,9 +144,14 @@
             <End Role="Tracks" EntitySet="Tracks" />
           </AssociationSet>
           <EntitySet Name="Playlist" EntityType="MusicBandDBModel.Playlist" />
-          <AssociationSet Name="TracksInPlaylists" Association="MusicBandDBModel.TracksInPlaylists">
+          <EntitySet Name="TracksInPlaylists" EntityType="MusicBandDBModel.TracksInPlaylists" />
+          <AssociationSet Name="FK_TracksInPlaylists_Playlist" Association="MusicBandDBModel.FK_TracksInPlaylists_Playlist">
             <End Role="Playlist" EntitySet="Playlist" />
+            <End Role="TracksInPlaylists" EntitySet="TracksInPlaylists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TracksInPlaylists_Tracks" Association="MusicBandDBModel.FK_TracksInPlaylists_Tracks">
             <End Role="Track" EntitySet="Tracks" />
+            <End Role="TracksInPlaylists" EntitySet="TracksInPlaylists" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Playlist">
@@ -156,11 +162,42 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="Position" Type="Int32" Nullable="false" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Tracks" Relationship="MusicBandDBModel.TracksInPlaylists" FromRole="Playlist" ToRole="Track" />
+          <NavigationProperty Name="TracksInPlaylists" Relationship="MusicBandDBModel.FK_TracksInPlaylists_Playlist" FromRole="Playlist" ToRole="TracksInPlaylists" />
         </EntityType>
-        <Association Name="TracksInPlaylists">
-          <End Type="MusicBandDBModel.Playlist" Role="Playlist" Multiplicity="*" />
-          <End Type="MusicBandDBModel.Track" Role="Track" Multiplicity="*" />
+        <EntityType Name="TracksInPlaylists">
+          <Key>
+            <PropertyRef Name="TrackId" />
+            <PropertyRef Name="PlaylistId" />
+          </Key>
+          <Property Name="TrackId" Type="Int32" Nullable="false" />
+          <Property Name="PlaylistId" Type="Int32" Nullable="false" />
+          <Property Name="Position" Type="Int32" />
+          <NavigationProperty Name="Playlist" Relationship="MusicBandDBModel.FK_TracksInPlaylists_Playlist" FromRole="TracksInPlaylists" ToRole="Playlist" />
+          <NavigationProperty Name="Tracks" Relationship="MusicBandDBModel.FK_TracksInPlaylists_Tracks" FromRole="TracksInPlaylists" ToRole="Track" />
+        </EntityType>
+        <Association Name="FK_TracksInPlaylists_Playlist">
+          <End Type="MusicBandDBModel.Playlist" Role="Playlist" Multiplicity="1" />
+          <End Type="MusicBandDBModel.TracksInPlaylists" Role="TracksInPlaylists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Playlist">
+              <PropertyRef Name="PlaylistId" />
+            </Principal>
+            <Dependent Role="TracksInPlaylists">
+              <PropertyRef Name="PlaylistId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TracksInPlaylists_Tracks">
+          <End Type="MusicBandDBModel.Track" Role="Track" Multiplicity="1" />
+          <End Type="MusicBandDBModel.TracksInPlaylists" Role="TracksInPlaylists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Track">
+              <PropertyRef Name="TrackId" />
+            </Principal>
+            <Dependent Role="TracksInPlaylists">
+              <PropertyRef Name="TrackId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -200,14 +237,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="TracksInPlaylists" TypeName="MusicBandDBModel.TracksInPlaylists" StoreEntitySet="TracksInPlaylists">
-            <EndProperty Name="Track">
-              <ScalarProperty Name="TrackId" ColumnName="TrackId" />
-            </EndProperty>
-            <EndProperty Name="Playlist">
-              <ScalarProperty Name="PlaylistId" ColumnName="PlaylistId" />
-            </EndProperty>
-          </AssociationSetMapping>
+          <EntitySetMapping Name="TracksInPlaylists">
+            <EntityTypeMapping TypeName="MusicBandDBModel.TracksInPlaylists">
+              <MappingFragment StoreEntitySet="TracksInPlaylists">
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="PlaylistId" ColumnName="PlaylistId" />
+                <ScalarProperty Name="TrackId" ColumnName="TrackId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

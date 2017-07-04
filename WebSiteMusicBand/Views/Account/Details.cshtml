@@ -6,62 +6,70 @@
 }
 
 <div>
-    <h4>User:</h4>
+    <h4 class="textCenter">User:</h4>
     <hr />
-    <dl class="dl-horizontal">
+    <table id="albumInfo" cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="leftcol" height="auto">
+                <img class="img-responsive user-photo" src=@Url.Content(Model.AvatarLink) />
+            </td>
+            <td valign="top" id="infoPart">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Birthday)
+                    </dt>
 
-        <dt>
-            Avatar:
-        </dt>
-        <dd>
-            <img class="img-responsive user-photo myImg"  src=@Url.Content(Model.AvatarLink) />
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Birthday)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Birthday)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Birthday)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ForumName)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ForumName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ForumName)
-        </dd>
-
-    </dl>
+                    <dd>
+                        @Html.DisplayFor(model => model.ForumName)
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+    </table>
 </div>
 
 
-@if(SecureCustomHelper.IsCurrentUser(Model))
-{
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-    </p>
-    <p>
-        @Html.ActionLink("Manage", "Manage", new { id = Model.Id })
-    </p>
+@if (SecureCustomHelper.IsCurrentUser(Model))
+{ <div class="btn btn-default">
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+        </p>
+    </div>
+    <div class="btn btn-default">
+        <p>
+            @Html.ActionLink("Manage","Index", "Manage")
+        </p>
+    </div>
 }
-
+<div class="btn btn-default">
+    <p>
+        @Html.ActionLink("Your Playlists", "Index", "Playlist")
+    </p>
+</div>
 
 @if (SecureCustomHelper.IsCurrenAdmin() && !SecureCustomHelper.IsCurrentUser(Model))
 {
@@ -71,60 +79,87 @@
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.Id)
-            <input type="submit"  value="Add admin role"/>
+            <input type="submit" value="Add admin role" />
 
-            }
         }
-        else
-        {
+    }
+    else
+    {
         @Html.BeginForm("RemoveAdmin", "Account")
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.Id)
-            <input type = "submit"  value = "Remove admin role" />
-                
+            <input type="submit" value="Remove admin role" />
+
         }
 
     }
 }
-@if (Model.NewsLikes.Count != 0)
-{
-    <h4>Favorit news:</h4>
-    foreach (NewsLikes item in Model.NewsLikes.OrderBy(x => x.News.CreateDate).Reverse())
+<hr noshade size=2>
+<div class="textCenter">
+    @if (Model.NewsLikes.Count != 0)
     {
-        <div class="post-preview">
-            <a href=@Url.Action("Details", "News", new { id = item.NewsId })>
-                <h2 class="post-title">
-                    @Html.DisplayFor(modelItem => item.News.Title)
-                </h2>
-                @*<h3 class="post-subtitle">
-                        @Html.DisplayFor(modelItem => item.TextContent).ToString().Substring(0, 20)
-                    </h3>*@
-            </a>
-            <p class="post-meta">
-                Posted by
-                @Html.DisplayFor(modelItem => item.CustomUsers.ForumName)
-                @Html.DisplayFor(modelItem => item.News.CreateDate)
-            </p>
-            <hr noshade size=2>
-            @using (Html.BeginForm("Dislike", "News", FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
-                @Html.Hidden("NewsId", item.NewsId)
-                <input type="submit" value="Remove fromn favorite" class="btn btn-default" />
-            }            
-            <hr noshade size=2>
-        </div>
 
-
+        <h3>Favorit news:</h3>
+        <hr noshade size=2>
+        foreach (NewsLikes item in Model.NewsLikes.OrderBy(x => x.News.CreateDate).Reverse())
+        {
+            <div class="post-preview">
+                <a href=@Url.Action("Details", "News", new { id = item.NewsId })>
+                    <h4>
+                        @Html.DisplayFor(modelItem => item.News.Title)
+                    </h4>
+                    @*<h3 class="post-subtitle">
+                            @Html.DisplayFor(modelItem => item.TextContent).ToString().Substring(0, 20)
+                        </h3>*@
+                </a>
+                <div class="post-meta">
+                    Posted by
+                    @Html.DisplayFor(modelItem => item.CustomUsers.ForumName)
+                    @Html.DisplayFor(modelItem => item.News.CreateDate)
+                </div>
+                @using (Html.BeginForm("Dislike", "News", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("NewsId", item.NewsId)
+                    <input type="submit" value="Remove fromn favorite" class="btn btn-default" />
+                }
+                <hr noshade size=2>
+            </div>
+        }
     }
+    else
+    {
+        <h4>No favorit news.</h4>
+    }
+</div>
+
+
+
+
+@section Styles{
+
+    <style>
+        #albumInfo {
+            width: 100%;
+        }
+
+        TD.leftcol {
+            width: 30%;
+            vertical-align: top;
+        }
+
+        .dl-horizontal {
+            font-size: 150%;
+        }
+
+        #infoPart {
+            padding-top: 7%
+        }
+
+            #infoPart dt {
+                width: 200px;
+                margin-right: 15px;
+            }
+    </style>
 }
-else
-{
-    <h4>No favorit news.</h4>
-}
-
-
-
-
-

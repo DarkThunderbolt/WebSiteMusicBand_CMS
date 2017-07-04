@@ -17,10 +17,17 @@ namespace WebSiteMusicBand
         {
             return Playlists.Where(x => x.UserId == userId).OrderBy(x => x.Position);
         }
+
         public IEnumerable<Track> GetTracksInPlaylist(int playlistId)
         {
-
-            return _db.Playlist.Find(playlistId).Tracks;
+            List<Track> tracks = new List<Track>();
+            int i = 0;
+            foreach (var item in _db.TracksInPlaylists.Where(x => x.PlaylistId == playlistId).OrderBy(x=>x.Position))
+            {
+                item.Tracks.GridPosition = i++;
+                tracks.Add(item.Tracks);
+            }
+            return tracks;
         }
 
         public Playlist CreatePlaylist(Playlist palylist)
@@ -29,7 +36,7 @@ namespace WebSiteMusicBand
             {
                 _db.Playlist.Add(palylist);
                 _db.SaveChanges();
-                MvcApplication.logger.Info($"Track {palylist.PlaylistId} created");
+                MvcApplication.logger.Info($"Track ({palylist.PlaylistId}) created");
                 return GetPlaylistById(palylist.PlaylistId);
             }
             catch (Exception e)
@@ -39,13 +46,14 @@ namespace WebSiteMusicBand
             }
         }
 
+
         public bool EditPlaylist(Playlist palylist)
         {
             try
             {
                 _db.Entry(palylist).State = EntityState.Modified;
                 _db.SaveChanges();
-                MvcApplication.logger.Info($"Playlis {palylist.PlaylistId} was edited");
+                MvcApplication.logger.Info($"Playlis ({palylist.PlaylistId}) was edited");
                 return true;
             }
             catch (Exception e)
@@ -55,19 +63,20 @@ namespace WebSiteMusicBand
             }
         }
 
-        public bool DeletePlaylist(int palylistId)
+        public bool DeletePlaylist(int playlistId)
         {
             try
             {
-                Playlist palylist = GetPlaylistById(palylistId);
+                Playlist palylist = GetPlaylistById(playlistId);
+                _db.TracksInPlaylists.RemoveRange(palylist.TracksInPlaylists);                
                 _db.Playlist.Remove(palylist);
                 _db.SaveChanges();
-                MvcApplication.logger.Info($"Playlist ({palylistId}) deleted");
+                MvcApplication.logger.Info($"Playlist ({playlistId}) deleted");
                 return true;
             }
             catch (Exception e)
             {
-                MvcApplication.logger.Error(e.ToString() + $". Deleting of playlist ({palylistId}) end with fail");
+                MvcApplication.logger.Error(e.ToString() + $". Deleting of playlist ({playlistId}) end with fail");
                 return false;
             }
         }
@@ -76,8 +85,12 @@ namespace WebSiteMusicBand
         {
             try
             {
-                Track track = _db.Tracks.Find(trackId);
-                _db.Playlist.Find(playlistId).Tracks.Add(track);
+                int? maxPos = _db.Playlist.Find(playlistId).TracksInPlaylists.Max(x => x.Position);
+                if (maxPos == null)
+                {
+                    maxPos = 0;
+                }
+                _db.TracksInPlaylists.Add(new TracksInPlaylists(){ TrackId = trackId, PlaylistId = playlistId, Position = (int)maxPos+1 });
                 _db.SaveChanges();
                 MvcApplication.logger.Info($"Track ({trackId}) was add to palylist ({playlistId})");
                 return true;
@@ -89,6 +102,40 @@ namespace WebSiteMusicBand
             }
         }
 
+        public bool DeleteTrackFromPlaylist(int trackid, int playlistId)
+        {
+            try
+            {
+                TracksInPlaylists temp = _db.TracksInPlaylists.First(x => x.TrackId == trackid && x.PlaylistId == playlistId);
+                _db.TracksInPlaylists.Remove(temp);
+                _db.SaveChanges();
+                MvcApplication.logger.Info($"Track({trackid}) in playlist({playlistId}) was deleted");
+                return true;
+            }
+            catch (Exception e)
+            {
+                MvcApplication.logger.Error(e.ToString() + $". Deleting track({trackid}) in playlist({playlistId}) end with fail");
+                return false;
+            }
+        }
+
+        public bool MoveTrackToPlaylist(int trackid, int oldPlaylistId, int newPlaylistId)
+        {
+            try
+            {
+                DeleteTrackFromPlaylist(trackid, oldPlaylistId);
+                AddTrackToPlaylist(trackid, newPlaylistId);
+                MvcApplication.logger.Info($"Track({trackid}) was move from playlis ({oldPlaylistId}) to playlis ({newPlaylistId})");
+                return true;
+            }
+            catch (Exception e)
+            {
+                MvcApplication.logger.Error(e.ToString() + $". Track({trackid}) was move from playlis ({oldPlaylistId}) to playlis ({newPlaylistId}) end with fail");
+                return false;
+            }
+        }
+
+
         public void Dispose(bool disposing)
         {
             if (disposing)
@@ -97,18 +144,9 @@ namespace WebSiteMusicBand
             }
         }
 
-        private void SetAllGridPositions(int albumId)
+        private Playlist GetPlaylistById(int playlistId)
         {
-            int count = 0;
-            foreach (var item in _db.Albums.Find(albumId).Tracks.OrderBy(x => x.Position).ToArray())
-            {
-                item.GridPosition = count++;
-            }
-        }
-
-        private Playlist GetPlaylistById(int trackId)
-        {
-            return _db.Playlist.Find(trackId);
+            return _db.Playlist.Find(playlistId);
         }
     }
 }

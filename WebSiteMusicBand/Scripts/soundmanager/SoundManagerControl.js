@@ -10,5 +10,5 @@
             )   )   )   )
         elements.push(music);
     });
-    arrayDiv.append(elements);
+    arrayDiv.html(elements);
 }

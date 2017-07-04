@@ -102,10 +102,96 @@
 @section Scripts{
     @Scripts.Render("~/bundles/jsgrid/js")
     @Scripts.Render("~/bundles/soundmanager/js")
-    @Scripts.Render("~/bundles/dropdownmenu/js")
 
     <script type="text/javascript">
-        function detailsPageFunc(alb) {
+        var selectedTrackId;
+        var elements = [];
+        var button = $();
+
+
+
+        function dropdownMenu() {
+
+            $.ajax({
+                type: "GET",
+                url: "/api/PlaylistAjax/" + @SecureCustomHelper.GetCurrentUserId(),
+                dataType: "json",
+                success: function (data) {
+                    if (data.length != 0) {
+                        $.each(data, function (i, item) {
+                            var linkToAdd = $("<a>").attr('name', item.PlaylistId).text(item.Title).addClass('addToPlaylist');
+                            elements.push(linkToAdd);
+                        });
+
+                        var divs = $("<div>").addClass("dropdown-content").append(elements);
+                        button = $("<button>").addClass("dropbtn").text("Add to:").append(divs);
+
+                        $('body').on('click', 'a.addToPlaylist', function () {
+                            if (newPlaylist == 0) {
+                                $.ajax({
+                                    type: "Post",
+                                    url: "/api/playlisttracksajax/" + selectedTrackId + "?playlistId=" + $(this).attr('name'),
+                                    success: function (success) {
+                                        if (success) {
+                                            // +
+                                            alert("add");
+                                        } else {
+                                            // -
+                                            alert("smt was wrong. Try again later.")
+                                            alert(response.responseText);
+                                        }
+                                    }
+                                });
+                            }
+                            else {
+                                $.ajax({
+                                    type: "Post",
+                                    url: "/api/PlaylistTracksAjax/" + selectedTrackId + "?oldPlaylistId=" + $(this).attr('name') + "&newPlaylistId" + newPlaylist,
+                                    success: function (success) {
+                                        if (success) {
+                                            // +
+                                            $("#jsGrid_Tracks").jsGrid("loadData");
+                                            alert("moved");
+                                        } else {
+                                            // -
+                                            alert("smt was wrong. Try again later.")
+                                            alert(response.responseText);
+                                        }
+                                    }
+                                });
+                            }
+
+                        });
+
+                        $('body').on('click', 'button.dropbtn', function () {
+                            closeDrop();
+                            selectedTrackId = $(this).attr('name');
+                            $(this).find(".dropdown-content").toggleClass("show");
+                        });
+
+                        // Close the dropdown menu if the user clicks outside of it
+                        window.onclick = function (event) {
+                            if (!event.target.matches('.dropbtn')) {
+                                closeDrop();
+                            };
+                        };
+                    }
+                }
+            });
+        };
+
+        function closeDrop() {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+
+        function albumGrid() {
 
             $("#jsGrid").jsGrid({
 
@@ -124,30 +210,34 @@
                     },
                 },
                 onDataLoaded: function (args) {
+                    var auth = @Json.Encode(Request.IsAuthenticated);
+                    if (auth == false) {
+                        $("#jsGrid").jsGrid("fieldOption", "Add", "visible", false);
+                    }
                     CreateMusicArray(args.data);
                 },
                 fields: [
                     { name: "Position", type: "number", width: 50, title: "№" },
-                    { name: "NameOfTrack", type: "text", width: 300, title: "Title" },
+                    { name: "NameOfTrack", type: "text", width: 200, title: "Title" },
                     { name: "Duration", type: "text", width: 60 },
                     {
                         name: "Play", width: 50,
                         itemTemplate: function (_, item) {
                             if (item.DoesTrackFileExists) {
-                                return $("<button>").text("Play")
+                                return $("<button>").text("Play").addClass("dropbtn")
                                     .on("click", function () {
                                         soundManager.stopAll();
                                         window.sm2BarPlayers[0].actions.play(item.GridPosition);
                                     });
                             }
                             else {
-                                return $("<div>").text("track not found");
+                                return $("<div>").text("track not found").css("fontSize", "10px");;
                             }
                         }
                     },
                     {
                         name: "Add",
-                        width: 50,
+                        width: 70,
                         visible: function () {
                             if (elements.length == 0) {
                                 return false;
@@ -171,16 +261,12 @@
                     }
                 ]
             });
-            //if (elements.length == 0) {
-            //    $("#jsGrid").jsGrid("fieldOption", "Add", "visible", false);
-            //}
-            //$("#jsGrid").jsGrid("fieldOption", "TrackId", "visible", false);
+
             $("#jsGrid").jsGrid("fieldOption", "NameOfTrack", "align", "center");
         };
 
-
-
-        dropdownMenu(detailsPageFunc,@SecureCustomHelper.GetCurrentUserId(),@Model.AlbumId);
+        dropdownMenu();
+        albumGrid();
     </script>
 }
 

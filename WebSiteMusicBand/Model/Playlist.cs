@@ -17,17 +17,15 @@ namespace WebSiteMusicBand.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Playlist()
         {
-            this.Tracks = new HashSet<Track>();
+            this.TracksInPlaylists = new HashSet<TracksInPlaylists>();
         }
     
         public int PlaylistId { get; set; }
         public int UserId { get; set; }
         public int Position { get; set; }
         public string Title { get; set; }
-
-        public virtual CustomUsers User { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Track> Tracks { get; set; }
+        public virtual ICollection<TracksInPlaylists> TracksInPlaylists { get; set; }
     }
 }

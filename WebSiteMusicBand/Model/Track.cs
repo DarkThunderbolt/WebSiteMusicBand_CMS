@@ -17,7 +17,7 @@ namespace WebSiteMusicBand.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Track()
         {
-            this.Playlist = new HashSet<Playlist>();
+            this.TracksInPlaylists = new HashSet<TracksInPlaylists>();
         }
     
         public int TrackId { get; set; }
@@ -28,6 +28,6 @@ namespace WebSiteMusicBand.Model
     
         public virtual Album Albums { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Playlist> Playlist { get; set; }
+        public virtual ICollection<TracksInPlaylists> TracksInPlaylists { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿var selectedTrackId;
 var elements = [];
 var button;
-function dropdownMenu(renderPageScripts, userId,id) {
+function dropdownMenu(renderPageScripts, userId,id,newPlaylist = 0) {
 
     $.ajax({
         type: "GET",
@@ -18,20 +18,40 @@ function dropdownMenu(renderPageScripts, userId,id) {
                 button = $("<button>").addClass("dropbtn").text("Add to:").append(divs);
 
                 $('body').on('click', 'a.addToPlaylist', function () {
-                    $.ajax({
-                        type: "Post",
-                        url: "/api/playlisttracksajax/" + selectedTrackId + "?playlistId=" + $(this).attr('name'),
-                        success: function (success) {
-                            if (success) {
-                                // +
-                                alert("add")
-                            } else {
-                                // -
-                                alert("smt was wrong. Try again later.")
-                                alert(response.responseText);
+                    if (newPlaylist == 0) {
+                        $.ajax({
+                            type: "Post",
+                            url: "/api/playlisttracksajax/" + selectedTrackId + "?playlistId=" + $(this).attr('name'),
+                            success: function (success) {
+                                if (success) {
+                                    // +
+                                    alert("add")
+                                } else {
+                                    // -
+                                    alert("smt was wrong. Try again later.")
+                                    alert(response.responseText);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+                    else {
+                        $.ajax({
+                            type: "Post",
+                            url: "/api/PlaylistTracksAjax/" + selectedTrackId + "?oldPlaylistId=" + $(this).attr('name') + "&newPlaylistId" + newPlaylist,
+                            success: function (success) {
+                                if (success) {
+                                    // +
+                                    $("#jsGrid_Tracks").jsGrid("loadData");
+                                    alert("moved")
+                                } else {
+                                    // -
+                                    alert("smt was wrong. Try again later.")
+                                    alert(response.responseText);
+                                }
+                            }
+                        });
+                    }
+
                 });
 
                 $('body').on('click', 'button.dropbtn', function () {
@@ -46,17 +66,6 @@ function dropdownMenu(renderPageScripts, userId,id) {
                         closeDrop();
                     };
                 };
-
-                function closeDrop() {
-                    var dropdowns = document.getElementsByClassName("dropdown-content");
-                    var i;
-                    for (i = 0; i < dropdowns.length; i++) {
-                        var openDropdown = dropdowns[i];
-                        if (openDropdown.classList.contains('show')) {
-                            openDropdown.classList.remove('show');
-                        }
-                    }
-                }
             }
         }
     }).done(function () {
@@ -64,4 +73,13 @@ function dropdownMenu(renderPageScripts, userId,id) {
         });
 };
 
-
+function closeDrop() {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+        }
+    }
+}

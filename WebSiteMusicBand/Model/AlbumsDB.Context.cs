@@ -28,5 +28,6 @@ namespace WebSiteMusicBand.Model
         public virtual DbSet<Album> Albums { get; set; }
         public virtual DbSet<Track> Tracks { get; set; }
         public virtual DbSet<Playlist> Playlist { get; set; }
+        public virtual DbSet<TracksInPlaylists> TracksInPlaylists { get; set; }
     }
 }

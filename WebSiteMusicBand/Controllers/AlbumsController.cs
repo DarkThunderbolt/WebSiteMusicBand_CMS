@@ -306,6 +306,7 @@ namespace WebSiteMusicBand.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public virtual ActionResult Download(string file)
         {
             string fullPath = Path.Combine(Server.MapPath(@"~/Content/Upload/Music"), file);

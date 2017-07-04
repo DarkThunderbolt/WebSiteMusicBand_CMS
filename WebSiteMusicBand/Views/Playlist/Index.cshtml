@@ -7,8 +7,8 @@
 <h2 id="center-text"> Your playlists:</h2>
 
 <table id="jsGrid_Playlists"></table>
-<h2 id="center-text"> Tracks:</h2>
-<table id="jsGrid_Tracks"></table>
+<h2 id="center-text"><a id="playlistName"></a></h2>
+<table class="hideTable" id="jsGrid_Tracks"></table>
 
 <div>
     @Html.Partial("~/Views/Albums/MusicPlayerBar.cshtml")
@@ -20,6 +20,9 @@
     @Styles.Render("~/bundles/modalwindow/css")
     @Styles.Render("~/bundles/dropdownmenu/css")
     <style>
+        .hideTable {
+            display: none;
+        }
 
     </style>
 }
@@ -27,15 +30,16 @@
 @section Scripts{
     @Scripts.Render("~/bundles/jsgrid/js");
     @Scripts.Render("~/bundles/soundmanager/js")
-    @Scripts.Render("~/bundles/dropdownmenu/js")
 
     <script type="text/javascript">
 
         var selectedPlaylistId;
         var userId = @SecureCustomHelper.GetCurrentUserId();
+        var selectedTrackId;
+        var elements = [];
+        var button;
 
-        function playlistPageFunc() {
-
+        function createPlaylistGrid() {
             $("#jsGrid_Playlists").jsGrid({
                 height: "auto",
                 width: "100%",
@@ -49,7 +53,50 @@
                         return $.ajax({
                             type: "GET",
                             url: "/api/PlaylistAjax/" + userId,
-                            dataType: "json"
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.length != 0) {
+                                    $.each(data, function (i, item) {
+                                        var linkToAdd = $("<a>").attr('name', item.PlaylistId).text(item.Title).addClass('addToPlaylist');
+                                        elements.push(linkToAdd);
+                                    });
+
+                                    var divs = $("<div>").addClass("dropdown-content").append(elements);
+                                    button = $("<button>").addClass("dropbtn").text("Add to:").append(divs);
+                                    $('body').on('click', 'a.addToPlaylist', function () {
+                                        $.ajax({
+                                            type: "PUT",
+                                            url: "/api/PlaylistTracksAjax/" + selectedTrackId + "?oldPlaylistId=" + selectedPlaylistId + "&newPlaylistId=" + $(this).attr('name'),
+                                            success: function (success) {
+                                                if (success) {
+                                                    // +
+                                                    $("#jsGrid_Tracks").jsGrid("loadData");
+                                                    alert("moved")
+                                                } else {
+                                                    // -
+                                                    alert("smt was wrong. Try again later.")
+                                                    alert(response.responseText);
+                                                }
+                                            }
+                                        });
+                                    });
+                                        
+
+
+                                    $('body').on('click', 'button.dropbtn', function () {
+                                        closeDrop();
+                                        selectedTrackId = $(this).attr('name');
+                                        $(this).find(".dropdown-content").toggleClass("show");
+                                    });
+
+                                    // Close the dropdown menu if the user clicks outside of it
+                                    window.onclick = function (event) {
+                                        if (!event.target.matches('.dropbtn')) {
+                                            closeDrop();
+                                        };
+                                    };
+                                }
+                            }
                         });
                     },
 
@@ -93,10 +140,6 @@
                     }
                 },
 
-                onDataLoaded: function (args) {
-                    CreateMusicArray(args.data);
-                },
-
                 rowClick: function (args) {
                     if (args.item.Title == "Favorites")
                         args.item.editing = false;
@@ -105,7 +148,7 @@
                 },
 
                 fields: [
-                    { name: "Position", type: "number", width: 40, title: "№" },
+                    { name: "Position", type: "number", width: 50, title: "№" },
                     {
                         name: "Title", type: "text", width: 150,
                         validate: {
@@ -120,9 +163,11 @@
                     {
                         width: 35,
                         itemTemplate: function (_, item) {
-                            return $("<button>").text("Open")
+                            return $("<button>").text("Open").addClass("dropbtn")
                                 .on("click", function () {
                                     selectedPlaylistId = item.PlaylistId;
+                                    $("#jsGrid_Tracks").removeClass("hideTable");
+                                    $("#playlistName").text("Tracks from playlist: " + item.Title);
                                     $("#jsGrid_Tracks").jsGrid("loadData");
                                 });
                         },
@@ -130,7 +175,12 @@
                     { type: "control", width: 50 }
                 ]
             });
-            /////////////////////////////////////////////
+            $("#jsGrid_Playlists").jsGrid("fieldOption", "Title", "align", "center");
+            $("#jsGrid_Playlists").jsGrid("fieldOption", "Position", "align", "center");
+        }
+
+        /////////////////////////////////////////////
+        function createTracksGrid() {            
             $("#jsGrid_Tracks").jsGrid({
                 height: "auto",
                 width: "100%",
@@ -148,27 +198,62 @@
                     },
                 },
 
+                onDataLoaded: function (args) {
+                    CreateMusicArray(args.data);
+                },
 
                 fields: [
-                    { name: "NameOfTrack", type: "text", width: 300, title: "Title" },
-                    { name: "AlbumTitle", type: "text", width: 300, title: "Album" },
-                    { name: "Duration", type: "text", width: 60 },
+                    { name: "NameOfTrack", type: "text", width: 150, title: "Title" },
+                    { name: "AlbumTitle", type: "text", width: 70, title: "Album" },
+                    { name: "Duration", type: "text", width: 50 },
                     {
                         name: "Play", width: 50,
                         itemTemplate: function (_, item) {
                             if (item.DoesTrackFileExists) {
-                                return $("<button>").text("Play")
+                                return $("<button>").text("Play").addClass("dropbtn")
                                     .on("click", function () {
                                         soundManager.stopAll();
                                         window.sm2BarPlayers[0].actions.play(item.GridPosition);
                                     });
                             }
                             else {
-                                return $("<div>").text("track not found");
+                                return $("<div>").text("track not found").css("fontSize", "10px");
                             }
                         }
                     },
                     {
+                        name: "Move",
+                        width: 50,
+                        itemTemplate: function (_, item) {
+                            return button.clone().attr("name", item.TrackId);
+                        },
+                    },
+                    {
+                        name: "Delete",
+                        width: 50,
+                        itemTemplate: function (_, item) {
+                            return $("<button>").text("Remove").addClass("dropbtn")
+                                .on("click", function () {
+                                    $.ajax({
+                                        type: "DELETE",
+                                        url: "/api/PlaylistTracksAjax/" + item.TrackId + "?playlistId="+ selectedPlaylistId,
+                                        dataType: "json",
+                                        success: function (success) {
+                                            if (success) {
+                                                // +
+                                                $("#jsGrid_Tracks").jsGrid("loadData");
+                                            } else {
+                                                // -
+                                                alert("smt was wrong. Try again later.");
+                                            }
+                                        }
+                                    });
+                                });
+                        },
+
+                    },
+                    {
+                        width: 50,
                         itemTemplate: function (_, item) {
                             if (item.DoesTrackFileExists) {
                                 return $("<a>").text("Download").attr("href", "/Albums/Download?file=" + item.TrackLink);
@@ -177,27 +262,25 @@
                                 return "";
                             }
                         }
-                    },
-                    {
-                        name: "Move",
-                        width: 50,
-                        itemTemplate: function (_, item) {
-                            return "";// button.clone().attr("name", item.TrackId);
-                        },
-                    },
-                    {
-                        name: "Delete",
-                        width: 50,
-                        itemTemplate: function (_, item) {
-                            return "";// button.clone().attr("name", item.TrackId);
-                        },
                     }
                 ]
             });
+            
+        }
+        /////////////////////////////////////////////////////
+        function closeDrop() {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
         }
 
-
-        dropdownMenu(playlistPageFunc, userId, selectedPlaylistId)
+        createPlaylistGrid();
+        createTracksGrid();
 
     </script>
 }
