@@ -115,18 +115,12 @@
 
                     // edit
                     updateItem: function (item) {
-                        if (item)
                             return $.ajax({
                                 type: "PUT",
                                 url: "/api/PlaylistAjax/",
-                                data: 'palylist=' + item,
-                                dataType: "json",
-                                success: function () {
-                                    console.log("Success!");
-                                },
-                                error: function (error) {
-                                    console.error("Failure!");
-                                }
+                                data: { playlistId: item.PlaylistId, position: item.Position, title: item.Title, userId: item.UserId },
+                                processData: true,
+                                dataType: "json"
                             });
                     },
 

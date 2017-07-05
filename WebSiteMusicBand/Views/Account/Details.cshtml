@@ -54,22 +54,20 @@
 
 
 @if (SecureCustomHelper.IsCurrentUser(Model))
-{ <div class="btn btn-default">
-        <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-        </p>
-    </div>
-    <div class="btn btn-default">
-        <p>
-            @Html.ActionLink("Manage","Index", "Manage")
-        </p>
-    </div>
+{
+    using (Html.BeginForm("Edit", "Account", FormMethod.Get))
+    {
+        <input type="submit" value="Edit" class="btn btn-default" />
+    }
+    using (Html.BeginForm("Index", "Manage", FormMethod.Get))
+    {
+        <input type="submit" value="Manage" class="btn btn-default" />
+    }
+    using (Html.BeginForm("Index", "Playlist", FormMethod.Get))
+    {
+        <input type="submit" value="Your Playlists" class="btn btn-default" />
+    }
 }
-<div class="btn btn-default">
-    <p>
-        @Html.ActionLink("Your Playlists", "Index", "Playlist")
-    </p>
-</div>
 
 @if (SecureCustomHelper.IsCurrenAdmin() && !SecureCustomHelper.IsCurrentUser(Model))
 {
@@ -140,6 +138,10 @@
 @section Styles{
 
     <style>
+        form {
+            display: inline-block;
+            
+        }
         #albumInfo {
             width: 100%;
         }
